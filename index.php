@@ -1,6 +1,5 @@
 <?php include("layouts/header.php"); ?>
 
-
 <div class="container-fluid home-banner"
   style="background-image:url(<?php echo BASE_URL; ?>/dist/images/banner-home.jpg)">
   <div class="container">
