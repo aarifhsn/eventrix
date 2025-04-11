@@ -11,8 +11,8 @@ try {
     echo "Connection error :" . $exception->getMessage();
 }
 
-define("BASE_URL", "http://localhost/eventrix");
-define("ADMIN_URL", BASE_URL . "/admin");
+define("BASE_URL", "http://localhost/eventrix/");
+define("ADMIN_URL", BASE_URL . "admin/");
 
 // define("SMTP_HOST", "sandbox.smtp.mailtrap.io");
 // define("SMTP_PORT", "587");

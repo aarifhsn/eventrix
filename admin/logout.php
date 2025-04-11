@@ -1,9 +1,9 @@
 <?php
+session_start();
 
-include("layouts/header.php");
-
+// Destroy the session or just unset the 'admin'
 unset($_SESSION['admin']);
+// session_destroy(); // Optional: clears everything
 
-header('location: ' . ADMIN_URL . '/login.php');
-
+header('Location: login.php');
 exit;

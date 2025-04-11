@@ -1,4 +1,16 @@
-<?php include("layouts/header.php"); ?>
+<?php
+include("layouts/header.php");
+
+session_start();
+
+if (!isset($_SESSION['admin'])) {
+    header('location: ' . ADMIN_URL . 'login.php');
+    exit;
+}
+include("layouts/navbar.php");
+include("layouts/sidebar.php");
+
+?>
 
 <div class="main-content">
     <section class="section">

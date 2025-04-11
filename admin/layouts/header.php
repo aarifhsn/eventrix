@@ -1,12 +1,5 @@
 <?php
 include("../config/config.php");
-
-ob_start();
-session_start();
-
-if (!isset($_SESSION['admin'])) {
-    header('location: ' . ADMIN_URL . '/login.php');
-}
 ?>
 
 
@@ -59,10 +52,4 @@ if (!isset($_SESSION['admin'])) {
 
 <body>
     <div id="app">
-        <div class="main-wrapper">
-
-            <?php
-
-            include("layouts/navbar.php");
-            include("layouts/sidebar.php");
-            ?>
+        <div class="main-wrapper"></div>
