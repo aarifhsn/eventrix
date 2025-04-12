@@ -58,4 +58,4 @@ include("../config/config.php");
 
 <body>
     <div id="app">
-        <div class="main-wrapper"></div>
+        <div class="main-wrapper">

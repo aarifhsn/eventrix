@@ -14,7 +14,7 @@
                 <img alt="image" src="uploads/user.jpg" class="rounded-circle-custom">
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="profile.html"><i class="far fa-user"></i> Edit
+                <li><a class="dropdown-item" href="<?php echo ADMIN_URL; ?>profile.php"><i class="far fa-user"></i> Edit
                         Profile</a></li>
                 <li><a class="dropdown-item" href="<?php echo ADMIN_URL; ?>logout.php"><i
                             class="fas fa-sign-out-alt"></i>
