@@ -54,6 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_form'])) {
 
 <section class="section">
     <div class="container container-login">
+
+        <?php if (isset($_SESSION['success_message'])): ?>
+            <div class="message w-100 text-center">
+                <div class="alert alert-success">
+                    <?php echo $_SESSION['success_message']; ?>
+                </div>
+                <?php unset($_SESSION['success_message']); ?>
+            </div>
+        <?php endif; ?>
+
         <div class="row">
             <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                 <div class="card card-primary border-box">
@@ -82,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_form'])) {
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <a href="forget-password.html">
+                                    <a href="<?php echo ADMIN_URL; ?>forget-password.php">
                                         Forget Password?
                                     </a>
                                 </div>
