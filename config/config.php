@@ -14,9 +14,9 @@ try {
 define("BASE_URL", "http://localhost/eventrix/");
 define("ADMIN_URL", BASE_URL . "admin/");
 
-// define("SMTP_HOST", "sandbox.smtp.mailtrap.io");
-// define("SMTP_PORT", "587");
-// define("SMTP_USERNAME", "8015a4c734102a");
-// define("SMTP_PASSWORD", "a59f38709f1cc5");
-// define("SMTP_ENCRYPTION", "tls");
-// define("SMTP_FROM", "contact@yourwebsite.com");
+define("SMTP_HOST", "sandbox.smtp.mailtrap.io");
+define("SMTP_PORT", "587");
+define("SMTP_USERNAME", "12e2ad175f6c4f");
+define("SMTP_PASSWORD", "028651bd4821a5");
+define("SMTP_ENCRYPTION", "tls");
+define("SMTP_FROM", "contact@arifhassan.com");
