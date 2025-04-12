@@ -102,8 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
     }
 
     // Update session info
-    $_SESSION['admin']['full_name'] = $full_name;
-    $_SESSION['admin']['email'] = $email;
+    $_SESSION['admin'] = $admin;
 
     $success_message = "Profile updated successfully!";
 
