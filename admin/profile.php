@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
 
       // Create uploads directory if it doesn't exist
       if (!is_dir('../uploads')) {
-        mkdir('../uploads', 0777, true);
+        mkdir('../uploads', 0755, true);
       }
 
       // Remove old photo
