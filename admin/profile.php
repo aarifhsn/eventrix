@@ -1,5 +1,13 @@
 <?php
 session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
+  header('Location: login.php');
+  exit;
+}
+
+// Include necessary files
 include("layouts/header.php");
 include("layouts/navbar.php");
 include("layouts/sidebar.php");
@@ -7,15 +15,26 @@ include("layouts/sidebar.php");
 // Initialize messages
 $success_message = '';
 $error_message = '';
+$userId = $_SESSION['admin']['id'];
+
+// Generate CSRF token
+if (!isset($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 // Check if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
   try {
+    // Validate CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+      throw new Exception("Invalid CSRF token. Please refresh the page and try again.");
+    }
+
     // Sanitize user input
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $retype_password = $_POST['retype_password'];
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $retype_password = $_POST['retype_password'] ?? '';
 
     $userId = $_SESSION['admin']['id'];
 
@@ -32,7 +51,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
       throw new Exception("Invalid email format.");
     }
 
-    // === UPDATE NAME AND EMAIL ===
+    // Check if email is already in use
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email AND id != :id");
+    $stmt->execute([
+      ':email' => $email,
+      ':id' => $userId
+    ]);
+    if ($stmt->rowCount() > 0) {
+      throw new Exception("Email already in use.");
+    }
+
+    // Start transaction
+    $pdo->beginTransaction();
+
+    // Update user details
     $stmt = $pdo->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
     $stmt->execute([
       ':name' => $name,
@@ -40,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
       ':id' => $userId
     ]);
 
-    // === UPDATE PASSWORD IF PROVIDED ===
+    // Update password
     if (!empty($password) || !empty($retype_password)) {
       if ($password !== $retype_password) {
         throw new Exception("Passwords do not match.");
@@ -56,7 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
         ':id' => $userId
       ]);
     }
-    // === HANDLE PHOTO UPLOAD ===
+
+    // Upload photo
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
       $fileTmpPath = $_FILES['photo']['tmp_name'];
       $fileName = $_FILES['photo']['name'];
@@ -75,6 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
       // Optional: limit image size (e.g., 2MB)
       if ($fileSize > 2 * 1024 * 1024) {
         throw new Exception("Image size should not exceed 2MB.");
+      }
+
+      // Create uploads directory if it doesn't exist
+      if (!is_dir('../uploads')) {
+        mkdir('../uploads', 0777, true);
       }
 
       // Remove old photo
@@ -101,14 +139,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
       $_SESSION['admin']['photo'] = $newFileName;
     }
 
-    // Update session info
-    $_SESSION['admin'] = $admin;
+    // Commit all changes
+    $pdo->commit();
+
+    // Update session data with fresh data from database
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute([':id' => $userId]);
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($userData) {
+      // Update only specific session variables to preserve other session data
+      $_SESSION['admin']['name'] = $userData['name'];
+      $_SESSION['admin']['email'] = $userData['email'];
+      $_SESSION['admin']['photo'] = $userData['photo'];
+    }
 
     $success_message = "Profile updated successfully!";
 
   } catch (Exception $e) {
+    // Rollback on error
+    if ($pdo->inTransaction()) {
+      $pdo->rollBack();
+    }
     $error_message = $e->getMessage();
   }
+}
+
+// Fetch fresh user data to display in the form
+$stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+$stmt->execute([':id' => $userId]);
+$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Update session with fresh data
+if ($userData) {
+  $_SESSION['admin']['name'] = $userData['name'];
+  $_SESSION['admin']['email'] = $userData['email'];
+  $_SESSION['admin']['photo'] = $userData['photo'] ?? '';
 }
 
 ?>
@@ -127,19 +193,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
 
               <?php if (!empty($success_message)): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  <strong>Success!</strong> <?= $success_message; ?>
+                  <?= htmlspecialchars($success_message); ?>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               <?php endif; ?>
 
               <?php if (!empty($error_message)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>Error!</strong> <?= $error_message; ?>
+                  <?= htmlspecialchars($error_message); ?>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               <?php endif; ?>
 
               <form action="" method="post" enctype="multipart/form-data">
+                <!-- CSRF Protection -->
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
                 <div class="row">
                   <div class="col-md-3">
                     <!-- Profile Image -->
@@ -148,20 +217,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
                       $photo = $_SESSION['admin']['photo'] ?? '';
                       $photo_url = !empty($photo) ? BASE_URL . "uploads/$photo" : BASE_URL . "uploads/default.png";
                       ?>
-                      <img src="<?php echo $photo_url; ?>" alt="Profile Photo" class="profile-photo w_100_p">
+                      <img src="<?php echo htmlspecialchars($photo_url); ?>" alt="Profile Photo"
+                        class="profile-photo w_100_p">
                       <input type="file" class="mt_10" name="photo" accept="image/*">
+                      <small class="form-text text-muted">Allowed formats: JPG, PNG. Max size: 2MB.</small>
                     </div>
                   </div>
                   <div class="col-md-9">
                     <div class="mb-4">
                       <label class="form-label">Name *</label>
                       <input type="text" class="form-control" name="name"
-                        value="<?php echo htmlspecialchars($_SESSION['admin']['name']); ?>" required>
+                        value="<?php echo htmlspecialchars($_SESSION['admin']['name'] ?? ''); ?>" required>
                     </div>
                     <div class="mb-4">
                       <label class="form-label">Email *</label>
                       <input type="email" class="form-control" name="email"
-                        value="<?php echo htmlspecialchars($_SESSION['admin']['email']); ?>" required>
+                        value="<?php echo htmlspecialchars($_SESSION['admin']['email'] ?? ''); ?>" required>
                     </div>
                     <div class="mb-4">
                       <label class="form-label">Password (leave blank if unchanged)</label>
