@@ -32,13 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_form'])) {
         $stmt->execute([$email, 'admin']);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$admin) {
-            throw new Exception("User not found.");
-        }
-
-        // Check password
-        if (!password_verify($password, $admin['password'])) {
-            throw new Exception("Incorrect password.");
+        if (!$admin || !password_verify($password, $admin['password'])) {
+            throw new Exception("Incorrect email or password.");
         }
 
         // Login success
