@@ -1,5 +1,3 @@
-<?php include("config/config.php"); ?>
-
 <footer class="main-footer">
     <div class="widgets-section">
         <div class="container">
@@ -12,10 +10,10 @@
                                 <h2>Links</h2>
                                 <div class="widget-content">
                                     <ul class="list">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="sponsors.html">Sponsors</a></li>
-                                        <li><a href="speakers.html">Speakers</a></li>
-                                        <li><a href="organizers.html">Organizers</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>index.php">Home</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>sponsors.php">Sponsors</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>speakers.php">Speakers</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>organizers.php">Organizers</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -26,10 +24,10 @@
                                 <h2>Pages</h2>
                                 <div class="widget-content">
                                     <ul class="list">
-                                        <li><a href="terms.html">Terms of Use</a></li>
-                                        <li><a href="privacy.html">Privacy Policy</a></li>
-                                        <li><a href="schedule.html">Schedule</a></li>
-                                        <li><a href="contact.html">Contact Us</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>terms.php">Terms of Use</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>privacy.php">Privacy Policy</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>schedule.php">Schedule</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>contact.php">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>

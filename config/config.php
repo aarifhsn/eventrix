@@ -12,6 +12,7 @@ try {
 }
 
 define("BASE_URL", "http://localhost/eventrix/");
+define("PAGE_URL", "http://localhost/eventrix/pages/");
 define("ADMIN_URL", BASE_URL . "admin/");
 
 define("SMTP_HOST", "sandbox.smtp.mailtrap.io");

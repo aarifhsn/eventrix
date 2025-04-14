@@ -1,4 +1,7 @@
-<?php include("layouts/header.php"); ?>
+<?php
+include("includes/header.php");
+
+?>
 
 <div class="container-fluid home-banner"
   style="background-image:url(<?php echo BASE_URL; ?>/dist/images/banner-home.jpg)">
@@ -365,4 +368,4 @@
   </div>
 </div>
 
-<?php include("layouts/footer.php"); ?>
+<?php include("includes/footer.php"); ?>
