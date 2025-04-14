@@ -1,0 +1,18 @@
+RewriteEngine On
+RewriteBase /eventrix/
+
+# 1. If file or directory exists, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 2. Rewrite clean URLs (no extension) to .php in /pages/
+# RewriteRule ^([a-zA-Z0-9-]+)/?$ pages/$1.php [L]
+# RewriteRule ^([a-zA-Z0-9-]+)/?$ auth/$1.php [L]
+
+
+# 2. Special auth routes (login, register, etc.)
+RewriteRule ^(login|register|logout)/?$ auth/$1.php [L]
+
+# 3. Generic page routes (everything else)
+RewriteRule ^([a-zA-Z0-9-]+)/?$ pages/$1.php [L]
