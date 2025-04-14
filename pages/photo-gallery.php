@@ -12,13 +12,13 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="project-single">
           <div class="project-inner">
             <div class="project-head">
-              <img src="images/gallery-1.jpg" alt="#" />
+              <img src="dist/images/gallery-1.jpg" alt="#" />
             </div>
             <div class="project-bottom">
               <h4>Photo Title</h4>
             </div>
             <div class="button">
-              <a class="gallery_img btn" href="images/gallery-1.jpg"><i class="fa fa-picture-o"></i></a>
+              <a class="gallery_img btn" href="dist/images/gallery-1.jpg"><i class="fa fa-picture-o"></i></a>
             </div>
           </div>
         </div>
@@ -27,13 +27,13 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="project-single">
           <div class="project-inner">
             <div class="project-head">
-              <img src="images/gallery-2.jpg" alt="#" />
+              <img src="dist/images/gallery-2.jpg" alt="#" />
             </div>
             <div class="project-bottom">
               <h4>Photo Title</h4>
             </div>
             <div class="button">
-              <a class="gallery_img btn" href="images/gallery-2.jpg"><i class="fa fa-picture-o"></i></a>
+              <a class="gallery_img btn" href="dist/images/gallery-2.jpg"><i class="fa fa-picture-o"></i></a>
             </div>
           </div>
         </div>
@@ -42,13 +42,13 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="project-single">
           <div class="project-inner">
             <div class="project-head">
-              <img src="images/gallery-3.jpg" alt="#" />
+              <img src="dist/images/gallery-3.jpg" alt="#" />
             </div>
             <div class="project-bottom">
               <h4>Photo Title</h4>
             </div>
             <div class="button">
-              <a class="gallery_img btn" href="images/gallery-3.jpg"><i class="fa fa-picture-o"></i></a>
+              <a class="gallery_img btn" href="dist/images/gallery-3.jpg"><i class="fa fa-picture-o"></i></a>
             </div>
           </div>
         </div>
@@ -57,13 +57,13 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="project-single">
           <div class="project-inner">
             <div class="project-head">
-              <img src="images/gallery-4.jpg" alt="#" />
+              <img src="dist/images/gallery-4.jpg" alt="#" />
             </div>
             <div class="project-bottom">
               <h4>Photo Title</h4>
             </div>
             <div class="button">
-              <a class="gallery_img btn" href="images/gallery-4.jpg"><i class="fa fa-picture-o"></i></a>
+              <a class="gallery_img btn" href="dist/images/gallery-4.jpg"><i class="fa fa-picture-o"></i></a>
             </div>
           </div>
         </div>
@@ -72,13 +72,13 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="project-single">
           <div class="project-inner">
             <div class="project-head">
-              <img src="images/gallery-5.jpg" alt="#" />
+              <img src="dist/images/gallery-5.jpg" alt="#" />
             </div>
             <div class="project-bottom">
               <h4>Photo Title</h4>
             </div>
             <div class="button">
-              <a class="gallery_img btn" href="images/gallery-5.jpg"><i class="fa fa-picture-o"></i></a>
+              <a class="gallery_img btn" href="dist/images/gallery-5.jpg"><i class="fa fa-picture-o"></i></a>
             </div>
           </div>
         </div>
@@ -87,13 +87,13 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="project-single">
           <div class="project-inner">
             <div class="project-head">
-              <img src="images/gallery-6.jpg" alt="#" />
+              <img src="dist/images/gallery-6.jpg" alt="#" />
             </div>
             <div class="project-bottom">
               <h4>Photo Title</h4>
             </div>
             <div class="button">
-              <a class="gallery_img btn" href="images/gallery-6.jpg"><i class="fa fa-picture-o"></i></a>
+              <a class="gallery_img btn" href="dist/images/gallery-6.jpg"><i class="fa fa-picture-o"></i></a>
             </div>
           </div>
         </div>

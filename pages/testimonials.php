@@ -25,7 +25,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
               </p>
             </div>
             <div class="photo">
-              <img src="images/testimonial-1.jpg" alt="" />
+              <img src="dist/images/testimonial-1.jpg" alt="" />
             </div>
             <h3 class="title">John Doe</h3>
             <span class="post">CEO of Tech Innovators Inc.</span>
@@ -45,7 +45,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
               </p>
             </div>
             <div class="photo">
-              <img src="images/testimonial-2.jpg" alt="" />
+              <img src="dist/images/testimonial-2.jpg" alt="" />
             </div>
             <h3 class="title">Jame Smith</h3>
             <span class="post">Marketing Director at Creative Solutions</span>
@@ -65,7 +65,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
               </p>
             </div>
             <div class="photo">
-              <img src="images/testimonial-3.jpg" alt="" />
+              <img src="dist/images/testimonial-3.jpg" alt="" />
             </div>
             <h3 class="title">Michael Brown</h3>
             <span class="post">Freelance Graphic Designer</span>

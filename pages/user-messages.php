@@ -46,7 +46,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="message-item message-item-admin-border">
           <div class="message-top">
             <div class="left">
-              <img src="images/admin.jpg" alt="" />
+              <img src="dist/images/admin.jpg" alt="" />
             </div>
             <div class="right">
               <h4>Morshedul Arefin</h4>
@@ -65,7 +65,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="message-item">
           <div class="message-top">
             <div class="left">
-              <img src="images/attendee.jpg" alt="" />
+              <img src="dist/images/attendee.jpg" alt="" />
             </div>
             <div class="right">
               <h4>Smith Brent</h4>

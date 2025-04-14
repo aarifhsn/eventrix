@@ -10,7 +10,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
     <div class="row">
       <div class="page-contents col-lg-12 col-sm-12 col-xs-12">
         <div class="blogs-featured">
-          <img src="images/post-1.jpg" alt="" />
+          <img src="dist/images/post-1.jpg" alt="" />
         </div>
         <div class="blog-post-meta">
           <ul class="post-meta">

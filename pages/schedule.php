@@ -35,7 +35,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             <div class="row speaker-mainbox">
               <div class="col-lg-4 col-xs-12">
                 <div class="speaker-img">
-                  <img src="images/day1_session1.jpg" />
+                  <img src="dist/images/day1_session1.jpg" />
                 </div>
               </div>
               <div class="col-lg-8 col-xs-12">
@@ -69,7 +69,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             <div class="row speaker-mainbox">
               <div class="col-lg-4 col-xs-12">
                 <div class="speaker-img">
-                  <img src="images/day1_session2.jpg" />
+                  <img src="dist/images/day1_session2.jpg" />
                 </div>
               </div>
               <div class="col-lg-8 col-xs-12">
@@ -105,7 +105,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             <div class="row speaker-mainbox">
               <div class="col-lg-4 col-xs-12">
                 <div class="speaker-img">
-                  <img src="images/day2_session1.jpg" />
+                  <img src="dist/images/day2_session1.jpg" />
                 </div>
               </div>
               <div class="col-lg-8 col-xs-12">
@@ -137,7 +137,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             <div class="row speaker-mainbox">
               <div class="col-lg-4 col-xs-12">
                 <div class="speaker-img">
-                  <img src="images/day2_session2.jpg" />
+                  <img src="dist/images/day2_session2.jpg" />
                 </div>
               </div>
               <div class="col-lg-8 col-xs-12">
@@ -173,7 +173,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             <div class="row speaker-mainbox">
               <div class="col-lg-4 col-xs-12">
                 <div class="speaker-img">
-                  <img src="images/day3_session1.jpg" />
+                  <img src="dist/images/day3_session1.jpg" />
                 </div>
               </div>
               <div class="col-lg-8 col-xs-12">
@@ -206,7 +206,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             <div class="row speaker-mainbox">
               <div class="col-lg-4 col-xs-12">
                 <div class="speaker-img">
-                  <img src="images/day3_session2.jpg" />
+                  <img src="dist/images/day3_session2.jpg" />
                 </div>
               </div>
               <div class="col-lg-8 col-xs-12">

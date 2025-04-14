@@ -12,7 +12,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="blog-box text-center">
           <div class="blog-post-images">
             <a href="post.php">
-              <img src="images/post-1.jpg" alt="image" />
+              <img src="dist/images/post-1.jpg" alt="image" />
             </a>
           </div>
           <div class="blogs-post">
@@ -30,7 +30,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       <div class="col-lg-4 col-sm-6 col-xs-12">
         <div class="blog-box text-center">
           <div class="blog-post-images">
-            <a href="post.php"><img src="images/post-2.jpg" alt="image" /></a>
+            <a href="post.php"><img src="dist/images/post-2.jpg" alt="image" /></a>
           </div>
           <div class="blogs-post">
             <h4>
@@ -47,7 +47,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       <div class="col-lg-4 col-sm-6 col-xs-12">
         <div class="blog-box text-center">
           <div class="blog-post-images">
-            <a href="post.php"><img src="images/post-3.jpg" alt="image" /></a>
+            <a href="post.php"><img src="dist/images/post-3.jpg" alt="image" /></a>
           </div>
           <div class="blogs-post">
             <h4>
@@ -65,7 +65,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
         <div class="blog-box text-center">
           <div class="blog-post-images">
             <a href="post.php">
-              <img src="images/post-1.jpg" alt="image" />
+              <img src="dist/images/post-1.jpg" alt="image" />
             </a>
           </div>
           <div class="blogs-post">
@@ -83,7 +83,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       <div class="col-lg-4 col-sm-6 col-xs-12">
         <div class="blog-box text-center">
           <div class="blog-post-images">
-            <a href="post.php"><img src="images/post-2.jpg" alt="image" /></a>
+            <a href="post.php"><img src="dist/images/post-2.jpg" alt="image" /></a>
           </div>
           <div class="blogs-post">
             <h4>
@@ -100,7 +100,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       <div class="col-lg-4 col-sm-6 col-xs-12">
         <div class="blog-box text-center">
           <div class="blog-post-images">
-            <a href="post.php"><img src="images/post-3.jpg" alt="image" /></a>
+            <a href="post.php"><img src="dist/images/post-3.jpg" alt="image" /></a>
           </div>
           <div class="blogs-post">
             <h4>

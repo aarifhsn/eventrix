@@ -41,7 +41,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
                     <tbody>
                       <tr>
                         <td class="w-50">
-                          <img src="images/logo.png" alt="" class="h_70" />
+                          <img src="dist/images/logo.png" alt="" class="h_70" />
                         </td>
                         <td class="w-50">
                           <div class="invoice-top-right">

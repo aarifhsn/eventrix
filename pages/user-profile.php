@@ -36,7 +36,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
           <div class="form-group">
             <label for="">Existing Photo:</label>
             <div>
-              <img src="images/attendee.jpg" alt="" class="w_150" />
+              <img src="dist/images/attendee.jpg" alt="" class="w_150" />
             </div>
           </div>
           <div class="form-group">

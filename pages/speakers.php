@@ -10,7 +10,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
     <div class="row pt_40">
       <div class="col-lg-3 col-sm-6 col-xs-12">
         <div class="team-img mb_20">
-          <a href="speaker.php"><img src="images/speaker-1.jpg" /></a>
+          <a href="speaker.php"><img src="dist/images/speaker-1.jpg" /></a>
         </div>
         <div class="team-info text-center">
           <h6><a href="speaker.php">Danny Allen</a></h6>
@@ -19,7 +19,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       </div>
       <div class="col-lg-3 col-sm-6 col-xs-12">
         <div class="team-img mb_20">
-          <a href="speaker.php"><img src="images/speaker-2.jpg" /></a>
+          <a href="speaker.php"><img src="dist/images/speaker-2.jpg" /></a>
         </div>
         <div class="team-info text-center">
           <h6><a href="speaker.php">John Sword</a></h6>
@@ -28,7 +28,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       </div>
       <div class="col-lg-3 col-sm-6 col-xs-12">
         <div class="team-img mb_20">
-          <a href="speaker.php"><img src="images/speaker-3.jpg" /></a>
+          <a href="speaker.php"><img src="dist/images/speaker-3.jpg" /></a>
         </div>
         <div class="team-info text-center">
           <h6><a href="speaker.php">Steven Gragg</a></h6>
@@ -37,7 +37,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       </div>
       <div class="col-lg-3 col-sm-6 col-xs-12">
         <div class="team-img mb_20">
-          <a href="speaker.php"><img src="images/speaker-4.jpg" /></a>
+          <a href="speaker.php"><img src="dist/images/speaker-4.jpg" /></a>
         </div>
         <div class="team-info text-center">
           <h6><a href="speaker.php">Jordan Parker</a></h6>
