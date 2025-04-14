@@ -29,7 +29,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
                   <button type="submit">REGISTER NOW</button>
                 </div>
                 <div class="form-group bottom">
-                  <a href="login.php">Are you a already member? Login now!</a>
+                  <a href="<?php echo BASE_URL; ?>login">Are you a already member? Login now!</a>
                 </div>
               </form>
             </div>
