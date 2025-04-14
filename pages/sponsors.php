@@ -24,22 +24,22 @@ include(__DIR__ . '/../templates/breadcrumb.php');
     <div class="row pt_40 mb_50">
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-1.png" class="img-responsive" alt="" /></a>
+          <a href="sponsor.php"><img src="dist/images/partner-1.png" class="img-responsive" alt="" /></a>
         </div>
       </div>
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-2.png" class="img-responsive" alt="" /></a>
+          <a href="sponsor.php"><img src="dist/images/partner-2.png" class="img-responsive" alt="" /></a>
         </div>
       </div>
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-3.png" class="img-responsive" alt="" /></a>
+          <a href="sponsor.php"><img src="dist/images/partner-3.png" class="img-responsive" alt="" /></a>
         </div>
       </div>
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-4.png" class="img-responsive" alt="" />
+          <a href="sponsor.php"><img src="dist/images/partner-4.png" class="img-responsive" alt="" />
           </a>
         </div>
       </div>
@@ -62,22 +62,22 @@ include(__DIR__ . '/../templates/breadcrumb.php');
     <div class="row pt_40 mb_50">
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-5.png" class="img-responsive" alt="" /></a>
+          <a href="sponsor.php"><img src="dist/images/partner-5.png" class="img-responsive" alt="" /></a>
         </div>
       </div>
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-6.png" class="img-responsive" alt="" /></a>
+          <a href="sponsor.php"><img src="dist/images/partner-6.png" class="img-responsive" alt="" /></a>
         </div>
       </div>
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-7.png" class="img-responsive" alt="" /></a>
+          <a href="sponsor.php"><img src="dist/images/partner-7.png" class="img-responsive" alt="" /></a>
         </div>
       </div>
       <div class="col-md-3">
         <div class="sponsors-logo">
-          <a href="sponsor.php"><img src="images/partner-8.png" class="img-responsive" alt="" />
+          <a href="sponsor.php"><img src="dist/images/partner-8.png" class="img-responsive" alt="" />
           </a>
         </div>
       </div>

@@ -23,9 +23,9 @@ include(__DIR__ . '/../templates/breadcrumb.php');
                                     </button>
                                 </div>
                                 <div class="form-group bottom">
-                                    <a href="forget-password.php">Forgot Password?</a>
+                                    <a href="<?php echo BASE_URL; ?>forget-password">Forgot Password?</a>
                                     <br>
-                                    <a href="registration.php">Create New account</a>
+                                    <a href="<?php echo BASE_URL; ?>registration">Create New account</a>
                                 </div>
                             </form>
                         </div>

@@ -20,7 +20,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
                   <button type="submit">SUBMIT</button>
                 </div>
                 <div class="form-group bottom">
-                  <a href="login.php">Back to login page</a>
+                  <a href="<?php echo BASE_URL; ?>login">Back to login page</a>
                 </div>
               </form>
             </div>
