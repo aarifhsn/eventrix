@@ -111,20 +111,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_update'])) {
       }
 
       // Create uploads directory if it doesn't exist
-      if (!is_dir('../uploads')) {
-        mkdir('../uploads', 0755, true);
+      if (!is_dir('uploads')) {
+        mkdir('uploads', 0755, true);
       }
 
       // Remove old photo
       if (!empty($_SESSION['admin']['photo'])) {
-        @unlink('../uploads/' . $_SESSION['admin']['photo']);
+        @unlink('uploads/' . $_SESSION['admin']['photo']);
       }
 
       // Unique filename
       $newFileName = uniqid('photo_', true) . '.' . $fileExtension;
 
       // Move to upload folder
-      if (!move_uploaded_file($fileTmpPath, '../uploads/' . $newFileName)) {
+      if (!move_uploaded_file($fileTmpPath, 'uploads/' . $newFileName)) {
         throw new Exception("Failed to upload photo.");
       }
 
@@ -212,16 +212,14 @@ if ($userData) {
                 <div class="row">
                   <div class="col-md-3">
                     <!-- Profile Image -->
-                    <div class="col-md-3">
-                      <?php
-                      $photo = $_SESSION['admin']['photo'] ?? '';
-                      $photo_url = !empty($photo) ? BASE_URL . "uploads/$photo" : BASE_URL . "uploads/default.png";
-                      ?>
-                      <img src="<?php echo htmlspecialchars($photo_url); ?>" alt="Profile Photo"
-                        class="profile-photo w_100_p">
-                      <input type="file" class="mt_10" name="photo" accept="image/*">
-                      <small class="form-text text-muted">Allowed formats: JPG, PNG. Max size: 2MB.</small>
-                    </div>
+                    <?php
+                    $photo = $_SESSION['admin']['photo'] ?? '';
+                    $photo_url = !empty($photo) ? ADMIN_URL . "uploads/$photo" : ADMIN_URL . "uploads/default.png";
+                    ?>
+                    <img src="<?php echo htmlspecialchars($photo_url); ?>" alt="Profile Photo"
+                      class="profile-photo w_100_p">
+                    <input type="file" class="mt_10" name="photo" accept="image/*">
+                    <small class="form-text text-muted">Allowed formats: JPG, PNG. Max size: 2MB.</small>
                   </div>
                   <div class="col-md-9">
                     <div class="mb-4">
