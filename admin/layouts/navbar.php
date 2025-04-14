@@ -9,9 +9,19 @@
         <li class="nav-link">
             <a href="<?php echo BASE_URL; ?>" target="_blank" class="btn btn-warning">Front End</a>
         </li>
+        <?php if (isset($_SESSION['admin'])) { ?>
+            <li class="nav-item dropdown">
+                <p class="d-sm-none d-lg-inline-block text-white">Hi, <?php echo $_SESSION['admin']['name']; ?></p>
+            </li>
+        <?php } ?>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img alt="image" src="uploads/user.jpg" class="rounded-circle-custom">
+                <?php
+                $photo = $_SESSION['admin']['photo'] ?? '';
+                $photo_url = !empty($photo) ? ADMIN_URL . "uploads/$photo" : ADMIN_URL . "uploads/default.png";
+                ?>
+                <img src="<?php echo htmlspecialchars($photo_url); ?>" alt="Profile Photo"
+                    class="rounded-circle-custom">
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="<?php echo ADMIN_URL; ?>profile.php"><i class="far fa-user"></i> Edit
