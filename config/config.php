@@ -11,8 +11,8 @@ try {
     echo "Connection error :" . $exception->getMessage();
 }
 
+define("SITE_NAME", "Eventrix");
 define("BASE_URL", "http://localhost/eventrix/");
-define("PAGE_URL", "http://localhost/eventrix/pages/");
 define("ADMIN_URL", BASE_URL . "admin/");
 
 define("SMTP_HOST", "sandbox.smtp.mailtrap.io");
@@ -21,3 +21,4 @@ define("SMTP_USERNAME", "12e2ad175f6c4f");
 define("SMTP_PASSWORD", "028651bd4821a5");
 define("SMTP_ENCRYPTION", "tls");
 define("SMTP_FROM", "contact@arifhassan.com");
+
