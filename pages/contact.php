@@ -3,6 +3,11 @@
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
 
+// User Data
+$stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+$stmt->execute(['id' => $_SESSION['user']['id']]);
+$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <div id="contacts" class="pt_70 pb_50 white">
   <div class="container">
@@ -42,7 +47,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             </div>
             <div class="text">
               <div class="contact-inner-text">
-                Address: <br /><span>43, Park Street, NYC, USA</span>
+                Address: <br /><span><?php echo $userData['address']; ?></span>
               </div>
             </div>
           </div>
@@ -54,7 +59,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             </div>
             <div class="text">
               <div class="contact-inner-text">
-                Email: <br /><span>contact@example.com</span>
+                Email: <br /><span><?php echo $userData['email']; ?></span>
               </div>
             </div>
           </div>
@@ -66,7 +71,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             </div>
             <div class="text">
               <div class="contact-inner-text">
-                Phone: <br /><span>234-423-1266</span>
+                Phone: <br /><span><?php echo $userData['phone']; ?></span>
               </div>
             </div>
           </div>
