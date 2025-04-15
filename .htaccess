@@ -1,13 +1,19 @@
 RewriteEngine On
 RewriteBase /eventrix/
 
-# 1. If file or directory exists, serve it directly
+# 1. If the file or directory exists, don't rewrite
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# 2. Special auth routes (login, register, etc.)
-RewriteRule ^(login|registration|logout)/?$ auth/$1.php [L]
-
-# 3. Generic page routes (everything else)
+# 2. Try loading from pages folder if file exists
+RewriteCond %{DOCUMENT_ROOT}/eventrix/pages/$1.php -f
 RewriteRule ^([a-zA-Z0-9-]+)/?$ pages/$1.php [L]
+
+# 3. Else, try loading from auth folder if file exists
+RewriteCond %{DOCUMENT_ROOT}/eventrix/auth/$1.php -f
+RewriteRule ^([a-zA-Z0-9-]+)/?$ auth/$1.php [L]
+
+# Optional: Custom 404 if nothing matches
+RewriteRule ^.*$ pages/404.php [L]
+

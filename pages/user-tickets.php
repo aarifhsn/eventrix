@@ -8,27 +8,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
-        <div class="user-sidebar">
-          <div class="card">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <a href="user-dashboard.php">Dashboard</a>
-              </li>
-              <li class="list-group-item active-item">
-                <a href="user-tickets.php">My Tickets</a>
-              </li>
-              <li class="list-group-item">
-                <a href="user-messages.php">Messages</a>
-              </li>
-              <li class="list-group-item">
-                <a href="user-profile.php">Profile</a>
-              </li>
-              <li class="list-group-item">
-                <a href="login.php">Logout</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <?php include(__DIR__ . '/../templates/user-sidebar.php'); ?>
       </div>
       <div class="col-lg-9">
         <div class="table-responsive">
