@@ -48,9 +48,15 @@
                         </li>
                         <li class="member-login-button">
                             <div class="inner">
-                                <a class="smooth-scroll nav-link" href="<?php echo BASE_URL; ?>login">
+                                <?php
+                                if (isset($_SESSION['user'])) {
+                                    echo '<a href="' . BASE_URL . 'user-dashboard" class="smooth-scroll nav-link">Dashboard</a>';
+                                } else {
+                                    echo '<a class="smooth-scroll nav-link" href="' . BASE_URL . 'login">
                                     <i class="fa fa-sign-in"></i> Login
-                                </a>
+                                </a>';
+                                }
+                                ?>
                             </div>
                         </li>
                     </ul>

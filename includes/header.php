@@ -6,7 +6,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include(__DIR__ . '/../config/config.php');
-require '../vendor/autoload.php';
+require(__DIR__ . '/../vendor/autoload.php');
 
 ?>
 
