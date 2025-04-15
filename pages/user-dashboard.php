@@ -29,7 +29,10 @@ $user = $statement->fetch(PDO::FETCH_ASSOC);
         <?php include(__DIR__ . '/../templates/user-sidebar.php'); ?>
       </div>
       <div class="col-lg-9">
-        <h4 class="mb_15 fw600">User Detail:</h4>
+        <div class="d-flex">
+          <h4 class="mb_15 fw600 w-50">User Detail:</h4>
+          <p class="text-lg-end w-50"><a href="<?php echo BASE_URL; ?>user-profile">Edit Profile</a></p>
+        </div>
         <div class="table-responsive">
           <table class="table table-bordered">
             <tr>
@@ -42,27 +45,27 @@ $user = $statement->fetch(PDO::FETCH_ASSOC);
             </tr>
             <tr>
               <th>Phone:</th>
-              <td>237-453-2264</td>
+              <td><?php echo htmlspecialchars($user['phone'] ?? ''); ?></td>
             </tr>
             <tr>
               <th>Address:</th>
-              <td>45 Sp Valley, NYC, USA</td>
+              <td><?php echo htmlspecialchars($user['address'] ?? ''); ?></td>
             </tr>
             <tr>
               <th>State:</th>
-              <td>NYC</td>
+              <td><?php echo htmlspecialchars($user['state'] ?? ''); ?></td>
             </tr>
             <tr>
               <th>City:</th>
-              <td>NYC</td>
+              <td><?php echo htmlspecialchars($user['city'] ?? ''); ?></td>
             </tr>
             <tr>
               <th>Country:</th>
-              <td>USA</td>
+              <td><?php echo htmlspecialchars($user['country'] ?? ''); ?></td>
             </tr>
             <tr>
               <th>Zip Code:</th>
-              <td>12873</td>
+              <td><?php echo htmlspecialchars($user['zip_code'] ?? ''); ?></td>
             </tr>
           </table>
         </div>
