@@ -1,5 +1,6 @@
 <?php
-include("layouts/header.php");
+
+include(__DIR__ . '/../admin/layouts/header.php');
 
 session_start();
 
@@ -67,4 +68,4 @@ include("layouts/sidebar.php");
     </section>
 </div>
 
-<?php include("layouts/footer.php"); ?>
+<?php include(__DIR__ . '/../admin/layouts/footer.php'); ?>
