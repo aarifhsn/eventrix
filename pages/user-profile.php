@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_update_form']
   }
 
   // Basic input sanitization
-  $photo = trim($_POST['photo'] ?? '');
   $name = trim($_POST['name'] ?? '');
   $email = trim($_POST['email'] ?? '');
   $phone = trim($_POST['phone'] ?? '');
@@ -66,19 +65,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_update_form']
 
       // Create uploads directory if it doesn't exist
       if (!is_dir('uploads')) {
-        mkdir('uploads', 0777, true);
+        mkdir('../uploads', 0755, true);
       }
 
       // Remove old photo
       if (!empty($_SESSION['user']['photo'])) {
-        @unlink('uploads/' . $_SESSION['user']['photo']);
+        @unlink('../uploads/' . $_SESSION['user']['photo']);
       }
 
       // Unique filename
       $newFileName = uniqid('photo_', true) . '.' . $fileExtension;
 
       // Move to upload folder
-      if (!move_uploaded_file($fileTmpPath, 'uploads/' . $newFileName)) {
+      if (!move_uploaded_file($fileTmpPath, '../uploads/' . $newFileName)) {
         throw new Exception("Failed to upload photo.");
       }
 
@@ -91,6 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_update_form']
 
       // Update session photo
       $_SESSION['user']['photo'] = $newFileName;
+
+      // Set the new filename to $photo for the next update statement
+      $photo = $newFileName;
     }
 
 
@@ -189,12 +191,20 @@ $_SESSION['csrf_token_for_profile'] = bin2hex(random_bytes(32));
           <div class="form-group">
             <label for="">Existing Photo:</label>
             <div>
-              <?php if (!empty($_SESSION['user']['photo'])): ?>
-                <img src="dist/images/users/<?php echo htmlspecialchars($_SESSION['user']['photo']); ?>" alt=""
-                  class="w_150" />
-              <?php else: ?>
-                <img src="dist/images/attendee.jpg" alt="" class="w_150" />
-              <?php endif; ?>
+              <?php
+              $defaultPhotoUrl = BASE_URL . 'dist/images/attendee.jpg';
+
+              $photoFileName = $_SESSION['user']['photo'] ?? '';
+              $photoFilePath = __DIR__ . '/../uploads/' . $photoFileName; // For file_exists
+              $photoUrl = BASE_URL . 'uploads/' . $photoFileName; // For browser
+              
+              if (!empty($photoFileName) && file_exists($photoFilePath)) {
+                $photoToShow = htmlspecialchars($photoUrl);
+              } else {
+                $photoToShow = $defaultPhotoUrl;
+              }
+              ?>
+              <img src="<?php echo $photoToShow; ?>" alt="" class="w_150" />
             </div>
           </div>
           <div class="form-group">
