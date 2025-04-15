@@ -43,26 +43,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_update_form']
       throw new Exception("Invalid email format.");
     }
 
-    // Handle file upload for photo
-    $photo = $_SESSION['user']['photo'] ?? ''; // Keep existing photo as default
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-      $allowed = ['jpg', 'jpeg', 'png', 'gif'];
-      $filename = $_FILES['photo']['name'];
-      $file_extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    // Upload photo
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+      $fileTmpPath = $_FILES['photo']['tmp_name'];
+      $fileName = $_FILES['photo']['name'];
+      $fileSize = $_FILES['photo']['size'];
+      $fileType = mime_content_type($fileTmpPath);
+      $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-      if (!in_array($file_extension, $allowed)) {
-        throw new Exception("Only JPG, JPEG, PNG, and GIF files are allowed.");
+      // Allowed types
+      $allowedExtensions = ['jpg', 'jpeg', 'png'];
+      $allowedMimeTypes = ['image/jpeg', 'image/png'];
+
+      if (!in_array($fileExtension, $allowedExtensions) || !in_array($fileType, $allowedMimeTypes)) {
+        throw new Exception("Invalid image format. Only JPG and PNG are allowed.");
       }
 
-      // Create unique filename
-      $new_filename = time() . '_' . mt_rand(1000, 9999) . '.' . $file_extension;
-      $upload_path = __DIR__ . '/../dist/images/users/' . $new_filename;
-
-      if (!move_uploaded_file($_FILES['photo']['tmp_name'], $upload_path)) {
-        throw new Exception("Error uploading file.");
+      // Optional: limit image size (e.g., 2MB)
+      if ($fileSize > 2 * 1024 * 1024) {
+        throw new Exception("Image size should not exceed 2MB.");
       }
 
-      $photo = $new_filename;
+      // Create uploads directory if it doesn't exist
+      if (!is_dir('uploads')) {
+        mkdir('uploads', 0777, true);
+      }
+
+      // Remove old photo
+      if (!empty($_SESSION['user']['photo'])) {
+        @unlink('uploads/' . $_SESSION['user']['photo']);
+      }
+
+      // Unique filename
+      $newFileName = uniqid('photo_', true) . '.' . $fileExtension;
+
+      // Move to upload folder
+      if (!move_uploaded_file($fileTmpPath, 'uploads/' . $newFileName)) {
+        throw new Exception("Failed to upload photo.");
+      }
+
+      // Update in database
+      $stmt = $pdo->prepare("UPDATE users SET photo = :photo WHERE id = :id");
+      $stmt->execute([
+        ':photo' => $newFileName,
+        ':id' => $userId
+      ]);
+
+      // Update session photo
+      $_SESSION['user']['photo'] = $newFileName;
     }
 
 
