@@ -179,14 +179,14 @@ $_SESSION['csrf_token_for_profile'] = bin2hex(random_bytes(32));
             <div class="col-lg-6">
               <div class="form-group">
                 <label for="">Name *</label>
-                <input type="text" class="form-control" name="name"
+                <input type="text" class="form-control" name="name" required
                   value="<?php echo htmlspecialchars($_SESSION['user']['name'] ?? ''); ?>" />
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label for="">Email *</label>
-                <input type="email" class="form-control" name="email"
+                <input type="email" class="form-control" name="email" required
                   value="<?php echo htmlspecialchars($_SESSION['user']['email'] ?? ''); ?>" />
               </div>
             </div>
@@ -194,14 +194,14 @@ $_SESSION['csrf_token_for_profile'] = bin2hex(random_bytes(32));
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label for="">Phone *</label>
+                <label for="">Phone </label>
                 <input type="text" class="form-control" name="phone"
                   value="<?php echo htmlspecialchars($_SESSION['user']['phone'] ?? ''); ?>" />
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
-                <label for="">Address *</label>
+                <label for="">Address </label>
                 <input type="text" class="form-control" name="address"
                   value="<?php echo htmlspecialchars($_SESSION['user']['address'] ?? ''); ?>" />
               </div>
@@ -210,14 +210,14 @@ $_SESSION['csrf_token_for_profile'] = bin2hex(random_bytes(32));
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label for="">Country *</label>
+                <label for="">Country </label>
                 <input type="text" class="form-control" name="country"
                   value="<?php echo htmlspecialchars($_SESSION['user']['country'] ?? ''); ?>" />
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
-                <label for="">State *</label>
+                <label for="">State </label>
                 <input type="text" class="form-control" name="state"
                   value="<?php echo htmlspecialchars($_SESSION['user']['state'] ?? ''); ?>" />
               </div>
@@ -226,14 +226,14 @@ $_SESSION['csrf_token_for_profile'] = bin2hex(random_bytes(32));
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label for="">City *</label>
+                <label for="">City </label>
                 <input type="text" class="form-control" name="city"
                   value="<?php echo htmlspecialchars($_SESSION['user']['city'] ?? ''); ?>" />
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
-                <label for="">Zip Code *</label>
+                <label for="">Zip Code </label>
                 <input type="text" class="form-control" name="zip_code"
                   value="<?php echo htmlspecialchars($_SESSION['user']['zip_code'] ?? ''); ?>" />
               </div>
