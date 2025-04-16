@@ -12,115 +12,96 @@ include(__DIR__ . '/layouts/header.php');
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
 
+// Include helpers functions
+include(__DIR__ . '/../config/helpers.php');
+
 // Initialize
 $success_message = '';
 $error_message = '';
 
 // Generate CSRF token if not exists
-if (!isset($_SESSION['home_banner_update_csrf_token'])) {
-    $_SESSION['home_banner_update_csrf_token'] = bin2hex(random_bytes(32));
+if (!isset($_SESSION['home_about_page_csrf_token'])) {
+    $_SESSION['home_about_page_csrf_token'] = bin2hex(random_bytes(32));
 }
 
 // Fetch current banner data
 try {
-    $stmt = $pdo->prepare("SELECT * FROM home_banners LIMIT 1");
+    $stmt = $pdo->prepare("SELECT * FROM home_abouts LIMIT 1");
     $stmt->execute();
-    $bannerData = $stmt->fetch(PDO::FETCH_ASSOC);
+    $aboutData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Format the date properly for HTML date input (YYYY-MM-DD)
-    if (!empty($bannerData['event_date'])) {
-        $bannerData['event_date'] = date('Y-m-d', strtotime($bannerData['event_date']));
-    }
-    // If no banner exists, create one
-    if (!$bannerData) {
-        $stmt = $pdo->prepare("INSERT INTO home_banners (subheading, heading, description, event_date) VALUES ('', '', '', NULL)");
-        $stmt->execute();
+    // If no about section exists, create one
+    if (!$aboutData) {
+        $stmt = $pdo->prepare("INSERT INTO home_abouts (heading, description, button_text, button_url, status) VALUES (:heading, :description, :button_text, :button_url, :status)");
+        $stmt->execute([
+            ':heading' => '',
+            ':description' => '',
+            ':button_text' => '',
+            ':button_url' => '',
+            ':status' => 1
+        ]);
 
-        $stmt = $pdo->prepare("SELECT * FROM home_banners LIMIT 1");
+        $stmt = $pdo->prepare("SELECT * FROM home_abouts LIMIT 1");
         $stmt->execute();
-        $bannerData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $aboutData = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 } catch (Exception $e) {
-    $error_message = "Error fetching banner data: " . $e->getMessage();
+    $error_message = "Error fetching about section data: " . $e->getMessage();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_banner_settings_form'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_about_settings_form'])) {
     try {
         // CSRF validation
-        if (!isset($_POST['home_banner_update_csrf_token']) || $_POST['home_banner_update_csrf_token'] !== $_SESSION['home_banner_update_csrf_token']) {
+        if (!isset($_POST['home_about_page_csrf_token']) || $_POST['home_about_page_csrf_token'] !== $_SESSION['home_about_page_csrf_token']) {
             throw new Exception("Invalid CSRF token.");
         }
 
         // Fetch and sanitize
-        $subheading = trim($_POST['subheading'] ?? '');
         $heading = trim($_POST['heading'] ?? '');
         $description = trim($_POST['description'] ?? '');
-        $event_date = trim($_POST['event_date'] ?? '');
+        $button_text = trim($_POST['button_text'] ?? '');
+        $button_url = trim($_POST['button_url'] ?? '');
+        $status = isset($_POST['status']) ? 1 : 0;
 
         // Validation
-        if (empty($heading) || empty($event_date)) {
-            throw new Exception("Heading and Event Date are required.");
-        }
-
-        // Validate event date is not in the past
-        $current_date = date('Y-m-d');
-        if ($event_date < $current_date) {
-            throw new Exception("Event Date cannot be in the past. Please select a future date.");
+        if (empty($heading) || empty($description)) {
+            throw new Exception("Heading and Description are required.");
         }
 
         $pdo->beginTransaction();
 
         // Update banner - using the banner's ID
-        $stmt = $pdo->prepare("UPDATE home_banners SET subheading = :subheading, heading = :heading, description = :description, event_date = :event_date WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE home_abouts SET heading = :heading, description = :description, button_text = :button_text, button_url = :button_url, status = :status WHERE id = :id");
         $stmt->execute([
-            ':subheading' => $subheading,
-            ':heading' => $heading,
-            ':description' => $description,
-            ':event_date' => $event_date,
-            ':id' => $bannerData['id']
+            'heading' => $heading,
+            'description' => $description,
+            'button_text' => $button_text,
+            'button_url' => $button_url,
+            'status' => $status,
+            'id' => $aboutData['id']
         ]);
 
         // Image upload logic
-        if (isset($_FILES['background']) && $_FILES['background']['error'] === UPLOAD_ERR_OK) {
-            $fileTmp = $_FILES['background']['tmp_name'];
-            $fileName = $_FILES['background']['name'];
-            $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            $mimeType = mime_content_type($fileTmp);
-            $fileSize = $_FILES['background']['size'];
+        try {
+            if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+                $newFileName = uploadImage($_FILES['photo'], 'uploads', ['jpg', 'jpeg', 'png', 'webp'], 2 * 1024 * 1024, $aboutData['photo'] ?? '');
 
-            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
-            $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
-
-            if (!in_array($fileExt, $allowedExts) || !in_array($mimeType, $allowedMimes)) {
-                throw new Exception("Invalid image format.");
+                $stmt = $pdo->prepare("UPDATE home_abouts SET photo = :photo WHERE id = :id");
+                $stmt->execute([':photo' => $newFileName, ':id' => $aboutData['id']]);
+                $aboutData['photo'] = $newFileName;
             }
-
-            if ($fileSize > 2 * 1024 * 1024) {
-                throw new Exception("Image size must be under 2MB.");
-            }
-
-            if (!is_dir('uploads'))
-                mkdir('uploads', 0755, true);
-
-            if (!empty($bannerData['background']))
-                @unlink('uploads/' . $bannerData['background']);
-
-            $newFileName = uniqid('background_', true) . '.' . $fileExt;
-            move_uploaded_file($fileTmp, 'uploads/' . $newFileName);
-
-            $stmt = $pdo->prepare("UPDATE home_banners SET background = :background WHERE id = :id");
-            $stmt->execute([':background' => $newFileName, ':id' => $bannerData['id']]);
-            $bannerData['background'] = $newFileName;
+        } catch (Exception $e) {
+            $error_message = $e->getMessage();
         }
 
         $pdo->commit();
 
         // Refresh data and CSRF token
-        $stmt = $pdo->prepare("SELECT * FROM home_banners WHERE id = :id");
-        $stmt->execute([':id' => $bannerData['id']]);
-        $bannerData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT * FROM home_abouts WHERE id = :id");
+        $stmt->execute([':id' => $aboutData['id']]);
+        $aboutData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $_SESSION['home_banner_update_csrf_token'] = bin2hex(random_bytes(32));
+        $_SESSION['home_about_page_csrf_token'] = bin2hex(random_bytes(32));
         $success_message = "Banner updated successfully!";
     } catch (Exception $e) {
         if ($pdo->inTransaction())
@@ -133,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_banner_settings_
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Edit Home Banner Settings</h1>
+            <h1>Edit Home About Section Settings</h1>
         </div>
         <div class="section-body">
             <div class="row">
@@ -159,47 +140,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_banner_settings_
 
                             <form action="" method="post" enctype="multipart/form-data">
                                 <!-- CSRF Protection -->
-                                <input type="hidden" name="home_banner_update_csrf_token"
-                                    value="<?php echo $_SESSION['home_banner_update_csrf_token']; ?>">
+                                <input type="hidden" name="home_about_page_csrf_token"
+                                    value="<?php echo $_SESSION['home_about_page_csrf_token']; ?>">
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-4">
                                             <!-- Background Image -->
                                             <?php
-                                            $background = $bannerData['background'] ?? '';
-                                            $background_url = !empty($background) ? ADMIN_URL . "uploads/$background" : ADMIN_URL . "uploads/banner-home.jpg";
+                                            $photo = $aboutData['photo'] ?? '';
+                                            $photo_url = ADMIN_URL . "uploads/$photo";
+
+                                            if (!empty($photo)) {
+                                                echo '<img src="' . htmlspecialchars($photo_url) . '" alt="Background Photo" class="profile-photo w_100_p">';
+                                            }
+
                                             ?>
-                                            <img src="<?php echo htmlspecialchars($background_url); ?>"
-                                                alt="Profile background" class="profile-background w-25">
-                                            <input type="file" placeholder="Upload Background Image"
-                                                class="mt_10 d-block" name="background" accept="image/*">
+
+                                            <input type="file" placeholder="Upload photo" class="mt_10 d-block"
+                                                name="photo" accept="image/*">
                                             <small class="form-text d-block text-muted">Allowed formats: JPG, PNG. Max
                                                 size: 2MB.</small>
                                         </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Sub Heading</label>
-                                            <input type="text" class="form-control" name="subheading"
-                                                value="<?= htmlspecialchars($bannerData['subheading'] ?? '') ?>">
-                                        </div>
+
                                         <div class="mb-4">
                                             <label class="form-label">Heading *</label>
                                             <input type="text" class="form-control" name="heading"
-                                                value="<?= htmlspecialchars($bannerData['heading'] ?? '') ?>" required>
+                                                value="<?= htmlspecialchars($aboutData['heading'] ?? '') ?>" required>
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Description</label>
                                             <textarea class="form-control" name="description" rows="3"
-                                                placeholder="Enter description..."><?= htmlspecialchars($bannerData['description'] ?? '') ?></textarea>
+                                                placeholder="Enter description..."><?= htmlspecialchars($aboutData['description'] ?? '') ?></textarea>
                                         </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Event Date</label>
-                                            <input type="date" class="form-control" name="event_date"
-                                                value="<?= !empty($bannerData['event_date']) ? htmlspecialchars($bannerData['event_date']) : '' ?>"
-                                                min="<?= date('Y-m-d'); ?>" required>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Button Text</label>
+                                                    <input type="text" class="form-control" name="button_text"
+                                                        value="<?= htmlspecialchars($aboutData['button_text'] ?? '') ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Button URL</label>
+                                                    <input type="text" class="form-control" name="button_url"
+                                                        value="<?= htmlspecialchars($aboutData['button_url'] ?? '') ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Status</label>
+                                                    <select name="status" class="form-control">
+                                                        <option value="1" <?= ($aboutData['status'] ?? 0) == 1 ? 'selected' : '' ?>>Show</option>
+                                                        <option value="0" <?= ($aboutData['status'] ?? 0) == 0 ? 'selected' : '' ?>>Hide</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                         </div>
+
                                         <div class="mb-4">
-                                            <button type="submit" name="home_banner_settings_form"
+                                            <button type="submit" name="home_about_settings_form"
                                                 class="btn btn-primary">
                                                 Update
                                             </button>
