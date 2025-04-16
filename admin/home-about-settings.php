@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_about_settings_f
         $description = trim($_POST['description'] ?? '');
         $button_text = trim($_POST['button_text'] ?? '');
         $button_url = trim($_POST['button_url'] ?? '');
-        $status = isset($_POST['status']) ? 1 : 0;
+        $status = ($_POST['status'] == '1') ? 1 : 0;
 
         // Validation
         if (empty($heading) || empty($description)) {
