@@ -1,57 +1,9 @@
 <?php
-include("includes/header.php");
+include(__DIR__ . '/includes/header.php');
 
 ?>
 
-<div class="container-fluid home-banner"
-  style="background-image:url(<?php echo BASE_URL; ?>/dist/images/banner-home.jpg)">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="static-banner-detail">
-          <h4>September 20-24, 2024, California</h4>
-          <h2>Event and Conference Website</h2>
-          <p>
-            Join us at our next networking event and conference! Connect with industry professionals, engage in
-            insightful discussions, and attend hands-on workshops. Learn from experts, collaborate on innovative
-            ideas, and build lasting relationships.
-          </p>
-          <div class="counter-area">
-            <div class="countDown clearfix">
-              <div class="row count-down-bg">
-                <div class="col-lg-3 col-sm-6 col-xs-12">
-                  <div class="single-count day">
-                    <h1 class="days">46</h1>
-                    <p class="days_ref">days</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-xs-12">
-                  <div class="single-count hour">
-                    <h1 class="hours">09</h1>
-                    <p class="hours_ref">hours</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-xs-12">
-                  <div class="single-count min">
-                    <h1 class="minutes">55</h1>
-                    <p class="minutes_ref">minutes</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-xs-12">
-                  <div class="single-count second">
-                    <h1 class="seconds">02</h1>
-                    <p class="seconds_ref">seconds</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <a href="buy.html" class="banner_btn video_btn">BUY TICKETS</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<?php include(__DIR__ . '/templates/home-banner.php'); ?>
 
 
 <section id="about-section" class="pt_70 pb_70 white">
