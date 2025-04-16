@@ -21,15 +21,15 @@ require(__DIR__ . '/../vendor/autoload.php');
 
     <title>SingleEvent - Event & Conference Management Website</title>
 
-    <link href="<?php echo BASE_URL; ?>/dist/css/animate.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/magnific-popup.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/owl.carousel.min.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/global.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/style.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/responsive.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>/dist/css/spacing.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/animate.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/magnific-popup.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/owl.carousel.min.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/global.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/style.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/responsive.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>dist/css/spacing.css" type="text/css" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,500,700,900" rel="stylesheet">
 

@@ -85,22 +85,22 @@
     </div>
 </footer>
 
-<script src="<?php echo BASE_URL; ?>/dist/js/jquery-3.3.1.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/popper.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/bootstrap.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/jquery.easing.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/modernizr-2.8.3.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/jquery.appear.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/jquery-countTo.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/jquery.magnific-popup.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/owl.carousel.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/jquery.countdown.min.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/jquery.scrollTo.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/typed.js"></script>
-<script src="<?php echo BASE_URL; ?>/dist/js/custom.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/jquery-3.3.1.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/popper.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/bootstrap.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/jquery.easing.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/modernizr-2.8.3.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/jquery.appear.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/jquery-countTo.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/jquery.magnific-popup.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/owl.carousel.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/jquery.countdown.min.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/jquery.scrollTo.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/typed.js"></script>
+<script src="<?php echo BASE_URL; ?>dist/js/custom.js"></script>
 <script>
     $(".countDown").downCount({
-        date: '<?php echo $banners[0]['event_date']; ?>', //month/date/year   HH:MM:SS
+        date: '12/12/2024', //month/date/year   HH:MM:SS
         offset: +6 //+GMT
     });
 </script>
