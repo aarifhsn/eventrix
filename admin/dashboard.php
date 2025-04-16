@@ -1,6 +1,6 @@
 <?php
 
-include(__DIR__ . '/../admin/layouts/header.php');
+include('layouts/header.php');
 
 session_start();
 
@@ -10,6 +10,11 @@ if (!isset($_SESSION['admin'])) {
 }
 include("layouts/navbar.php");
 include("layouts/sidebar.php");
+
+// get total user
+$statement = $pdo->prepare("SELECT * FROM users WHERE role = 'user'");
+$statement->execute();
+$totalUsers = $statement->rowCount();
 
 ?>
 
@@ -59,7 +64,7 @@ include("layouts/sidebar.php");
                             <h4>Total Users</h4>
                         </div>
                         <div class="card-body">
-                            45
+                            <?php echo $totalUsers; ?>
                         </div>
                     </div>
                 </div>
@@ -68,4 +73,4 @@ include("layouts/sidebar.php");
     </section>
 </div>
 
-<?php include(__DIR__ . '/../admin/layouts/footer.php'); ?>
+<?php include('layouts/footer.php'); ?>

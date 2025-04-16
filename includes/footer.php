@@ -100,7 +100,7 @@
 <script src="<?php echo BASE_URL; ?>/dist/js/custom.js"></script>
 <script>
     $(".countDown").downCount({
-        date: '08/25/2024 12:00:00', //month/date/year   HH:MM:SS
+        date: '<?php echo $banners[0]['event_date']; ?>', //month/date/year   HH:MM:SS
         offset: +6 //+GMT
     });
 </script>

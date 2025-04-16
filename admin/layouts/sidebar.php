@@ -10,8 +10,12 @@
         <ul class="sidebar-menu">
             <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
             <li class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>/dashboard.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Dashboard</span<?php echo ADMIN_URL; ?>/dashboard.php>
+                    href="<?php echo ADMIN_URL; ?>dashboard.php"><i class="fas fa-hand-point-right"></i>
+                    <span>Dashboard</span<?php echo ADMIN_URL; ?>dashboard.php>
+                </a></li>
+            <li class="<?php echo ($current_page == 'home-banner-settings.php') ? 'active' : ''; ?>"><a class="nav-link"
+                    href="<?php echo ADMIN_URL; ?>home-banner-settings.php"><i class="fas fa-hand-point-right"></i>
+                    <span>Home Banner Settings</span<?php echo ADMIN_URL; ?>home-banner-settings.php>
                 </a></li>
             <li class="<?php echo ($current_page == 'setting.php') ? 'active' : ''; ?>"><a class="nav-link"
                     href="<?php echo ADMIN_URL; ?>setting.php"><i class="fas fa-hand-point-right"></i>
