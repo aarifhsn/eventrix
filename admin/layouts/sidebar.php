@@ -17,6 +17,10 @@
                     href="<?php echo ADMIN_URL; ?>home-banner-settings.php"><i class="fas fa-hand-point-right"></i>
                     <span>Home Banner Settings</span<?php echo ADMIN_URL; ?>home-banner-settings.php>
                 </a></li>
+            <li class="<?php echo ($current_page == 'home-about-settings.php') ? 'active' : ''; ?>"><a class="nav-link"
+                    href="<?php echo ADMIN_URL; ?>home-about-settings.php"><i class="fas fa-hand-point-right"></i>
+                    <span>Home Banner Settings</span<?php echo ADMIN_URL; ?>home-about-settings.php>
+                </a></li>
             <li class="<?php echo ($current_page == 'setting.php') ? 'active' : ''; ?>"><a class="nav-link"
                     href="<?php echo ADMIN_URL; ?>setting.php"><i class="fas fa-hand-point-right"></i>
                     <span>Setting</span></a></li>
