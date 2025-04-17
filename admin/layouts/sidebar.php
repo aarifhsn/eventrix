@@ -13,14 +13,30 @@
                     href="<?php echo ADMIN_URL; ?>dashboard.php"><i class="fas fa-hand-point-right"></i>
                     <span>Dashboard</span<?php echo ADMIN_URL; ?>dashboard.php>
                 </a></li>
-            <li class="<?php echo ($current_page == 'home-banner-settings.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>home-banner-settings.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Home Banner Section</span<?php echo ADMIN_URL; ?>home-banner-settings.php>
-                </a></li>
-            <li class="<?php echo ($current_page == 'home-about-settings.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>home-about-settings.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Home About Section</span<?php echo ADMIN_URL; ?>home-about-settings.php>
-                </a></li>
+
+            <li
+                class="nav-item dropdown <?php echo ($current_page == 'home-about-settings.php' || $current_page == 'home-banner-settings.php' || $current_page == 'home-counter-settings.php') ? 'active' : ''; ?>">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i>
+                    <span>Home Section</span></a>
+                <ul class="dropdown-menu">
+                    <li class="<?php echo ($current_page == 'home-banner-settings.php') ? 'active' : ''; ?>"><a
+                            class="nav-link" href="<?php echo ADMIN_URL; ?>home-banner-settings.php"><i
+                                class="fas fa-hand-point-right"></i>
+                            <span>Banner</span<?php echo ADMIN_URL; ?>home-banner-settings.php>
+                        </a></li>
+                    <li class="<?php echo ($current_page == 'home-about-settings.php') ? 'active' : ''; ?>"><a
+                            class="nav-link" href="<?php echo ADMIN_URL; ?>home-about-settings.php"><i
+                                class="fas fa-hand-point-right"></i>
+                            <span>About</span<?php echo ADMIN_URL; ?>home-about-settings.php>
+                        </a></li>
+                    <li class="<?php echo ($current_page == 'home-counter-settings.php') ? 'active' : ''; ?>"><a
+                            class="nav-link" href="<?php echo ADMIN_URL; ?>home-counter-settings.php"><i
+                                class="fas fa-hand-point-right"></i>
+                            <span>Counter</span<?php echo ADMIN_URL; ?>home-counter-settings.php>
+                        </a></li>
+                </ul>
+            </li>
+
             <li class="<?php echo ($current_page == 'setting.php') ? 'active' : ''; ?>"><a class="nav-link"
                     href="<?php echo ADMIN_URL; ?>setting.php"><i class="fas fa-hand-point-right"></i>
                     <span>Setting</span></a></li>

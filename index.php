@@ -67,44 +67,7 @@ include(__DIR__ . '/includes/header.php');
 </div>
 
 
-<div id="counter-section" class="pt_70 pb_70"
-  style="background-image: url(<?php echo BASE_URL; ?>/dist/images/counter-bg.jpg);">
-  <div class="container">
-    <div class="row number-counters text-center">
-      <div class="col-lg-3 col-sm-6 col-xs-12">
-        <div class="counters-item">
-          <i class="fa fa-calendar"></i>
-          <strong data-to="3">0</strong>
-          <p>Days Event</p>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-sm-6 col-xs-12">
-        <div class="counters-item">
-          <i class="fa fa-user"></i>
-          <strong data-to="8">0</strong>
-          <p>Speakers</p>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-sm-6 col-xs-12">
-        <div class="counters-item">
-          <i class="fa fa-users"></i>
-          <strong data-to="60">0</strong>
-          <p>Members Registered</p>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-sm-6 col-xs-12">
-        <div class="counters-item">
-          <i class="fa fa-th-list"></i>
-          <strong data-to="12">0</strong>
-          <p>Sponsors</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<?php include(__DIR__ . '/templates/home-counter.php'); ?>
 
 
 
