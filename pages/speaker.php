@@ -3,6 +3,10 @@
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
 
+$stmt = $pdo->prepare("SELECT * FROM speakers ORDER BY id ASC");
+$stmt->execute();
+$speakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <div id="speakers" class="pt_70 pb_70 white team speakers-item">
   <div class="container">
@@ -14,25 +18,10 @@ include(__DIR__ . '/../templates/breadcrumb.php');
       </div>
       <div class="col-lg-8 col-sm-12 col-xs-12">
         <div class="speaker-detail">
-          <h2>John Smith</h2>
-          <h4 class="mb_20">Founder, AA Company</h4>
+          <h2><?php echo $speakers[0]['name']; ?></h2>
+          <h4 class="mb_20"><?php echo $speakers[0]['designation']; ?></h4>
           <p>
-            John is a renowned User Experience (UX) designer with over 15
-            years of experience in the field. He holds a Master's degree in
-            Human-Computer Interaction from Carnegie Mellon University.
-            Throughout his career, John has worked with top-tier tech
-            companies, including Google and Apple, where he led teams in
-            designing user-friendly interfaces for a range of digital
-            products. His expertise lies in creating seamless and engaging
-            user experiences that not only meet but exceed user
-            expectations.
-          </p>
-          <p>
-            In addition to his professional accomplishments, John is a
-            sought-after speaker and educator. He regularly conducts
-            workshops and seminars at major design conferences worldwide,
-            sharing his insights and knowledge with aspiring designers and
-            industry veterans alike.
+            <?php echo $speakers[0]['bio']; ?>
           </p>
 
           <h4>More Information</h4>
@@ -40,20 +29,21 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             <table class="table table-bordered">
               <tr>
                 <th><b>Address:</b></th>
-                <td>43, Park Street, NYC, USA</td>
+                <td><?php echo $speakers[0]['address']; ?></td>
               </tr>
               <tr>
                 <th><b>Email:</b></th>
-                <td>contact@example.com</td>
+                <td><?php echo $speakers[0]['email']; ?></td>
               </tr>
               <tr>
                 <th><b>Phone:</b></th>
-                <td>123-322-1248</td>
+                <td><?php echo $speakers[0]['phone']; ?></td>
               </tr>
               <tr>
                 <th><b>Website:</b></th>
                 <td>
-                  <a href="https://www.example.com" target="_blank">https://www.example.com</a>
+                  <a href="<?php echo $speakers[0]['website']; ?>"
+                    target="_blank"><?php echo $speakers[0]['website']; ?></a>
                 </td>
               </tr>
               <tr>
@@ -61,16 +51,16 @@ include(__DIR__ . '/../templates/breadcrumb.php');
                 <td>
                   <ul class="social-icon">
                     <li>
-                      <a href="#"><i class="fa fa-facebook"></i></a>
+                      <a href="<?php echo $speakers[0]['facebook']; ?>"><i class="fa fa-facebook"></i></a>
                     </li>
                     <li>
-                      <a href="#"><i class="fa fa-twitter"></i></a>
+                      <a href="<?php echo $speakers[0]['twitter']; ?>"><i class="fa fa-twitter"></i></a>
                     </li>
                     <li>
-                      <a href="#"><i class="fa fa-linkedin"></i></a>
+                      <a href="<?php echo $speakers[0]['linkedin']; ?>"><i class="fa fa-linkedin"></i></a>
                     </li>
                     <li>
-                      <a href="#"><i class="fa fa-instagram"></i></a>
+                      <a href="https://<?php echo $speakers[0]['instagram']; ?>"><i class="fa fa-instagram"></i></a>
                     </li>
                   </ul>
                 </td>
@@ -82,7 +72,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
           <div class="row">
             <div class="col-md-6">
               <div class="speaker-img">
-                <img src="images/day1_session1.jpg" />
+                <img src="<?php echo BASE_URL; ?>dist/images/day1_session1.jpg" />
               </div>
               <div class="speaker-box">
                 <h3>Introduction to PHP and Laravel</h3>
@@ -95,7 +85,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
             </div>
             <div class="col-md-6">
               <div class="speaker-img">
-                <img src="images/day3_session1.jpg" />
+                <img src="<?php echo BASE_URL; ?>dist/images/day3_session1.jpg" />
               </div>
               <div class="speaker-box">
                 <h3>User Experience (UX) Design Principles</h3>
