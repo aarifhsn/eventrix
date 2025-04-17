@@ -9,10 +9,15 @@ try {
     if (empty($counters)) {
         $counters = [
             [
-                'icon' => 'fas fa-users',
+                'icon' => 'fa fa-user',
                 'number' => '20',
-                'label' => 'Speakers'  // Make sure this matches your DB field name
-            ]
+                'label' => 'Speakers'
+            ],
+            [
+                'icon' => 'fa fa-retweet',
+                'number' => '15',
+                'label' => 'Sponsors'
+            ],
         ];
     }
 } catch (Exception $e) {
@@ -21,7 +26,7 @@ try {
     // Provide fallback data in case of database error
     $counters = [
         [
-            'icon' => 'fas fa-users',
+            'icon' => 'fa fa-user',
             'number' => '20',
             'label' => 'Speakers'
         ]
@@ -32,14 +37,26 @@ try {
 <div id="counter-section" class="pt_70 pb_70"
     style="background-image: url(<?php echo BASE_URL; ?>/dist/images/counter-bg.jpg);">
     <div class="container">
-        <div class="row number-counters label-center">
+        <div class="row number-counters label-center text-center">
             <?php foreach ($counters as $counter): ?>
-                <div class="col-lg-3 col-sm-6 col-xs-12">
+                <?php
+                $totalCounters = count($counters);
+
+                $col = match ($totalCounters) {
+                    1 => 'col-12 col-sm-12 col-md-12 col-lg-12',
+                    2 => 'col-6 col-sm-6 col-md-6 col-lg-6',
+                    3 => 'col-12 col-sm-6 col-md-4 col-lg-4',
+                    4 => 'col-12 col-sm-6 col-md-3 col-lg-3',
+                    5 => 'col-6 col-sm-4 col-md-3 col-lg-2',
+                    default => 'col-6 col-sm-4 col-md-3 col-lg-2', // fallback for 6+
+                };
+                ?>
+                <div class="<?php echo $col; ?>">
                     <div class="counters-item">
+                        <?php $value = !empty($counter['number']) ? htmlspecialchars($counter['number']) : '0'; ?>
                         <i
                             class="<?php echo !empty($counter['icon']) ? htmlspecialchars($counter['icon']) : 'fas fa-star'; ?>"></i>
-                        <strong
-                            data-to="3"><?php echo !empty($counter['number']) ? htmlspecialchars($counter['number']) : '0'; ?></strong>
+                        <strong data-to="<?php echo $value; ?>"><?php echo $value; ?></strong>
                         <p><?php echo !empty($counter['label']) ? htmlspecialchars($counter['label']) : ''; ?></p>
                     </div>
                 </div>
