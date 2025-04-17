@@ -59,4 +59,20 @@ function uploadImage(array $file, string $targetDir = 'uploads', array $allowedE
 
     return $newFileName;
 }
+function old($key, $model = null, $default = '')
+{
+    // First check POST data (most recent form submission)
+    if (isset($_POST[$key])) {
+        return htmlspecialchars(trim($_POST[$key]), ENT_QUOTES, 'UTF-8');
+    }
+
+    // Then check model data if provided (e.g., $edit_speaker)
+    if ($model !== null && isset($model[$key])) {
+        return htmlspecialchars($model[$key], ENT_QUOTES, 'UTF-8');
+    }
+
+    // Fall back to default
+    return $default;
+}
+
 

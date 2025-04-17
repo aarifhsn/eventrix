@@ -36,6 +36,10 @@
                         </a></li>
                 </ul>
             </li>
+            <li class="<?php echo ($current_page == 'speakers-settings.php') ? 'active' : ''; ?>"><a class="nav-link"
+                    href="<?php echo ADMIN_URL; ?>speakers-settings.php"><i class="fas fa-hand-point-right"></i>
+                    <span>Speakers Section</span<?php echo ADMIN_URL; ?>speakers-settings.php>
+                </a></li>
 
             <li class="<?php echo ($current_page == 'setting.php') ? 'active' : ''; ?>"><a class="nav-link"
                     href="<?php echo ADMIN_URL; ?>setting.php"><i class="fas fa-hand-point-right"></i>
