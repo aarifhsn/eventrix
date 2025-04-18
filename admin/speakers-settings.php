@@ -3,17 +3,14 @@
 ob_start();
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
-    header('Location: login.php');
-    exit;
-}
-
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
 include(__DIR__ . '/../config/helpers.php');
+
+// Check if admin is logged in
+checkAdminAuth();
 
 // Initialize
 $success_message = '';
@@ -217,23 +214,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_speaker_form'])) 
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <?php if (!empty($success_message)): ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <?= htmlspecialchars($success_message); ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            <?php endif; ?>
 
-                            <?php if (!empty($error_message)): ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <?= htmlspecialchars($error_message); ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            <?php endif; ?>
+                            <?php echo displaySuccess($success_message); ?>
+
+                            <?php echo displayError($error_message); ?>
 
                             <form action="" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="speaker_section_csrf_token"
