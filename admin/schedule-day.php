@@ -50,13 +50,13 @@ $result = fetchAll($pdo, 'schedule_days');
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <?php echo $row['day']; ?>
+                                                    <?php echo $row['title']; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['date1']; ?>
+                                                    <?php echo date('F j, Y', strtotime($row['date'])); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['order1']; ?>
+                                                    <?php echo $row['order_number']; ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
                                                     <a href="<?php echo ADMIN_URL; ?>schedule-day-edit.php?id=<?php echo $row['id']; ?>"
