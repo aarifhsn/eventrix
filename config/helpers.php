@@ -120,17 +120,13 @@ function getDbConnection()
  * @param array $params Parameters for prepared statement
  * @return array Results
  */
-function fetchAll($sql, $params = [])
+function fetchAll(PDO $pdo, string $table, string $orderBy = 'id ASC')
 {
-    try {
-        $pdo = getDbConnection();
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-        throw new Exception("Query failed: " . $e->getMessage());
-    }
+    $stmt = $pdo->prepare("SELECT * FROM $table ORDER BY $orderBy");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 /**
  * Execute a SELECT query and fetch one row
@@ -252,21 +248,6 @@ function getItemById($table, $id)
     }
 }
 
-/**
- * Get all items from a table with optional ordering
- * 
- * @param string $table Table name
- * @param string $orderBy Optional ORDER BY clause (e.g. "name ASC")
- * @return array Items
- */
-function getAllItems($table, $orderBy = "id ASC")
-{
-    try {
-        return fetchAll("SELECT * FROM {$table} ORDER BY {$orderBy}");
-    } catch (Exception $e) {
-        throw new Exception("Error fetching {$table}: " . $e->getMessage());
-    }
-}
 
 /**
  * Authentication & Session Helpers
@@ -282,6 +263,14 @@ function isLoggedIn()
     return isset($_SESSION['admin']) &&
         is_array($_SESSION['admin']) &&
         isset($_SESSION['admin']['id']);
+}
+
+function checkAdminAuth()
+{
+    if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
+        header('Location: login.php');
+        exit;
+    }
 }
 
 /**
@@ -348,6 +337,10 @@ function refreshCsrfToken($key = 'csrf_token')
  */
 function old($key, $item = null)
 {
+    if (isset($_SESSION['form_submitted_successfully']) && $_SESSION['form_submitted_successfully'] === true) {
+        // Clear the value after successful submission
+        return '';
+    }
     if (isset($_POST[$key])) {
         return htmlspecialchars($_POST[$key]);
     } elseif ($item && isset($item[$key])) {
@@ -393,7 +386,7 @@ function displayError($message)
 
     return '<div class="alert alert-danger alert-dismissible fade show" role="alert">
         ' . htmlspecialchars($message) . '
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close  btn-close btn-close-white" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>';
@@ -412,7 +405,7 @@ function displaySuccess($message)
 
     return '<div class="alert alert-success alert-dismissible fade show" role="alert">
         ' . htmlspecialchars($message) . '
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close btn-close btn-close-white" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>';
@@ -553,46 +546,6 @@ function processCrudForm($table, $formData, $fileData = null, $fileField = 'imag
             'success' => false,
             'message' => $e->getMessage()
         ];
-    }
-}
-
-/**
- * Get a list of items with pagination
- * 
- * @param string $table Table name
- * @param int $page Current page
- * @param int $perPage Items per page
- * @param string $orderBy Order by clause
- * @return array Items and pagination info
- */
-function getItemsWithPagination($table, $page = 1, $perPage = 10, $orderBy = "id DESC")
-{
-    try {
-        $pdo = getDbConnection();
-
-        // Count total records
-        $stmt = $pdo->query("SELECT COUNT(*) FROM {$table}");
-        $total = $stmt->fetchColumn();
-
-        // Calculate pagination
-        $totalPages = ceil($total / $perPage);
-        $page = max(1, min($page, $totalPages));
-        $offset = ($page - 1) * $perPage;
-
-        // Get items for current page
-        $items = fetchAll("SELECT * FROM {$table} ORDER BY {$orderBy} LIMIT {$offset}, {$perPage}");
-
-        return [
-            'items' => $items,
-            'pagination' => [
-                'total' => $total,
-                'perPage' => $perPage,
-                'currentPage' => $page,
-                'totalPages' => $totalPages
-            ]
-        ];
-    } catch (Exception $e) {
-        throw new Exception("Error fetching {$table}: " . $e->getMessage());
     }
 }
 
