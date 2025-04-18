@@ -10,6 +10,21 @@ include(__DIR__ . '/layouts/sidebar.php');
 // Include helpers functions
 include(__DIR__ . '/../config/helpers.php');
 
+// Initialize message variables
+$success_message = '';
+$error_message = '';
+
+// Check for messages in session
+if (isset($_SESSION['success_message'])) {
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+}
+
+if (isset($_SESSION['error_message'])) {
+    $error_message = $_SESSION['error_message'];
+    unset($_SESSION['error_message']);
+}
+
 checkAdminAuth();
 
 // Fetch all schedule days
@@ -26,6 +41,10 @@ $result = fetchAll($pdo, 'schedule_days');
             </div>
         </div>
         <div class="section-body">
+
+            <?php echo displaySuccess($success_message); ?>
+
+            <?php echo displayError($error_message); ?>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -61,10 +80,16 @@ $result = fetchAll($pdo, 'schedule_days');
                                                 <td class="pt_10 pb_10">
                                                     <a href="<?php echo ADMIN_URL; ?>schedule-day-edit.php?id=<?php echo $row['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="<?php echo ADMIN_URL; ?>schedule-day-delete.php?id=<?php echo $row['id']; ?>"
-                                                        class="btn btn-danger btn-sm"
-                                                        onClick="return confirm('Are you sure?');"><i
-                                                            class="fas fa-trash"></i></a>
+
+                                                    <form method="POST" action="<?= ADMIN_URL ?>schedule-day-delete.php"
+                                                        style="display:inline;"
+                                                        onsubmit="return confirm('Are you sure you want to delete this schedule day?');">
+                                                        <input type="hidden" name="id"
+                                                            value="<?= htmlspecialchars($row['id']) ?>">
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             <?php

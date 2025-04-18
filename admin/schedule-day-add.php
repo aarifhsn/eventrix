@@ -13,20 +13,7 @@ include(__DIR__ . '/../config/helpers.php');
 
 checkAdminAuth();
 
-// Initialize message variables
-$success_message = '';
-$error_message = '';
 
-// Check for messages in session
-if (isset($_SESSION['success_message'])) {
-    $success_message = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);
-}
-
-if (isset($_SESSION['error_message'])) {
-    $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']);
-}
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_days_add_form'])) {
@@ -69,9 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_days_add_form
         </div>
         <div class="section-body">
 
-            <?php echo displaySuccess($success_message); ?>
-
-            <?php echo displayError($error_message); ?>
 
             <div class="row">
                 <div class="col-12">
