@@ -10,21 +10,10 @@ include(__DIR__ . '/layouts/sidebar.php');
 // Include helpers functions
 include(__DIR__ . '/../config/helpers.php');
 
-// Initialize message variables
-$success_message = '';
-$error_message = '';
-
 // Check for messages in session
-if (isset($_SESSION['success_message'])) {
-    $success_message = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);
-}
+initMessages();
 
-if (isset($_SESSION['error_message'])) {
-    $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']);
-}
-
+// Check if admin is logged in
 checkAdminAuth();
 
 // Fetch all from schedules with relation to schedule_days
@@ -34,9 +23,6 @@ INNER JOIN schedule_days ON schedules.schedule_day_id = schedule_days.id
 ORDER BY schedules.item_order ASC");
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-// 
 ?>
 
 <div class="main-content">

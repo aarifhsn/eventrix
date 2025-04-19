@@ -10,20 +10,8 @@ include(__DIR__ . '/layouts/sidebar.php');
 // Include helpers functions
 include(__DIR__ . '/../config/helpers.php');
 
-// Initialize message variables
-$success_message = '';
-$error_message = '';
-
 // Check for messages in session
-if (isset($_SESSION['success_message'])) {
-    $success_message = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);
-}
-
-if (isset($_SESSION['error_message'])) {
-    $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']);
-}
+initMessages();
 
 checkAdminAuth();
 

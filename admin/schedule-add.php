@@ -9,20 +9,8 @@ include(__DIR__ . '/layouts/sidebar.php');
 // Include helpers functions
 include(__DIR__ . '/../config/helpers.php');
 
-// Initialize message variables
-$success_message = '';
-$error_message = '';
-
 // Check for messages in session
-if (isset($_SESSION['success_message'])) {
-    $success_message = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);
-}
-
-if (isset($_SESSION['error_message'])) {
-    $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']);
-}
+initMessages();
 
 checkAdminAuth();
 
@@ -53,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form']))
                     'uploads',
                     ['jpg', 'jpeg', 'png', 'webp'],
                     2 * 1024 * 1024,
-                    $speaker['photo'] ?? ''
+                    $schedule['photo'] ?? ''
                 );
 
                 $stmt = $pdo->prepare("INSERT INTO schedules SET photo = :photo WHERE id = :id");
@@ -75,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form']))
         unset($_SESSION['location']);
         unset($_SESSION['time']);
         unset($_SESSION['item_order']);
+
 
         header("location: " . ADMIN_URL . "schedule.php");
         exit;

@@ -373,6 +373,24 @@ function get($key, $default = '')
     return isset($_GET[$key]) ? trim($_GET[$key]) : $default;
 }
 
+function initMessages()
+{
+    // Initialize message variables
+    global $success_message, $error_message;
+    $success_message = '';
+    $error_message = '';
+
+    // Check for messages in session
+    if (isset($_SESSION['success_message'])) {
+        $success_message = $_SESSION['success_message'];
+        unset($_SESSION['success_message']);
+    }
+
+    if (isset($_SESSION['error_message'])) {
+        $error_message = $_SESSION['error_message'];
+        unset($_SESSION['error_message']);
+    }
+}
 /**
  * Display error message
  * 
