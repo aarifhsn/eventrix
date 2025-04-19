@@ -63,8 +63,8 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <img src="<?php echo BASE_URL; ?>uploads/<?php echo $row['photo']; ?>"
-                                                        alt="" class="w_200">
+                                                    <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $row['photo']; ?>"
+                                                        alt="" class="w_50">
                                                 </td>
                                                 <td>
                                                     <?php echo $row['name']; ?>

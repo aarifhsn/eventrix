@@ -36,23 +36,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form']))
 
         // Handle image upload
         if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            try {
-                $newFileName = uploadImage(
-                    $_FILES['photo'],
-                    'uploads',
-                    ['jpg', 'jpeg', 'png', 'webp'],
-                    2 * 1024 * 1024,
-                    $schedule['photo'] ?? ''
-                );
+            $fileTmp = $_FILES['photo']['tmp_name'];
+            $fileName = $_FILES['photo']['name'];
+            $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            $mimeType = mime_content_type($fileTmp);
+            $fileSize = $_FILES['photo']['size'];
 
-                $stmt = $pdo->prepare("INSERT INTO schedules SET photo = :photo WHERE id = :id");
-                $stmt->execute([':photo' => $newFileName, ':id' => $schedule['id']]);
-            } catch (Exception $e) {
-                // Continue with transaction but log error
-                $error_message = "Image upload failed: " . $e->getMessage() . " schedule was saved without the image.";
+            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
+            $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
+
+            if (!in_array($fileExt, $allowedExts) || !in_array($mimeType, $allowedMimes)) {
+                throw new Exception("Invalid image format.");
             }
-        }
 
+            if ($fileSize > 2 * 1024 * 1024) {
+                throw new Exception("Image size must be under 2MB.");
+            }
+
+            if (!is_dir('uploads'))
+                mkdir('uploads', 0755, true);
+
+            if (!empty($bannerData['photo']))
+                @unlink('uploads/' . $bannerData['photo']);
+
+            $newFileName = uniqid('photo_', true) . '.' . $fileExt;
+            move_uploaded_file($fileTmp, 'uploads/' . $newFileName);
+
+            // Update the filename in the database
+            $filename = $newFileName;
+        }
 
         $statement = $pdo->prepare("INSERT INTO schedules (schedule_day_id,name,title,description,location, time,photo,item_order) VALUES (?,?,?,?,?,?,?,?)");
         $statement->execute([$_POST['schedule_day_id'], $_POST['name'], $_POST['title'], $_POST['description'], $_POST['location'], $_POST['time'], $filename, $_POST['item_order']]);
@@ -101,6 +113,7 @@ $scheduleDays = fetchAll($pdo, 'schedule_days', 'date ASC');
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+
                             <?php echo displaySuccess($success_message); ?>
 
                             <?php echo displayError($error_message); ?>
