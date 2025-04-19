@@ -205,3 +205,8 @@ function uploadImage(
     // Return the filename (relative path can be added if needed)
     return $newFileName;
 }
+
+function old(string $key, $default = null)
+{
+    return isset($_POST[$key]) ? $_POST[$key] : $default;
+}
