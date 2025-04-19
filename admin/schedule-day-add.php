@@ -13,9 +13,6 @@ include(__DIR__ . '/../config/helpers.php');
 
 checkAdminAuth();
 
-
-
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_days_add_form'])) {
     try {
         if ($_POST['title'] == '') {

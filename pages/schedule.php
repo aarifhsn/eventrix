@@ -2,6 +2,10 @@
 
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
+include(__DIR__ . '/../config/helpers.php');
+
+// Fetch Data
+$scheduleData = fetchAll($pdo, 'schedule_days', 'date ASC');
 
 ?>
 
