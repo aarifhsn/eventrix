@@ -1,6 +1,4 @@
-<?php
-
-ob_start();
+<?php ob_start();
 session_start();
 
 // Include necessary files
@@ -11,22 +9,12 @@ include(__DIR__ . '/layouts/sidebar.php');
 // Include helpers functions
 include(__DIR__ . '/../config/helpers.php');
 
+// Check for messages in session
+initMessages();
+
+// Check if user is logged in
 checkAdminAuth();
 
-// Initialize message variables
-$success_message = '';
-$error_message = '';
-
-// Check for messages in session
-if (isset($_SESSION['success_message'])) {
-    $success_message = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);
-}
-
-if (isset($_SESSION['error_message'])) {
-    $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']);
-}
 
 $statement = $pdo->prepare("SELECT * FROM schedule_days WHERE id=?");
 $statement->execute([$_REQUEST['id']]);
@@ -35,9 +23,7 @@ if (!$total) {
     header('location: ' . ADMIN_URL . 'schedule-day.php');
     exit;
 }
-?>
 
-<?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_days_update_form'])) {
     try {
         if ($_POST['title'] == '') {

@@ -12,6 +12,7 @@ include(__DIR__ . '/../config/helpers.php');
 // Check for messages in session
 initMessages();
 
+// Check if user is logged in
 checkAdminAuth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form'])) {
@@ -45,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form']))
                 );
 
                 $stmt = $pdo->prepare("INSERT INTO schedules SET photo = :photo WHERE id = :id");
-                $stmt->execute([':photo' => $newFileName, ':id' => $speaker_id]);
+                $stmt->execute([':photo' => $newFileName, ':id' => $schedule['id']]);
             } catch (Exception $e) {
                 // Continue with transaction but log error
                 $error_message = "Image upload failed: " . $e->getMessage() . " schedule was saved without the image.";

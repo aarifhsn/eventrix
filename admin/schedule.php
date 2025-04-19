@@ -78,10 +78,16 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <td class="pt_10 pb_10">
                                                     <a href="<?php echo ADMIN_URL; ?>schedule-edit.php?id=<?php echo $row['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="<?php echo ADMIN_URL; ?>schedule-delete.php?id=<?php echo $row['id']; ?>"
-                                                        class="btn btn-danger btn-sm"
-                                                        onClick="return confirm('Are you sure?');"><i
-                                                            class="fas fa-trash"></i></a>
+
+                                                    <form method="POST" action="<?= ADMIN_URL ?>schedule-delete.php"
+                                                        style="display:inline;"
+                                                        onsubmit="return confirm('Are you sure you want to delete this schedule?');">
+                                                        <input type="hidden" name="id"
+                                                            value="<?= htmlspecialchars($row['id']) ?>">
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             <?php

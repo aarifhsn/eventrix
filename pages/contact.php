@@ -3,6 +3,8 @@
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
 
+include(__DIR__ . '/../config/helpers.php');
+
 // User Data
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
 $stmt->execute(['id' => $_SESSION['user']['id']]);
