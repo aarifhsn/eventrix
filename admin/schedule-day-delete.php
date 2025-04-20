@@ -25,12 +25,21 @@ try {
     if ((int) $stmt->fetchColumn() === 0) {
         throw new Exception("Schedule day not found.");
     }
+    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE schedule_day_id = ?");
+    $stmt->execute([$_REQUEST['id']]);
+    $result = $stmt->rowCount();
+    if ($result > 0) {
+        $_SESSION['error_message'] = "This Schedule day is already assigned to a schedule. Cannot delete.";
+        header("Location: " . ADMIN_URL . "schedule-day.php");
+        exit;
+    } else {
+        // Delete the record
+        $stmt = $pdo->prepare("DELETE FROM schedule_days WHERE id = ?");
+        $stmt->execute([$id]);
 
-    // Delete the record
-    $stmt = $pdo->prepare("DELETE FROM schedule_days WHERE id = ?");
-    $stmt->execute([$id]);
+        $_SESSION['success_message'] = "Schedule day deleted successfully.";
+    }
 
-    $_SESSION['success_message'] = "Schedule day deleted successfully.";
 } catch (Exception $e) {
     $_SESSION['error_message'] = $e->getMessage();
 }
