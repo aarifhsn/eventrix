@@ -199,7 +199,9 @@ function uploadImage($inputName = 'photo', $uploadDir = 'uploads', $maxSizeMB = 
 }
 
 
-function old(string $key, $default = null)
+function old($key, $default = null)
 {
-    return isset($_POST[$key]) ? $_POST[$key] : $default;
+    if (isset($_SESSION[$key])) {
+        $_SESSION[$key];
+    }
 }

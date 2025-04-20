@@ -13,9 +13,10 @@ include(__DIR__ . '/../config/helpers.php');
 checkAdminAuth();
 
 // Initialize
-$success_message = '';
-$error_message = '';
-$speaker = null;
+initMessages();
+
+// Fetch all speakers
+$speaker = [];
 
 // Generate CSRF token if not exists
 if (!isset($_SESSION['speaker_section_csrf_token'])) {
@@ -24,27 +25,13 @@ if (!isset($_SESSION['speaker_section_csrf_token'])) {
 
 // Check if we're editing a speaker
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    try {
-        $stmt = $pdo->prepare("SELECT * FROM speakers WHERE id = :id");
-        $stmt->execute([':id' => $_GET['id']]);
-        $speaker = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT * FROM speakers WHERE id = :id");
+    $stmt->execute([':id' => $_GET['id']]);
+    $speaker = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$speaker) {
-            $error_message = "Speaker not found.";
-        }
-    } catch (Exception $e) {
-        $error_message = "Error loading speaker data: " . $e->getMessage();
+    if (!$speaker) {
+        $error_message = "Speaker not found.";
     }
-}
-
-// Fetch all speakers
-try {
-    $stmt = $pdo->prepare("SELECT * FROM speakers ORDER BY id ASC");
-    $stmt->execute();
-    $speakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $error_message = "Error fetching speakers: " . $e->getMessage();
-    $speakers = [];
 }
 
 // Handle delete action
@@ -57,6 +44,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
         $error_message = "Error deleting speaker: " . $e->getMessage();
     }
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_speaker_form'])) {
     try {
@@ -111,22 +99,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_speaker_form'])) 
         $success_message = "Speaker added successfully!";
 
         // Handle image upload
-        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            try {
-                $newFileName = uploadImage(
-                    $_FILES['photo'],
-                    'uploads',
-                    ['jpg', 'jpeg', 'png', 'webp'],
-                    2 * 1024 * 1024,
-                    $speaker['photo'] ?? ''
-                );
-
-                $stmt = $pdo->prepare("INSERT INTO speakers SET photo = :photo WHERE id = :id");
-                $stmt->execute([':photo' => $newFileName, ':id' => $speaker_id]);
-            } catch (Exception $e) {
-                // Continue with transaction but log error
-                $error_message = "Image upload failed: " . $e->getMessage() . " Speaker was saved without the image.";
-            }
+        try {
+            $filename = uploadImage(); // Default input: photo, uploads/ folder
+            echo "Uploaded successfully as $filename";
+        } catch (Exception $e) {
+            echo "Upload failed: " . $e->getMessage();
+            exit;
         }
 
         $pdo->commit();
