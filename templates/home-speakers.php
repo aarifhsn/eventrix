@@ -26,10 +26,18 @@ $speakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($speakers as $speaker): ?>
                 <div class="col-lg-3 col-sm-6 col-xs-12">
                     <div class="team-img mb_20">
-                        <a href="speaker.html"><img src="<?php echo $speaker['photo']; ?>"></a>
+                        <a href="<?php echo BASE_URL; ?>speaker?id=<?php echo $speaker['id']; ?>">
+                            <?php if ($speaker['photo']): ?>
+                                <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $speaker['photo']; ?>" />
+                            <?php else: ?>
+                                <img src="<?php echo ADMIN_URL; ?>uploads/default.png" />
+                            <?php endif; ?>
+                        </a>
                     </div>
                     <div class="team-info text-center">
-                        <h6><a href="speaker.html"><?php echo $speaker['name']; ?></a></h6>
+                        <h6><a
+                                href="<?php echo BASE_URL; ?>speaker?id=<?php echo $speaker['id']; ?>"><?php echo $speaker['name']; ?></a>
+                        </h6>
                         <p><?php echo $speaker['designation']; ?></p>
                     </div>
                 </div>
