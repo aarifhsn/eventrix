@@ -35,41 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form']))
         }
 
         // Handle image upload
-        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $fileTmp = $_FILES['photo']['tmp_name'];
-            $fileName = $_FILES['photo']['name'];
-            $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            $mimeType = mime_content_type($fileTmp);
-            $fileSize = $_FILES['photo']['size'];
-
-            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
-            $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
-
-            if (!in_array($fileExt, $allowedExts) || !in_array($mimeType, $allowedMimes)) {
-                throw new Exception("Invalid image format.");
-            }
-
-            if ($fileSize > 2 * 1024 * 1024) {
-                throw new Exception("Image size must be under 2MB.");
-            }
-
-            if (!is_dir('uploads'))
-                mkdir('uploads', 0755, true);
-
-            if (!empty($bannerData['photo']))
-                @unlink('uploads/' . $bannerData['photo']);
-
-            $newFileName = uniqid('photo_', true) . '.' . $fileExt;
-            move_uploaded_file($fileTmp, 'uploads/' . $newFileName);
-
-            // Update the filename in the database
-            $filename = $newFileName;
+        try {
+            $filename = uploadImage(); // Default input: photo, uploads/ folder
+            echo "Uploaded successfully as $filename";
+        } catch (Exception $e) {
+            echo "Upload failed: " . $e->getMessage();
+            exit;
         }
 
         $statement = $pdo->prepare("INSERT INTO schedules (schedule_day_id,name,title,description,location, time,photo,item_order) VALUES (?,?,?,?,?,?,?,?)");
         $statement->execute([$_POST['schedule_day_id'], $_POST['name'], $_POST['title'], $_POST['description'], $_POST['location'], $_POST['time'], $filename, $_POST['item_order']]);
 
-        $_SESSION['success_message'] = "Data insert is successful";
+
         unset($_SESSION['name']);
         unset($_SESSION['title']);
         unset($_SESSION['description']);
@@ -77,19 +54,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form']))
         unset($_SESSION['time']);
         unset($_SESSION['item_order']);
 
-
+        $_SESSION['success_message'] = "Data insert is successful";
         header("location: " . ADMIN_URL . "schedule.php");
         exit;
 
     } catch (Exception $e) {
-        $error_message = $e->getMessage();
-        $_SESSION['error_message'] = $error_message;
         $_SESSION['name'] = $_POST['name'];
         $_SESSION['title'] = $_POST['title'];
         $_SESSION['description'] = $_POST['description'];
         $_SESSION['location'] = $_POST['location'];
         $_SESSION['time'] = $_POST['time'];
         $_SESSION['item_order'] = $_POST['item_order'];
+
+        $error_message = $e->getMessage();
+        $_SESSION['error_message'] = $error_message;
         header("location: " . ADMIN_URL . "schedule-add.php");
         exit;
     }

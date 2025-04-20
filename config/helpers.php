@@ -56,6 +56,17 @@ function fetchAll(PDO $pdo, string $table, string $orderBy = 'id ASC')
 }
 
 /**
+ * Execute a SELECT query and fetch a single result 
+ */
+function fetchById($pdo, $table, $id)
+{
+    $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+/**
  * Authentication & Session Helpers
  */
 
@@ -135,76 +146,58 @@ function displaySuccess($message)
     </div>';
 }
 
-function uploadImage(
-    array $file,
-    string $targetDir = 'uploads',
-    array $allowedExts = ['jpg', 'jpeg', 'png', 'webp'],
-    int $maxSize = 2 * 1024 * 1024, // 2MB default
-    string $oldFile = ''
-): string {
-    // Check for upload errors
-    if (!isset($file['tmp_name']) || $file['error'] !== UPLOAD_ERR_OK) {
-        throw new Exception("Image upload failed with error code: " . $file['error']);
+function uploadImage($inputName = 'photo', $uploadDir = 'uploads', $maxSizeMB = 2, $allowedExts = ['jpg', 'jpeg', 'png', 'webp'])
+{
+    if (!isset($_FILES[$inputName]) || $_FILES[$inputName]['error'] !== UPLOAD_ERR_OK) {
+        return null; // No file uploaded or error in upload
     }
 
-    $fileTmp = $file['tmp_name'];
-    $fileName = $file['name'];
-    $fileSize = $file['size'];
+    $fileTmp = $_FILES[$inputName]['tmp_name'];
+    $fileName = $_FILES[$inputName]['name'];
     $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    $mimeType = mime_content_type($fileTmp);
+    $fileSize = $_FILES[$inputName]['size'];
 
-    // Validate file extension
-    if (!in_array($fileExt, $allowedExts)) {
-        throw new Exception("Invalid file extension. Allowed: " . implode(', ', $allowedExts));
-    }
-
-    // Validate file MIME type
     $allowedMimes = [
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'png' => 'image/png',
-        'webp' => 'image/webp'
+        'webp' => 'image/webp',
     ];
 
-    $mimeType = mime_content_type($fileTmp);
-    if (!isset($allowedMimes[$fileExt]) || $mimeType !== $allowedMimes[$fileExt]) {
-        throw new Exception("Invalid image MIME type.");
+    // Validate file extension
+    if (!in_array($fileExt, $allowedExts)) {
+        throw new Exception("Unsupported file extension.");
+    }
+
+    // Validate MIME type
+    if (!in_array($mimeType, $allowedMimes)) {
+        throw new Exception("Invalid MIME type.");
     }
 
     // Validate file size
+    $maxSize = $maxSizeMB * 1024 * 1024;
     if ($fileSize > $maxSize) {
-        throw new Exception("Image size exceeds the maximum allowed size of " . round($maxSize / 1024 / 1024, 2) . "MB.");
+        throw new Exception("Image must be under {$maxSizeMB}MB.");
     }
 
-    // Use absolute path (optional: store outside public directory for more security)
-    $uploadPath = rtrim(__DIR__ . '/../' . $targetDir, '/');
-
-    // Ensure directory exists
-    if (!is_dir($uploadPath)) {
-        if (!mkdir($uploadPath, 0755, true)) {
-            throw new Exception("Failed to create upload directory.");
-        }
-    }
-
-    // Delete old file if it exists
-    if (!empty($oldFile)) {
-        $oldFilePath = $uploadPath . '/' . basename($oldFile);
-        if (file_exists($oldFilePath)) {
-            unlink($oldFilePath);
-        }
+    // Create upload directory if not exists
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
     }
 
     // Generate unique filename
-    $newFileName = uniqid('img_', true) . '.' . $fileExt;
-    $targetFile = $uploadPath . '/' . $newFileName;
+    $newFileName = uniqid($inputName . '_', true) . '.' . $fileExt;
+    $uploadPath = rtrim($uploadDir, '/') . '/' . $newFileName;
 
-    // Move the uploaded file
-    if (!move_uploaded_file($fileTmp, $targetFile)) {
+    // Move uploaded file
+    if (!move_uploaded_file($fileTmp, $uploadPath)) {
         throw new Exception("Failed to move uploaded file.");
     }
 
-    // Return the filename (relative path can be added if needed)
     return $newFileName;
 }
+
 
 function old(string $key, $default = null)
 {

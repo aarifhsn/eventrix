@@ -40,6 +40,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php echo displaySuccess($success_message); ?>
 
                     <?php echo displayError($error_message); ?>
+
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">

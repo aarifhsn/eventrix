@@ -9,8 +9,11 @@ include(__DIR__ . '/layouts/sidebar.php');
 // Include helpers functions
 include(__DIR__ . '/../config/helpers.php');
 
+// Initialize
+initMessages();
+
 // fetch data
-$scheduleData = fetchAll($pdo, 'schedules', 'item_order ASC');
+$scheduleData = fetchById($pdo, 'schedules', $_REQUEST['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_update_form'])) {
     try {
@@ -34,15 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_update_form']
 
         // Image upload logic
         try {
-            if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-                $newFileName = uploadImage($_FILES['photo'], 'uploads', ['jpg', 'jpeg', 'png', 'webp'], 2 * 1024 * 1024, $scheduleData['photo'] ?? '');
-
-                $stmt = $pdo->prepare("UPDATE home_abouts SET photo = :photo WHERE id = :id");
-                $stmt->execute([':photo' => $newFileName, ':id' => $scheduleData['id']]);
-                $scheduleData['photo'] = $newFileName;
-            }
+            $filename = uploadImage(); // Default input: photo, uploads/ folder
+            echo "Uploaded successfully as $filename";
         } catch (Exception $e) {
-            $error_message = $e->getMessage();
+            throw new Exception("Upload failed: " . $e->getMessage());
         }
 
         $statement = $pdo->prepare("UPDATE schedules SET 
@@ -62,13 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_update_form']
             $_REQUEST['id']
         ]);
 
-        $_SESSION['success_message'] = "Schedule updated successfully";
+        $_SESSION['success_message'] = "Schedule updated successfully!";
         header("location: " . ADMIN_URL . "schedule.php");
         exit;
 
     } catch (Exception $e) {
-        $error_message = $e->getMessage();
-        $_SESSION['error_message'] = $error_message;
+        $_SESSION['error_message'] = $e->getMessage();
         header("location: " . ADMIN_URL . "schedule-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
@@ -91,14 +88,22 @@ $schedule_daysData = fetchAll($pdo, 'schedule_days', 'date ASC');
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            <?php echo displaySuccess($success_message); ?>
+
+                            <?php echo displayError($error_message); ?>
                             <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="current_photo"
-                                    value="<?php echo $scheduleData[0]['photo']; ?>">
+                                <input type="hidden" name="current_photo" value="<?php echo $scheduleData['photo']; ?>">
                                 <div class="form-group mb-3">
                                     <label>Existing Photo</label>
                                     <div>
-                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $scheduleData[0]['photo']; ?>"
-                                            alt="" class="w_200">
+                                        <?php
+                                        if ($scheduleData['photo']) {
+                                            ?>
+                                            <img src="<?php echo ADMIN_URL . 'uploads/' . $scheduleData['photo']; ?>"
+                                                width="200">
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
@@ -112,14 +117,14 @@ $schedule_daysData = fetchAll($pdo, 'schedule_days', 'date ASC');
                                         <div class="form-group mb-3">
                                             <label>Name *</label>
                                             <input type="text" name="name" class="form-control"
-                                                value="<?php echo $scheduleData[0]['name']; ?>">
+                                                value="<?php echo $scheduleData['name']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Title *</label>
                                             <input type="text" name="title" class="form-control"
-                                                value="<?php echo $scheduleData[0]['title']; ?>">
+                                                value="<?php echo $scheduleData['title']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -129,7 +134,7 @@ $schedule_daysData = fetchAll($pdo, 'schedule_days', 'date ASC');
                                                 <?php
                                                 foreach ($schedule_daysData as $row) {
                                                     ?>
-                                                    <option value="<?php echo $row['id']; ?>" <?php echo ($row['id'] == $scheduleData[0]['schedule_day_id']) ? 'selected' : ''; ?>>
+                                                    <option value="<?php echo $row['id']; ?>" <?php echo ($row['id'] == $scheduleData['schedule_day_id']) ? 'selected' : ''; ?>>
                                                         <?php echo $row['title']; ?>
                                                     </option>
                                                     <?php
@@ -142,28 +147,28 @@ $schedule_daysData = fetchAll($pdo, 'schedule_days', 'date ASC');
                                 <div class="form-group mb-3">
                                     <label>Description *</label>
                                     <textarea name="description" class="form-control h_200" cols="30"
-                                        rows="10"><?php echo $scheduleData[0]['description']; ?></textarea>
+                                        rows="10"><?php echo $scheduleData['description']; ?></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Location *</label>
                                             <input type="text" name="location" class="form-control"
-                                                value="<?php echo $scheduleData[0]['location']; ?>">
+                                                value="<?php echo $scheduleData['location']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Time *</label>
                                             <input type="text" name="time" class="form-control"
-                                                value="<?php echo $scheduleData[0]['time']; ?>">
+                                                value="<?php echo $scheduleData['time']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Order *</label>
                                             <input type="text" name="item_order" class="form-control"
-                                                value="<?php echo $scheduleData[0]['item_order']; ?>">
+                                                value="<?php echo $scheduleData['item_order']; ?>">
                                         </div>
                                     </div>
                                 </div>
