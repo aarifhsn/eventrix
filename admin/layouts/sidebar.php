@@ -37,14 +37,13 @@
                 </ul>
             </li>
             <li
-                class="nav-item dropdown <?php echo ($current_page == 'speakers-settings.php' || $current_page == 'schedule-day.php' || $current_page == 'schedule.php') ? 'active' : ''; ?>">
+                class="nav-item dropdown <?php echo ($current_page == 'speaker.php' || $current_page == 'schedule-day.php' || $current_page == 'schedule.php') ? 'active' : ''; ?>">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i>
-                    <span>Speakers Section</span></a>
+                    <span>Speaker Section</span></a>
                 <ul class="dropdown-menu">
-                    <li class="<?php echo ($current_page == 'speakers-settings.php') ? 'active' : ''; ?>"><a
-                            class="nav-link" href="<?php echo ADMIN_URL; ?>speakers-settings.php"><i
-                                class="fas fa-hand-point-right"></i>
-                            <span>Speakers Section</span<?php echo ADMIN_URL; ?>speakers-settings.php>
+                    <li class="<?php echo ($current_page == 'speaker.php') ? 'active' : ''; ?>"><a class="nav-link"
+                            href="<?php echo ADMIN_URL; ?>speaker.php"><i class="fas fa-hand-point-right"></i>
+                            <span>Speaker</span<?php echo ADMIN_URL; ?>speaker.php>
                         </a></li>
                     <li class="<?php echo ($current_page == 'schedule-day.php') ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo ADMIN_URL; ?>schedule-day.php"><i class="fas fa-hand-point-right"></i>

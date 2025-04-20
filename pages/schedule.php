@@ -9,7 +9,6 @@ $scheduleDaysData = fetchAll($pdo, 'schedule_days', 'date ASC');
 
 // Fetch Data
 $scheduleData = fetchAll($pdo, 'schedules', 'item_order ASC');
-
 ?>
 
 <div id="schedule-section" class="gray pt_50 pb_50">
@@ -23,7 +22,7 @@ $scheduleData = fetchAll($pdo, 'schedules', 'item_order ASC');
             $i++;
             ?>
             <li class="nav-item">
-              <a href="#" data-target="#itemid<?php echo $i; ?>" data-toggle="tab"
+              <a href="#itemid<?php echo $i; ?>" data-toggle="tab"
                 class="nav-link <?php echo ($i == 1) ? 'active' : ''; ?>">
                 <p><?php echo $scheduleDay['title']; ?></p>
                 <span><?php echo $scheduleDay['date']; ?></span>
@@ -36,14 +35,18 @@ $scheduleData = fetchAll($pdo, 'schedules', 'item_order ASC');
           <?php
           $i = 0;
           foreach ($scheduleDaysData as $scheduleDay):
+
             $i++;
             ?>
             <div id="itemid<?php echo $i; ?>" class="tab-pane <?php echo ($i == 1) ? 'active show' : ''; ?> fade">
-              <?php foreach ($scheduleData as $schedule): ?>
+              <?php foreach ($scheduleData as $schedule):
+                if ($schedule['schedule_day_id'] != $scheduleDay['id'])
+                  continue;
+                ?>
                 <div class="row speaker-mainbox">
                   <div class="col-lg-4 col-xs-12">
                     <div class="speaker-img">
-                      <img src="<?php echo BASE_URL; ?>uploads/<?php echo $schedule['photo']; ?>" />
+                      <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $schedule['photo']; ?>" />
                     </div>
                   </div>
                   <div class="col-lg-8 col-xs-12">
