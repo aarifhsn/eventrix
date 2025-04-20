@@ -19,7 +19,7 @@ checkAdminAuth();
 // Fetch all from schedules with relation to schedule_days
 
 $stmt = $pdo->prepare("SELECT schedules.*, schedule_days.title AS day_name FROM schedules
-INNER JOIN schedule_days ON schedules.schedule_day_id = schedule_days.id
+LEFT JOIN schedule_days ON schedules.schedule_day_id = schedule_days.id
 ORDER BY schedules.item_order ASC");
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
