@@ -1,67 +1,103 @@
 <?php
 
+ob_start();
 include(__DIR__ . '/../includes/header.php');
-include(__DIR__ . '/../templates/breadcrumb.php');
 
-$stmt = $pdo->prepare("SELECT * FROM speakers ORDER BY id ASC");
-$stmt->execute();
-$speakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Validate the incoming ID
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+  header('Location: ' . BASE_URL . 'speakers');
+  exit;
+}
 
+$id = (int) $_GET['id']; // type cast to ensure safety
+
+$stmt = $pdo->prepare("SELECT * FROM speakers WHERE id = ?");
+$stmt->execute([$id]);
+$speaker = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$speaker) {
+  header('Location: ' . BASE_URL . 'speakers');
+  exit;
+}
+
+// Get all schedules for this speaker
+$stmt = $pdo->prepare("SELECT * FROM schedules WHERE speaker_id = ? ORDER BY id ASC");
+$stmt->execute([$id]);
+$sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+
+<div class="common-banner" style="background-image: url(<?php echo BASE_URL; ?>/dist/images/banner.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="item">
+          <h2><?php echo ucwords($speaker['name']); ?></h2>
+          <div class="breadcrumb-container">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="<?php echo BASE_URL; ?>">Home</a></li>
+              <li class="breadcrumb-item"><a href="<?php echo BASE_URL; ?>speakers">Speakers</a></li>
+              <li class=" breadcrumb-item active"><?php echo ucwords($speaker['name']); ?></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="speakers" class="pt_70 pb_70 white team speakers-item">
   <div class="container">
     <div class="row">
       <div class="col-lg-4 col-sm-12 col-xs-12">
         <div class="speaker-detail-img">
-          <img src="images/speaker-1.jpg" />
+          <?php if ($speaker['photo']): ?>
+            <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $speaker['photo']; ?>" />
+          <?php else: ?>
+            <img src="<?php echo ADMIN_URL; ?>uploads/default.png" />
+          <?php endif; ?>
         </div>
       </div>
       <div class="col-lg-8 col-sm-12 col-xs-12">
         <div class="speaker-detail">
-          <h2><?php echo $speakers[0]['name']; ?></h2>
-          <h4 class="mb_20"><?php echo $speakers[0]['designation']; ?></h4>
-          <p>
-            <?php echo $speakers[0]['bio']; ?>
-          </p>
+          <h2><?php echo htmlspecialchars($speaker['name']); ?></h2>
+          <h4 class="mb_20"><?php echo htmlspecialchars($speaker['designation']); ?></h4>
+          <p><?php echo nl2br(htmlspecialchars($speaker['bio'])); ?></p>
 
           <h4>More Information</h4>
           <div class="table-responsive">
             <table class="table table-bordered">
               <tr>
                 <th><b>Address:</b></th>
-                <td><?php echo $speakers[0]['address']; ?></td>
+                <td><?php echo htmlspecialchars($speaker['address']); ?></td>
               </tr>
               <tr>
                 <th><b>Email:</b></th>
-                <td><?php echo $speakers[0]['email']; ?></td>
+                <td><?php echo htmlspecialchars($speaker['email']); ?></td>
               </tr>
               <tr>
                 <th><b>Phone:</b></th>
-                <td><?php echo $speakers[0]['phone']; ?></td>
+                <td><?php echo htmlspecialchars($speaker['phone']); ?></td>
               </tr>
               <tr>
                 <th><b>Website:</b></th>
                 <td>
-                  <a href="<?php echo $speakers[0]['website']; ?>"
-                    target="_blank"><?php echo $speakers[0]['website']; ?></a>
+                  <a href="<?php echo htmlspecialchars($speaker['website']); ?>" target="_blank">
+                    <?php echo htmlspecialchars($speaker['website']); ?>
+                  </a>
                 </td>
               </tr>
               <tr>
                 <th><b>Social:</b></th>
                 <td>
                   <ul class="social-icon">
-                    <li>
-                      <a href="<?php echo $speakers[0]['facebook']; ?>"><i class="fa fa-facebook"></i></a>
+                    <li><a href="<?php echo htmlspecialchars($speaker['facebook']); ?>"><i
+                          class="fa fa-facebook"></i></a></li>
+                    <li><a href="<?php echo htmlspecialchars($speaker['twitter']); ?>"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li>
-                      <a href="<?php echo $speakers[0]['twitter']; ?>"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="<?php echo $speakers[0]['linkedin']; ?>"><i class="fa fa-linkedin"></i></a>
-                    </li>
-                    <li>
-                      <a href="https://<?php echo $speakers[0]['instagram']; ?>"><i class="fa fa-instagram"></i></a>
-                    </li>
+                    <li><a href="<?php echo htmlspecialchars($speaker['linkedin']); ?>"><i
+                          class="fa fa-linkedin"></i></a></li>
+                    <li><a href="https://<?php echo htmlspecialchars($speaker['instagram']); ?>"><i
+                          class="fa fa-instagram"></i></a></li>
                   </ul>
                 </td>
               </tr>
@@ -70,36 +106,28 @@ $speakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
           <h4>My Sessions</h4>
           <div class="row">
-            <div class="col-md-6">
-              <div class="speaker-img">
-                <img src="<?php echo BASE_URL; ?>dist/images/day1_session1.jpg" />
+            <?php foreach ($sessions as $session): ?>
+              <div class="col-md-6">
+                <div class="speaker-img">
+                  <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $session['image']; ?>" />
+                </div>
+                <div class="speaker-box">
+                  <h3><?php echo $session['title']; ?></h3>
+                  <h4>
+                    <span><?php echo $session['address']; ?></span><br />
+                    <span><?php echo $session['date']; ?> (<?php echo $session['name']; ?>)</span><br />
+                    <span><?php echo $session['time']; ?></span>
+                  </h4>
+                </div>
               </div>
-              <div class="speaker-box">
-                <h3>Introduction to PHP and Laravel</h3>
-                <h4>
-                  <span>Tim Center, 34, Park Street, NYC, USA</span><br />
-                  <span>Sep 20, 2024 (Day 1)</span><br />
-                  <span>09:00 AM - 09:45 AM</span>
-                </h4>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="speaker-img">
-                <img src="<?php echo BASE_URL; ?>dist/images/day3_session1.jpg" />
-              </div>
-              <div class="speaker-box">
-                <h3>User Experience (UX) Design Principles</h3>
-                <h4>
-                  <span>Tim Center, 34, Park Street, NYC, USA</span><br />
-                  <span>Sep 22, 2024 (Day 3)</span><br />
-                  <span>10:00 AM - 10:30 AM</span>
-                </h4>
-              </div>
-            </div>
+            <?php endforeach; ?>
           </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+<?php ob_end_flush(); ?>
