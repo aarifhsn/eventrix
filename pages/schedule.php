@@ -16,7 +16,7 @@ $scheduleData = fetchAll($pdo, 'schedules', 'item_order ASC');
   <div class="container">
     <div class="row">
       <div class="col-lg-12 schedule-tab">
-        <ul id="scheduleTab" class="nav nav-tabs justify-content-center text-center">
+        <ul id="scheduleTab" class="nav nav-tabs justify-content-center text-center row-gap-2">
           <?php
           $i = 0;
           foreach ($scheduleDaysData as $scheduleDay):
