@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_days_add_form
                             <form action="" method="post">
                                 <div class="form-group mb-3">
                                     <label>Title *</label>
-                                    <input type="text" name="title" class="form-control" required>
+                                    <input type="text" name="title" placeholder="Day 1" class="form-control" required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Date</label>

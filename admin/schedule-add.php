@@ -37,9 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_schedule_form']))
         // Handle image upload
         try {
             $filename = uploadImage(); // Default input: photo, uploads/ folder
-            echo "Uploaded successfully as $filename";
+            $success_message = "Uploaded successfully as $filename";
+            $_SESSION['success_message'] = $success_message;
         } catch (Exception $e) {
-            echo "Upload failed: " . $e->getMessage();
+            $error_message = "Upload failed: " . $e->getMessage();
+            $_SESSION['error_message'] = $error_message;
+            header("location: " . ADMIN_URL . "schedule-add.php");
             exit;
         }
 
@@ -107,17 +110,15 @@ $scheduleDays = fetchAll($pdo, 'schedule_days', 'date ASC');
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Name *</label>
-                                            <input type="text" name="name" class="form-control" value="<?php if (isset($_SESSION['name'])) {
-                                                echo $_SESSION['name'];
-                                            } ?>">
+                                            <input type="text" name="name" class="form-control"
+                                                value="<?php old('name'); ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Title *</label>
-                                            <input type="text" name="title" class="form-control" value="<?php if (isset($_SESSION['title'])) {
-                                                echo $_SESSION['title'];
-                                            } ?>">
+                                            <input type="text" name="title" class="form-control"
+                                                value="<?php old('title'); ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -138,33 +139,29 @@ $scheduleDays = fetchAll($pdo, 'schedule_days', 'date ASC');
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Description</label>
-                                    <textarea name="description" class="form-control h_200" cols="30" rows="10"><?php if (isset($_SESSION['description'])) {
-                                        echo $_SESSION['description'];
-                                    } ?></textarea>
+                                    <textarea name="description" class="form-control h_200" cols="30"
+                                        rows="10"><?php old('description'); ?></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Location *</label>
-                                            <input type="text" name="location" class="form-control" value="<?php if (isset($_SESSION['location'])) {
-                                                echo $_SESSION['location'];
-                                            } ?>">
+                                            <input type="text" name="location" class="form-control"
+                                                value="<?php old('location'); ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Time *</label>
-                                            <input type="text" name="time" class="form-control" value="<?php if (isset($_SESSION['time'])) {
-                                                echo $_SESSION['time'];
-                                            } ?>">
+                                            <input type="text" name="time" class="form-control"
+                                                value="<?php old('time'); ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Order *</label>
-                                            <input type="text" name="item_order" class="form-control" value="<?php if (isset($_SESSION['item_order'])) {
-                                                echo $_SESSION['item_order'];
-                                            } ?>">
+                                            <input type="text" name="item_order" class="form-control"
+                                                value="<?php old('item_order'); ?>">
                                         </div>
                                     </div>
                                 </div>
