@@ -82,6 +82,24 @@ function isDropdownShow($pages)
                 </ul>
             </li>
 
+            <?php $sponsorPages = ['sponsor-category.php', 'sponsors.php']; ?>
+            <li class="nav-item dropdown <?php echo isActive($sponsorPages); ?>">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i> <span>Sponsor
+                        Section</span></a>
+                <ul class="dropdown-menu <?php echo isDropdownShow($sponsorPages); ?>">
+                    <li class="<?php echo isActive('sponsor-category.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>sponsor-category.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Sponsor Category</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('sponsors.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>sponsors.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Sponsors</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="<?php echo isActive('setting.php'); ?>">
                 <a class="nav-link" href="<?php echo ADMIN_URL; ?>setting.php">
                     <i class="fas fa-hand-point-right"></i> <span>Setting</span>
