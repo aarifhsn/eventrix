@@ -24,10 +24,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['assign_schedule_to_spe
         $scheduleId = $_POST['schedule_id'];
         $scheduleDayId = $_POST['schedule_day_id'];
 
-        $stmt = $pdo->prepare("INSERT INTO speaker_schedule (speaker_id, schedule_day_id, schedule_id) VALUES (?, ?, ?)");
-        $stmt->execute([$speakerId, $scheduleDayId, $scheduleId]);
+        // Check if the speaker is already assigned to the same schedule
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM speaker_schedule WHERE speaker_id = ? AND schedule_id = ? AND schedule_day_id = ?");
+        $stmt->execute([$speakerId, $scheduleId, $scheduleDayId]);
+        $exists = $stmt->fetchColumn();
 
-        $success_message = "Schedule assigned to speaker successfully.";
+        if ($exists > 0) {
+            $error_message = "This speaker is already assigned to the selected schedule.";
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO speaker_schedule (speaker_id, schedule_day_id, schedule_id) VALUES (?, ?, ?)");
+            $stmt->execute([$speakerId, $scheduleDayId, $scheduleId]);
+
+            $success_message = "Schedule assigned to speaker successfully.";
+        }
     } catch (Exception $e) {
         $error_message = "Error assigning schedule to speaker: " . $e->getMessage();
     }
@@ -87,7 +96,7 @@ try {
                             <?php echo displaySuccess($success_message); ?>
 
                             <?php echo displayError($error_message); ?>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTable no-footer">
                                 <thead>
                                     <tr>
                                         <th>#</th>

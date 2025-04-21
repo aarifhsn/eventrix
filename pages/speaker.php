@@ -125,8 +125,8 @@ $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <h3><?php echo $session['title']; ?></h3>
                   <h4>
                     <span><?php echo $session['location']; ?></span><br />
-                    <?php echo date('F j, Y', strtotime($session['day_date'])); ?>
-                    (<?php echo $session['name']; ?>)</span><br />
+                    <span><?php echo date('F j, Y', strtotime($session['day_date'])); ?>
+                      <strong>(<?php echo $session['name']; ?>)</strong></span><br />
                     <span><?php echo $session['time']; ?></span>
                   </h4>
                 </div>
