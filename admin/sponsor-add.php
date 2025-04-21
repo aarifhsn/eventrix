@@ -31,8 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_sponsor_form'])) 
             exit;
         }
 
-        $statement = $pdo->prepare("INSERT INTO sponsors (name, designation, bio, address, email, phone, website, facebook, twitter, linkedin, instagram, photo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+        $statement = $pdo->prepare("INSERT INTO sponsors (sponsor_category_id, name, title, description, address, email, phone, website, facebook, twitter, linkedin, instagram, map, photo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         $statement->execute([
+            $_POST['sponsor_category_id'],
             $_POST['name'],
             $_POST['title'],
             $_POST['description'],
@@ -44,12 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_sponsor_form'])) 
             $_POST['twitter'],
             $_POST['linkedin'],
             $_POST['instagram'],
+            $_POST['map'],
             $filename
         ]);
 
         unset($_SESSION['name']);
-        unset($_SESSION['designation']);
-        unset($_SESSION['bio']);
+        unset($_SESSION['title']);
+        unset($_SESSION['description']);
         unset($_SESSION['address']);
         unset($_SESSION['email']);
         unset($_SESSION['phone']);
@@ -65,8 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_sponsor_form'])) 
 
     } catch (Exception $e) {
         $_SESSION['name'] = $_POST['name'];
-        $_SESSION['designation'] = $_POST['designation'];
-        $_SESSION['bio'] = $_POST['bio'];
+        $_SESSION['title'] = $_POST['title'];
+        $_SESSION['description'] = $_POST['description'];
         $_SESSION['address'] = $_POST['address'];
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['phone'] = $_POST['phone'];
@@ -84,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_sponsor_form'])) 
 }
 
 // Fetch all schedule days
-$sponsors = fetchAll($pdo, 'sponsors', 'id ASC');
+$sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
 ?>
 
 <div class="main-content">
@@ -104,6 +106,7 @@ $sponsors = fetchAll($pdo, 'sponsors', 'id ASC');
                             <?php echo displaySuccess($success_message); ?>
 
                             <?php echo displayError($error_message); ?>
+
                             <form action="" method="post" enctype="multipart/form-data">
                                 <div class="form-group mb-3">
                                     <label>Photo *</label>
@@ -112,32 +115,20 @@ $sponsors = fetchAll($pdo, 'sponsors', 'id ASC');
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Name *</label>
                                             <input type="text" name="name" class="form-control"
                                                 value="<?php old('name'); ?>">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label>Email</label>
-                                            <input type="text" name="email" class="form-control"
-                                                value="<?php old('email'); ?>">
+                                            <label>Title</label>
+                                            <input type="text" name="title" class="form-control"
+                                                value="<?php old('title'); ?>">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group mb-3">
-                                            <label>Designation *</label>
-                                            <input type="text" name="designation" class="form-control"
-                                                value="<?php old('designation'); ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label>Biography</label>
-                                    <textarea name="biography" class="form-control h_200" cols="30"
-                                        rows="10"><?php old('biography'); ?></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -145,6 +136,28 @@ $sponsors = fetchAll($pdo, 'sponsors', 'id ASC');
                                             <label>Phone</label>
                                             <input type="text" name="phone" class="form-control"
                                                 value="<?php old('phone'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label>Sponsor Category</label>
+                                            <select name="sponsor_category_id" class="form-control">
+                                                <option value="">-- Select sponsor category -- </option>
+                                                <?php foreach ($sponsorCategoryData as $sponsorCategory) { ?>
+                                                    <option value="<?php echo $sponsorCategory['id']; ?>">
+                                                        <?php echo $sponsorCategory['title']; ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-3">
+                                            <label>Description *</label>
+                                            <textarea name="description" class="form-control h_100" cols="30"
+                                                rows="10"><?php old('description'); ?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -181,22 +194,28 @@ $sponsors = fetchAll($pdo, 'sponsors', 'id ASC');
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Linkedin</label>
                                             <input type="text" name="linkedin" class="form-control"
                                                 value="<?php old('linkedin'); ?>">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Instagram</label>
                                             <input type="text" name="instagram" class="form-control"
                                                 value="<?php old('instagram'); ?>">
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label>Map</label>
+                                            <input type="text" name="map" class="form-control"
+                                                value="<?php old('map'); ?>">
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"
                                         name="add_sponsor_form">Submit</button>
@@ -207,7 +226,8 @@ $sponsors = fetchAll($pdo, 'sponsors', 'id ASC');
                 </div>
             </div>
         </div>
-    </section>
+</div>
+</section>
 </div>
 
 <?php include 'layouts/footer.php'; ?>

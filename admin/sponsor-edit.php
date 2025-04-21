@@ -13,9 +13,9 @@ include(__DIR__ . '/../config/helpers.php');
 initMessages();
 
 // fetch data
-$speakerData = fetchById($pdo, 'speakers', $_REQUEST['id']);
+$sponsorData = fetchById($pdo, 'sponsors', $_REQUEST['id']);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])) {
     try {
 
         if (empty($_POST['name'])) {
@@ -30,45 +30,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
             throw new Exception("Upload failed: " . $e->getMessage());
         }
 
-        $statement = $pdo->prepare("UPDATE speakers SET 
-                            name=?, email=?, bio=?, designation=?, address=?, phone=?, website=?, facebook=?, twitter=?, linkedin=?, instagram=?, photo=?
+        $statement = $pdo->prepare("UPDATE sponsors SET 
+                            sponsor_category_id=?,
+                            name=?,
+                            title=?,
+                            description=?,
+                            address=?,
+                            email=?,
+                            phone=?,
+                            website=?,
+                            facebook=?,
+                            twitter=?,
+                            linkedin=?,
+                            instagram=?,
+                            map=?,
+                            photo=?
                             WHERE id=?"
         );
 
         $statement->execute([
+            $_POST['sponsor_category_id'],
             $_POST['name'],
-            $_POST['email'],
-            $_POST['bio'],
-            $_POST['designation'],
+            $_POST['title'],
+            $_POST['description'],
             $_POST['address'],
+            $_POST['email'],
             $_POST['phone'],
             $_POST['website'],
             $_POST['facebook'],
             $_POST['twitter'],
             $_POST['linkedin'],
             $_POST['instagram'],
+            $_POST['map'],
             $filename,
             $_REQUEST['id']
         ]);
 
-        $_SESSION['success_message'] = "Speaker updated successfully!";
-        header("location: " . ADMIN_URL . "speaker.php");
+        $_SESSION['success_message'] = "Sponsor updated successfully!";
+        header("location: " . ADMIN_URL . "sponsor.php");
         exit;
 
     } catch (Exception $e) {
         $_SESSION['error_message'] = $e->getMessage();
-        header("location: " . ADMIN_URL . "speaker-edit.php?id=" . $_REQUEST['id']);
+        header("location: " . ADMIN_URL . "sponsor-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
 }
+
+$sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
 ?>
 
 <div class="main-content">
     <section class="section">
         <div class="section-header justify-content-between">
-            <h1>Edit Speaker</h1>
+            <h1>Edit Sponsor</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>speaker.php" class="btn btn-primary"><i class="fas fa-eye"></i> View
+                <a href="<?php echo ADMIN_URL; ?>sponsor.php" class="btn btn-primary"><i class="fas fa-eye"></i> View
                     All</a>
             </div>
         </div>
@@ -78,11 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
                     <div class="card">
                         <div class="card-body">
                             <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="current_photo" value="<?php echo $speakerData['photo']; ?>">
+                                <input type="hidden" name="current_photo" value="<?php echo $sponsorData['photo']; ?>">
                                 <div class="form-group mb-3">
                                     <label>Existing Photo</label>
                                     <div>
-                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $speakerData['photo']; ?>"
+                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['photo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>
@@ -93,62 +110,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Name *</label>
                                             <input type="text" name="name" class="form-control"
-                                                value="<?php echo $speakerData['name']; ?>" required>
+                                                value="<?php echo $sponsorData['name']; ?>" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group mb-3">
-                                            <label>Email</label>
-                                            <input type="text" name="slug" class="form-control"
-                                                value="<?php echo $speakerData['email']; ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group mb-3">
-                                            <label>Designation</label>
-                                            <input type="text" name="designation" class="form-control"
-                                                value="<?php echo $speakerData['designation']; ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label>Biography</label>
-                                    <textarea name="bio" class="form-control h_200" cols="30"
-                                        rows="10"><?php echo $speakerData['bio']; ?></textarea>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label>Email</label>
-                                            <input type="text" name="email" class="form-control"
-                                                value="<?php echo $speakerData['email']; ?>">
+                                            <label>Title</label>
+                                            <input type="text" name="title" class="form-control"
+                                                value="<?php echo $sponsorData['title']; ?>">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Phone</label>
                                             <input type="text" name="phone" class="form-control"
-                                                value="<?php echo $speakerData['phone']; ?>">
+                                                value="<?php echo $sponsorData['phone']; ?>">
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label>Sponsor Category</label>
+                                            <select name="sponsor_category_id" class="form-control">
+                                                <option value="">-- Select sponsor category -- </option>
+                                                <?php foreach ($sponsorCategoryData as $sponsorCategory) { ?>
+                                                    <option value="<?php echo $sponsorCategory['id']; ?>"
+                                                        <?php echo $sponsorCategory['id'] == $sponsorData['sponsor_category_id'] ? 'selected' : ''; ?>>
+                                                        <?php echo $sponsorCategory['title']; ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control h_200" cols="30"
+                                        rows="10"><?php echo $sponsorData['description']; ?></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label>Address</label>
+                                            <label><Address></Address></label>
                                             <input type="text" name="address" class="form-control"
-                                                value="<?php echo $speakerData['address']; ?>">
+                                                value="<?php echo $sponsorData['address']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Website</label>
                                             <input type="text" name="website" class="form-control"
-                                                value="<?php echo $speakerData['website']; ?>">
+                                                value="<?php echo $sponsorData['website']; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -157,14 +174,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
                                         <div class="form-group mb-3">
                                             <label>Facebook</label>
                                             <input type="text" name="facebook" class="form-control"
-                                                value="<?php echo $speakerData['facebook']; ?>">
+                                                value="<?php echo $sponsorData['facebook']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Twitter</label>
                                             <input type="text" name="twitter" class="form-control"
-                                                value="<?php echo $speakerData['twitter']; ?>">
+                                                value="<?php echo $sponsorData['twitter']; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -173,21 +190,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
                                         <div class="form-group mb-3">
                                             <label>Linkedin</label>
                                             <input type="text" name="linkedin" class="form-control"
-                                                value="<?php echo $speakerData['linkedin']; ?>">
+                                                value="<?php echo $sponsorData['linkedin']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Instagram</label>
                                             <input type="text" name="instagram" class="form-control"
-                                                value="<?php echo $speakerData['instagram']; ?>">
+                                                value="<?php echo $sponsorData['instagram']; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label>Map</label>
+                                            <input type="text" name="map" class="form-control"
+                                                value="<?php echo $sponsorData['map']; ?>">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"
-                                        name="speaker_update_form">Update</button>
+                                        name="sponsor_update_form">Update</button>
                                 </div>
                             </form>
                         </div>
