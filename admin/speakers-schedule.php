@@ -47,7 +47,7 @@ try {
     FROM speaker_schedule ss
     JOIN schedules s ON s.id = ss.schedule_id
     JOIN schedule_days sd ON sd.id = ss.schedule_day_id
-    JOIN speakers sp ON sp.id = ss.speaker_id");
+    JOIN speakers sp ON sp.id = ss.speaker_id ORDER BY sd.title ASC, s.time ASC");
     $stmt->execute();
     $assigned = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {

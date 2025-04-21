@@ -21,7 +21,17 @@ if (!$speaker) {
 }
 
 // Get all schedules for this speaker
-$stmt = $pdo->prepare("SELECT * FROM schedules WHERE speaker_id = ? ORDER BY id ASC");
+$stmt = $pdo->prepare("
+    SELECT s.*,
+    ss.speaker_id,
+    sd.title AS day_title,
+    sd.date AS day_date
+    FROM schedules s
+    INNER JOIN schedule_days sd ON s.schedule_day_id = sd.id
+    INNER JOIN speaker_schedule ss ON s.id = ss.schedule_id
+    WHERE ss.speaker_id = ?
+    ORDER BY s.id ASC
+");
 $stmt->execute([$id]);
 $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -109,13 +119,14 @@ $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($sessions as $session): ?>
               <div class="col-md-6">
                 <div class="speaker-img">
-                  <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $session['image']; ?>" />
+                  <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $session['photo']; ?>" />
                 </div>
                 <div class="speaker-box">
                   <h3><?php echo $session['title']; ?></h3>
                   <h4>
-                    <span><?php echo $session['address']; ?></span><br />
-                    <span><?php echo $session['date']; ?> (<?php echo $session['name']; ?>)</span><br />
+                    <span><?php echo $session['location']; ?></span><br />
+                    <?php echo date('F j, Y', strtotime($session['day_date'])); ?>
+                    (<?php echo $session['name']; ?>)</span><br />
                     <span><?php echo $session['time']; ?></span>
                   </h4>
                 </div>
