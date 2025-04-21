@@ -40,7 +40,7 @@ $sponsors = fetchAll($pdo, 'sponsors');
                             <?php echo displayError($error_message); ?>
 
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="example1">
+                                <table class="table table-bordered dataTable" id="example1">
                                     <thead>
                                         <tr>
                                             <th>SL</th>
@@ -70,7 +70,7 @@ $sponsors = fetchAll($pdo, 'sponsors');
                                                     <?php echo $sponsor['title']; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $sponsor['sponsor_category']; ?>
+                                                    <?php echo $sponsor['sponsor_category_id']; ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
                                                     <a href="<?php echo ADMIN_URL; ?>sponsor-edit.php?id=<?php echo $sponsor['id']; ?>"
