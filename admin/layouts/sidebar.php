@@ -1,78 +1,110 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+
+function isActive($pages)
+{
+    global $current_page;
+    return in_array($current_page, (array) $pages) ? 'active' : '';
+}
+
+function isDropdownShow($pages)
+{
+    global $current_page;
+    return in_array($current_page, (array) $pages) ? 'show' : '';
+}
+?>
+
+
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="<?php echo ADMIN_URL; ?>/dashboard.php">Admin Panel</a>
+            <a href="<?php echo ADMIN_URL; ?>dashboard.php">Admin Panel</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="<?php echo ADMIN_URL; ?>/dashboard.php"></a>
+            <a href="<?php echo ADMIN_URL; ?>dashboard.php">AP</a>
         </div>
 
         <ul class="sidebar-menu">
-            <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
-            <li class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>dashboard.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Dashboard</span<?php echo ADMIN_URL; ?>dashboard.php>
-                </a></li>
-
-            <li
-                class="nav-item dropdown <?php echo ($current_page == 'home-about-settings.php' || $current_page == 'home-banner-settings.php' || $current_page == 'home-counter-settings.php') ? 'active' : ''; ?>">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i>
-                    <span>Home Section</span></a>
-                <ul class="dropdown-menu">
-                    <li class="<?php echo ($current_page == 'home-banner-settings.php') ? 'active' : ''; ?>"><a
-                            class="nav-link" href="<?php echo ADMIN_URL; ?>home-banner-settings.php"><i
-                                class="fas fa-hand-point-right"></i>
-                            <span>Banner</span<?php echo ADMIN_URL; ?>home-banner-settings.php>
-                        </a></li>
-                    <li class="<?php echo ($current_page == 'home-about-settings.php') ? 'active' : ''; ?>"><a
-                            class="nav-link" href="<?php echo ADMIN_URL; ?>home-about-settings.php"><i
-                                class="fas fa-hand-point-right"></i>
-                            <span>About</span<?php echo ADMIN_URL; ?>home-about-settings.php>
-                        </a></li>
-                    <li class="<?php echo ($current_page == 'home-counter-settings.php') ? 'active' : ''; ?>"><a
-                            class="nav-link" href="<?php echo ADMIN_URL; ?>home-counter-settings.php"><i
-                                class="fas fa-hand-point-right"></i>
-                            <span>Counter</span<?php echo ADMIN_URL; ?>home-counter-settings.php>
-                        </a></li>
-                </ul>
+            <li class="<?php echo isActive('dashboard.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>dashboard.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Dashboard</span>
+                </a>
             </li>
-            <li
-                class="nav-item dropdown <?php echo ($current_page == 'speaker.php' || $current_page == 'schedule-day.php' || $current_page == 'schedule.php') ? 'active' : ''; ?>">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i>
-                    <span>Speaker Section</span></a>
-                <ul class="dropdown-menu">
-                    <li class="<?php echo ($current_page == 'speaker.php') ? 'active' : ''; ?>"><a class="nav-link"
-                            href="<?php echo ADMIN_URL; ?>speaker.php"><i class="fas fa-hand-point-right"></i>
-                            <span>Speaker</span<?php echo ADMIN_URL; ?>speaker.php>
-                        </a></li>
-                    <li class="<?php echo ($current_page == 'schedule-day.php') ? 'active' : ''; ?>"><a class="nav-link"
-                            href="<?php echo ADMIN_URL; ?>schedule-day.php"><i class="fas fa-hand-point-right"></i>
-                            <span>Schedule Day</span<?php echo ADMIN_URL; ?>schedule-day.php>
-                        </a></li>
-                    <li class="<?php echo ($current_page == 'schedule.php') ? 'active' : ''; ?>"><a class="nav-link"
-                            href="<?php echo ADMIN_URL; ?>schedule.php"><i class="fas fa-hand-point-right"></i>
-                            <span>Schedules</span<?php echo ADMIN_URL; ?>schedule.php>
-                        </a></li>
+
+            <?php $homePages = ['home-banner-settings.php', 'home-about-settings.php', 'home-counter-settings.php']; ?>
+            <li class="nav-item dropdown <?php echo isActive($homePages); ?>">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i> <span>Home
+                        Section</span></a>
+                <ul class="dropdown-menu <?php echo isDropdownShow($homePages); ?>">
+                    <li class="<?php echo isActive('home-banner-settings.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>home-banner-settings.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Banner</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('home-about-settings.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>home-about-settings.php">
+                            <i class="fas fa-hand-point-right"></i> <span>About</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('home-counter-settings.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>home-counter-settings.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Counter</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
+            <?php $speakerPages = ['speaker.php', 'schedule-day.php', 'schedule.php', 'speakers-schedule.php']; ?>
+            <li class="nav-item dropdown <?php echo isActive($speakerPages); ?>">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i> <span>Speaker
+                        Section</span></a>
+                <ul class="dropdown-menu <?php echo isDropdownShow($speakerPages); ?>">
+                    <li class="<?php echo isActive('speaker.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>speaker.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Speaker</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('schedule-day.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>schedule-day.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Schedule Day</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('schedule.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>schedule.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Schedules</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('speakers-schedule.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>speakers-schedule.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Speakers Schedule</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <li class="<?php echo ($current_page == 'setting.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>setting.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Setting</span></a></li>
+            <li class="<?php echo isActive('setting.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>setting.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Setting</span>
+                </a>
+            </li>
 
-            <li class="<?php echo ($current_page == 'form.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>form.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Form</span></a></li>
+            <li class="<?php echo isActive('form.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>form.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Form</span>
+                </a>
+            </li>
 
-            <li class="<?php echo ($current_page == 'table.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>table.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Table</span></a></li>
+            <li class="<?php echo isActive('table.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>table.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Table</span>
+                </a>
+            </li>
 
-            <li class="<?php echo ($current_page == 'invoice.php') ? 'active' : ''; ?>"><a class="nav-link"
-                    href="<?php echo ADMIN_URL; ?>invoice.php"><i class="fas fa-hand-point-right"></i>
-                    <span>Invoice</span></a></li>
-
+            <li class="<?php echo isActive('invoice.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>invoice.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Invoice</span>
+                </a>
+            </li>
         </ul>
     </aside>
 </div>
