@@ -40,7 +40,7 @@ $sponsors = fetchAll($pdo, 'sponsors');
                             <?php echo displayError($error_message); ?>
 
                             <div class="table-responsive">
-                                <table class="table table-bordered dataTable" id="example1">
+                                <table class="table table-bordered dataTable no-footer" id="example1">
                                     <thead>
                                         <tr>
                                             <th>SL</th>

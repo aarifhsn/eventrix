@@ -51,12 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
             $_REQUEST['id']
         ]);
 
-        $_SESSION['success_message'] = "Speaker updated successfully!";
+        $success_message = "Speaker updated successfully";
+        $_SESSION['success_message'] = $success_message;
         header("location: " . ADMIN_URL . "speaker.php");
         exit;
 
     } catch (Exception $e) {
-        $_SESSION['error_message'] = $e->getMessage();
+        $error_message = $e->getMessage();
+        $_SESSION['error_message'] = $error_message;
         header("location: " . ADMIN_URL . "speaker-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
@@ -77,6 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+
+                            <?php echo displaySuccess($success_message); ?>
+                            <?php echo displayError($error_message); ?>
+
                             <form action="" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="current_photo" value="<?php echo $speakerData['photo']; ?>">
                                 <div class="form-group mb-3">
