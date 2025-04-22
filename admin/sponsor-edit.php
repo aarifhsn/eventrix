@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
 
         // Image upload logic
         try {
-            $filename = uploadImage($inputName = 'featured_photo'); // Default input: photo, uploads/ folder
+            $filename = !empty($_FILES['featured_photo']['name']) ? uploadImage('featured_photo') : $sponsorData['featured_photo'];// Default input: photo, uploads/ folder
             $success_message = "Uploaded successfully as $filename";
             $_SESSION['success_message'] = $success_message;
         } catch (Exception $e) {
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
         }
         // Logo upload logic
         try {
-            $logo = uploadImage($inputName = 'logo'); // Default input: photo, uploads/ folder
+            $logo = empty($sponsorData['logo'])  ? uploadImage('logo') : $sponsorData['logo']; // Default input: photo, uploads/ folder
             echo "Uploaded successfully as $logo";
         } catch (Exception $e) {
             $_SESSION['error_message'] = $e->getMessage();
@@ -121,9 +121,9 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                                 <div class="row">
                                     <div class="col-md-6">
                                     <div class="form-group mb-6">
-                                        <label>Existing Logo</label>
+                                        <label class="my-2">Existing Logo</label>
                                         <div>
-                                            <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['logo']; ?>"
+                                            <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsorData['logo']; ?>"
                                                 alt="" class="w_150">
                                         </div>
                                     </div>
@@ -138,9 +138,9 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                                 
                                     <div class="col-md-6">
                                     <div class="form-group mb-6">
-                                    <label>Existing Featured Photo</label>
+                                    <label class="my-2">Existing Featured Photo</label>
                                     <div>
-                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['featured_photo']; ?>"
+                                        <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsorData['featured_photo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>
