@@ -24,17 +24,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
 
         // Image upload logic
         try {
-            $filename = uploadImage('featured_photo'); // Default input: photo, uploads/ folder
-            echo "Uploaded successfully as $filename";
+            $filename = uploadImage($inputName = 'featured_photo'); // Default input: photo, uploads/ folder
+            $success_message = "Uploaded successfully as $filename";
+            $_SESSION['success_message'] = $success_message;
         } catch (Exception $e) {
-            throw new Exception("Upload failed: " . $e->getMessage());
+            $_SESSION['error_message'] = $e->getMessage();
+            $error_message = $e->getMessage();
+            header("location: " . ADMIN_URL . "sponsor-edit.php?id=" . $_REQUEST['id']);
+            exit;
+
         }
         // Logo upload logic
         try {
-            $logo = uploadImage('logo'); // Default input: photo, uploads/ folder
+            $logo = uploadImage($inputName = 'logo'); // Default input: photo, uploads/ folder
             echo "Uploaded successfully as $logo";
         } catch (Exception $e) {
-            throw new Exception("Upload failed: " . $e->getMessage());
+            $_SESSION['error_message'] = $e->getMessage();
+            $error_message = $e->getMessage();
+            header("location: " . ADMIN_URL . "sponsor-edit.php?id=" . $_REQUEST['id']);
+            exit;
         }
 
         $statement = $pdo->prepare("UPDATE sponsors SET 
@@ -70,16 +78,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
             $_POST['linkedin'],
             $_POST['instagram'],
             $_POST['map'],
+            $logo,
             $filename,
             $_REQUEST['id']
         ]);
 
         $_SESSION['success_message'] = "Sponsor updated successfully!";
+        $success_message = "Sponsor updated successfully!";
         header("location: " . ADMIN_URL . "sponsor.php");
         exit;
 
     } catch (Exception $e) {
         $_SESSION['error_message'] = $e->getMessage();
+        $error_message = $e->getMessage();
         header("location: " . ADMIN_URL . "sponsor-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
@@ -102,27 +113,44 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+
+                            <?php echo displaySuccess($success_message); ?>
+                            <?php echo displayError($error_message); ?>
+
                             <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="logo" value="<?php echo $sponsorData['logo']; ?>">
-                                <div class="form-group mb-3">
-                                    <label>Existing Logo</label>
-                                    <div>
-                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['logo']; ?>"
-                                            alt="" class="w_150">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    <div class="form-group mb-6">
+                                        <label>Existing Logo</label>
+                                        <div>
+                                            <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['logo']; ?>"
+                                                alt="" class="w_150">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group mb-3">
+                                    
+                                    <div class="form-group mb-6">
+                                        <label>Change Logo</label>
+                                        <div>
+                                            <input type="file" name="logo">
+                                        </div>
+                                    </div>
+                                    </div>
+                                
+                                    <div class="col-md-6">
+                                    <div class="form-group mb-6">
                                     <label>Existing Featured Photo</label>
                                     <div>
                                         <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['featured_photo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-6">
                                     <label>Change Feature Photo</label>
                                     <div>
                                         <input type="file" name="featured_photo">
                                     </div>
+                                </div>
+</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -171,7 +199,7 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label><Address></Address></label>
+                                            <label>Address</label>
                                             <input type="text" name="address" class="form-control"
                                                 value="<?php echo $sponsorData['address']; ?>">
                                         </div>

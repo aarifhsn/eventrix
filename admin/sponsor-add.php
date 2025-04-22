@@ -168,11 +168,18 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label>Description *</label>
+                                            <label>Description</label>
                                             <textarea name="description" class="form-control h_100" cols="30"
                                                 rows="10"><?php old('description'); ?></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label>Email</label>
+                                            <input type="text" name="email" class="form-control"
+                                                value="<?php old('email'); ?>">
                                         </div>
                                     </div>
                                 </div>
