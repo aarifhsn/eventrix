@@ -24,14 +24,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_sponsor_form'])) 
 
         // Handle image upload
         try {
-            $filename = uploadImage(); // Default input: photo, uploads/ folder
+            $filename = uploadImage('featured_photo'); // Default input: featured_photo, uploads/ folder
             echo "Uploaded successfully as $filename";
         } catch (Exception $e) {
             echo "Upload failed: " . $e->getMessage();
             exit;
         }
+        // Handle Logo upload
+        try {
+            $logo = uploadImage($inputName = 'logo'); // Default input: photo, uploads/ folder
+            echo "Uploaded successfully as $logo";
+        } catch (Exception $e) {
+            echo "Upload failed: " . $e->getMessage();
+            exit;
+        }
 
-        $statement = $pdo->prepare("INSERT INTO sponsors (sponsor_category_id, name, title, description, address, email, phone, website, facebook, twitter, linkedin, instagram, map, photo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $statement = $pdo->prepare("INSERT INTO sponsors (sponsor_category_id, name, title, description, address, email, phone, website, facebook, twitter, linkedin, instagram, map, logo, featured_photo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         $statement->execute([
             $_POST['sponsor_category_id'],
             $_POST['name'],
@@ -46,7 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_sponsor_form'])) 
             $_POST['linkedin'],
             $_POST['instagram'],
             $_POST['map'],
-            $filename
+            $logo,
+            $filename,
         ]);
 
         unset($_SESSION['name']);
@@ -109,9 +118,15 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
 
                             <form action="" method="post" enctype="multipart/form-data">
                                 <div class="form-group mb-3">
-                                    <label>Photo *</label>
+                                    <label>Logo *</label>
                                     <div>
-                                        <input type="file" name="photo">
+                                        <input type="file" name="logo">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label>Featured Photo *</label>
+                                    <div>
+                                        <input type="file" name="featured_photo">
                                     </div>
                                 </div>
                                 <div class="row">
