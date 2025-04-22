@@ -44,7 +44,7 @@ $sponsors = fetchAll($pdo, 'sponsors');
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            <th>Photo</th>
+                                            <th>Logo</th>
                                             <th>Name</th>
                                             <th>Title</th>
                                             <th>Sponsor Category</th>
@@ -60,7 +60,7 @@ $sponsors = fetchAll($pdo, 'sponsors');
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsor['photo']; ?>"
+                                                    <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsor['logo']; ?>"
                                                         alt="" class="w_50">
                                                 </td>
                                                 <td>

@@ -24,8 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
 
         // Image upload logic
         try {
-            $filename = uploadImage(); // Default input: photo, uploads/ folder
+            $filename = uploadImage('featured_photo'); // Default input: photo, uploads/ folder
             echo "Uploaded successfully as $filename";
+        } catch (Exception $e) {
+            throw new Exception("Upload failed: " . $e->getMessage());
+        }
+        // Logo upload logic
+        try {
+            $logo = uploadImage('logo'); // Default input: photo, uploads/ folder
+            echo "Uploaded successfully as $logo";
         } catch (Exception $e) {
             throw new Exception("Upload failed: " . $e->getMessage());
         }
@@ -44,7 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
                             linkedin=?,
                             instagram=?,
                             map=?,
-                            photo=?
+                            logo=?,
+                            featured_photo=?
                             WHERE id=?"
         );
 
@@ -95,18 +103,25 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                     <div class="card">
                         <div class="card-body">
                             <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="current_photo" value="<?php echo $sponsorData['photo']; ?>">
+                                <input type="hidden" name="logo" value="<?php echo $sponsorData['logo']; ?>">
                                 <div class="form-group mb-3">
-                                    <label>Existing Photo</label>
+                                    <label>Existing Logo</label>
                                     <div>
-                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['photo']; ?>"
+                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['logo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Change Photo</label>
+                                    <label>Existing Featured Photo</label>
                                     <div>
-                                        <input type="file" name="photo">
+                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $sponsorData['featured_photo']; ?>"
+                                            alt="" class="w_150">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label>Change Feature Photo</label>
+                                    <div>
+                                        <input type="file" name="featured_photo">
                                     </div>
                                 </div>
                                 <div class="row">
