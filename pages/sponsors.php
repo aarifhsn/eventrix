@@ -40,15 +40,19 @@ $sponsorCategories = fetchAll($pdo, 'sponsor_categories');
       <div class="row pt_40 mb_50">
 
         <?php
-        foreach ($sponsors as $sponsor): ?>
-          <div class="col-md-3">
-            <div class="sponsors-logo">
-              <a href="sponsor?id=<?php echo $sponsor['id']; ?>"><img
-                  src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsor['featured_photo']; ?>" class="img-responsive"
-                  alt="" /></a>
+        foreach ($sponsors as $sponsor):
+          if (!empty($sponsor['featured_photo'])):
+            ?>
+            <div class="col-md-3">
+              <div class="sponsors-logo">
+                <a href="<?php echo BASE_URL; ?>sponsor?id=<?php echo $sponsor['id']; ?>"><img
+                    src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsor['featured_photo']; ?>" class="img-responsive"
+                    alt="" /></a>
+              </div>
             </div>
-          </div>
-        <?php endforeach; ?>
+
+          <?php endif;
+        endforeach; ?>
       </div>
     <?php endforeach; ?>
   </div>
