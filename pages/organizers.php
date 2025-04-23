@@ -6,7 +6,7 @@ include(__DIR__ . '/../templates/breadcrumb.php');
 include(__DIR__ . '/../config/helpers.php');
 
 // Fetch organizer Data
-$organizersData = fetchAll($pdo, 'organizers', 'id ASC');
+$organizersData = fetchAll($pdo, 'organizers');
 
 ?>
 
@@ -16,7 +16,7 @@ $organizersData = fetchAll($pdo, 'organizers', 'id ASC');
       <?php foreach ($organizersData as $organizer): ?>
         <div class="col-lg-3 col-sm-6 col-xs-12">
           <div class="team-img mb_20">
-            <a href="<?php echo BASE_URL; ?>organizer?=<?php echo $organizer['id']; ?>"><img
+            <a href="<?php echo BASE_URL; ?>organizer?id=<?php echo $organizer['id']; ?>"><img
                 src="<?php echo ADMIN_URL; ?>uploads/<?php echo $organizer['photo']; ?>" /></a>
           </div>
           <div class="team-info text-center">
