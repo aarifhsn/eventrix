@@ -129,7 +129,7 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                                     </div>
                                     
                                     <div class="form-group mb-6">
-                                        <label>Change Logo</label>
+                                        <label>Change Logo *</label>
                                         <div>
                                             <input type="file" name="logo">
                                         </div>

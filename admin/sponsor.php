@@ -17,7 +17,14 @@ initMessages();
 checkAdminAuth();
 
 // Fetch sponsors data
-$sponsors = fetchAll($pdo, 'sponsors');
+$stmt = $pdo->prepare("SELECT 
+    s.*,
+    sc.title AS category_title
+    FROM sponsors s
+    INNER JOIN sponsor_categories sc ON s.sponsor_category_id = sc.id
+    ORDER BY s.id ASC");
+$stmt->execute();
+$sponsors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -70,7 +77,7 @@ $sponsors = fetchAll($pdo, 'sponsors');
                                                     <?php echo $sponsor['title']; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $sponsor['sponsor_category_id']; ?>
+                                                    <?php echo $sponsor['category_title']; ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
                                                     <a href="<?php echo ADMIN_URL; ?>sponsor-edit.php?id=<?php echo $sponsor['id']; ?>"
