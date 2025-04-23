@@ -24,10 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['speaker_update_form'])
 
         // Image upload logic
         try {
-            $filename = uploadImage(); // Default input: photo, uploads/ folder
-            echo "Uploaded successfully as $filename";
+            if (!empty($_FILES['photo']['name'])) {
+                $filename = uploadImage('photo');
+            } else {
+                $filename = $_POST['photo'];  // this comes from hidden input field
+            }
         } catch (Exception $e) {
-            throw new Exception("Upload failed: " . $e->getMessage());
+            $_SESSION['error_message'] = $e->getMessage();
+            header("Location: speaker-edit.php?id=" . $_REQUEST['id']);
+            exit;
         }
 
         $statement = $pdo->prepare("UPDATE speakers SET 

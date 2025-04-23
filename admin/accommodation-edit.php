@@ -12,32 +12,26 @@ include(__DIR__ . '/../config/helpers.php');
 // Initialize
 initMessages();
 
-// Generate CSRF token
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
 // fetch data
 $accommodationData = fetchById($pdo, 'accommodations', $_REQUEST['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accommodation_update_form'])) {
     try {
-
-        // Validate CSRF token
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            throw new Exception("Invalid CSRF token. Please refresh the page and try again.");
-        }
-
         if (empty($_POST['name'])) {
             throw new Exception("Name cannot be empty");
         }
 
         // Image upload logic
         try {
-            $filename = uploadImage(); // Default input: photo, uploads/ folder
-            echo "Uploaded successfully as $filename";
+            if (!empty($_FILES['photo']['name'])) {
+                $filename = uploadImage('photo');
+            } else {
+                $filename = $_POST['photo'];  // this comes from hidden input field
+            }
         } catch (Exception $e) {
-            throw new Exception("Upload failed: " . $e->getMessage());
+            $_SESSION['error_message'] = $e->getMessage();
+            header("Location: accommodation-edit.php?id=" . $_REQUEST['id']);
+            exit;
         }
 
         $statement = $pdo->prepare("UPDATE accommodations SET 
@@ -99,13 +93,12 @@ unset($_SESSION['csrf_token']);
                             <?php echo displayError($error_message); ?>
 
                             <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="current_photo"
-                                    value="<?php echo $accommodationData['photo']; ?>">
-                                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                <input type="hidden" name="photo" value="<?php echo $accommodationData['photo']; ?>">
+
                                 <div class="form-group mb-3">
                                     <label>Existing Photo</label>
                                     <div>
-                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $accommodationData['photo']; ?>"
+                                        <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $accommodationData['photo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>
@@ -126,7 +119,7 @@ unset($_SESSION['csrf_token']);
                                     <div class="col-md-4">
                                         <div class="form-group mb-3">
                                             <label>Email</label>
-                                            <input type="text" name="slug" class="form-control"
+                                            <input type="text" name="email" class="form-control"
                                                 value="<?php echo $accommodationData['email']; ?>">
                                         </div>
                                     </div>

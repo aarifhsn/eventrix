@@ -15,18 +15,9 @@ initMessages();
 // Check if user is logged in
 checkAdminAuth();
 
-// Generate CSRF token
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_accommodation_form'])) {
     try {
-
-        // Validate CSRF token
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            throw new Exception("Invalid CSRF token. Please refresh the page and try again.");
-        }
 
         if (empty($_POST['name'])) {
             throw new Exception("Name is required");
@@ -79,9 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_accommodation_for
     }
 }
 
-// Reset CSRF TOKEN
-unset($_SESSION['csrf_token']);
-
 // Fetch all schedule days
 $accommodations = fetchAll($pdo, 'accommodations', 'id ASC');
 ?>
@@ -105,7 +93,7 @@ $accommodations = fetchAll($pdo, 'accommodations', 'id ASC');
 
                             <?php echo displayError($error_message); ?>
                             <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
                                 <div class="form-group mb-3">
                                     <label>Photo *</label>
                                     <div>

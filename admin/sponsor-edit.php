@@ -22,26 +22,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
             throw new Exception("Name cannot be empty");
         }
 
-        // Image upload logic
-        try {
-            $filename = !empty($_FILES['featured_photo']['name']) ? uploadImage('featured_photo') : $sponsorData['featured_photo'];// Default input: photo, uploads/ folder
-            $success_message = "Uploaded successfully as $filename";
-            $_SESSION['success_message'] = $success_message;
+         // Image upload logic
+         try {
+            if (!empty($_FILES['feature_photo']['name'])) {
+                $filename = uploadImage('feature_photo');
+            } else {
+                $filename = $_POST['feature_photo'];  // this comes from hidden input field
+            }
         } catch (Exception $e) {
             $_SESSION['error_message'] = $e->getMessage();
-            $error_message = $e->getMessage();
-            header("location: " . ADMIN_URL . "sponsor-edit.php?id=" . $_REQUEST['id']);
+            header("Location: sponsor-edit.php?id=" . $_REQUEST['id']);
             exit;
-
         }
+        
         // Logo upload logic
         try {
-            $logo = empty($sponsorData['logo'])  ? uploadImage('logo') : $sponsorData['logo']; // Default input: photo, uploads/ folder
-            echo "Uploaded successfully as $logo";
+            if (!empty($_FILES['logo']['name'])) {
+                $logo = uploadImage('logo');
+            } else {
+                $logo = $_POST['logo'];  // this comes from hidden input field
+            }
         } catch (Exception $e) {
             $_SESSION['error_message'] = $e->getMessage();
-            $error_message = $e->getMessage();
-            header("location: " . ADMIN_URL . "sponsor-edit.php?id=" . $_REQUEST['id']);
+            header("Location: sponsor-edit.php?id=" . $_REQUEST['id']);
             exit;
         }
 
@@ -118,6 +121,8 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                             <?php echo displayError($error_message); ?>
 
                             <form action="" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="logo" value="<?php echo $sponsorData['logo']; ?>">
+                                <input type="hidden" name="featured_photo" value="<?php echo $sponsorData['featured_photo']; ?>">
                                 <div class="row">
                                     <div class="col-md-6">
                                     <div class="form-group mb-6">
