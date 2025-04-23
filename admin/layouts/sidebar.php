@@ -110,6 +110,11 @@ function isDropdownShow($pages)
                     <i class="fas fa-hand-point-right"></i> <span>Accommodation Section</span>
                 </a>
             </li>
+            <li class="<?php echo isActive('faq.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>faq.php">
+                    <i class="fas fa-hand-point-right"></i> <span>FAQ Section</span>
+                </a>
+            </li>
             <li class="<?php echo isActive('setting.php'); ?>">
                 <a class="nav-link" href="<?php echo ADMIN_URL; ?>setting.php">
                     <i class="fas fa-hand-point-right"></i> <span>Setting</span>
