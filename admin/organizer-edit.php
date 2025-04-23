@@ -24,10 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['organizer_update_form'
 
         // Image upload logic
         try {
-            $filename = uploadImage(); // Default input: photo, uploads/ folder
-            echo "Uploaded successfully as $filename";
+            if (!empty($_FILES['photo']['name'])) {
+                $filename = uploadImage('photo');
+            } else {
+                $filename = $_POST['photo'];  // this comes from hidden input field
+            }
         } catch (Exception $e) {
-            throw new Exception("Upload failed: " . $e->getMessage());
+            $_SESSION['error_message'] = $e->getMessage();
+            header("Location: organizer-edit.php?id=" . $_REQUEST['id']);
+            exit;
         }
 
         $statement = $pdo->prepare("UPDATE organizers SET 
@@ -84,12 +89,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['organizer_update_form'
                             <?php echo displayError($error_message); ?>
 
                             <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="current_photo"
-                                    value="<?php echo $organizerData['photo']; ?>">
+                                <input type="hidden" name="photo" value="<?php echo $organizerData['photo']; ?>">
                                 <div class="form-group mb-3">
                                     <label>Existing Photo</label>
                                     <div>
-                                        <img src="<?php echo BASE_URL; ?>uploads/<?php echo $organizerData['photo']; ?>"
+                                        <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $organizerData['photo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>
