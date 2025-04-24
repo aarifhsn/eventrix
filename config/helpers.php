@@ -205,3 +205,51 @@ function old($key, $default = null)
         $_SESSION[$key];
     }
 }
+
+// function generateSlug($title)
+// {
+//     $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title));
+//     return preg_replace('/-+/', '-', $slug);
+// }
+
+function generateSlug($string)
+{
+    // Convert to lowercase
+    $slug = strtolower($string);
+
+    // Replace accented characters (e.g., é -> e)
+    $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
+
+    // Replace anything that’s not a letter or number with a hyphen
+    $slug = preg_replace('/[^a-z0-9]+/i', '-', $slug);
+
+    // Trim hyphens from both ends
+    $slug = trim($slug, '-');
+
+    // Remove duplicate hyphens
+    $slug = preg_replace('/-+/', '-', $slug);
+
+    return $slug;
+}
+
+// check if slug exists in the posts table
+function slugExists($slug, $pdo)
+{
+    $statement = $pdo->prepare("SELECT * FROM posts WHERE slug = :slug");
+    $statement->execute(['slug' => $slug]);
+    return $statement->rowCount() > 0;
+}
+
+function generateUniqueSlug($title, $pdo)
+{
+    $slug = generateSlug($title);
+    $baseSlug = $slug;
+    $i = 1;
+
+    while (slugExists($slug, $pdo)) {
+        $slug = $baseSlug . '-' . $i;
+        $i++;
+    }
+
+    return $slug;
+}

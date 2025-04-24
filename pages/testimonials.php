@@ -3,7 +3,7 @@
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
 
-
+// Include helpers functions
 include(__DIR__ . '/../config/helpers.php');
 
 $testimonials = fetchAll($pdo, 'testimonials');

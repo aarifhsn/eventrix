@@ -117,7 +117,12 @@ function isDropdownShow($pages)
             </li>
             <li class="<?php echo isActive('testimonial.php'); ?>">
                 <a class="nav-link" href="<?php echo ADMIN_URL; ?>testimonial.php">
-                    <i class="fas fa-hand-point-right"></i> <span>TESTIMONIAL Section</span>
+                    <i class="fas fa-hand-point-right"></i> <span>Testimonial Section</span>
+                </a>
+            </li>
+            <li class="<?php echo isActive('blog.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>blog.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Blog Section</span>
                 </a>
             </li>
             <li class="<?php echo isActive('setting.php'); ?>">
