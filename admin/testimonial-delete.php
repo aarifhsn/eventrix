@@ -23,14 +23,14 @@ try {
     $stmt->execute([$id]);
 
     if ((int) $stmt->fetchColumn() === 0) {
-        throw new Exception("testimonial not found.");
+        throw new Exception("Testimonial not found.");
     }
 
     // Delete the record
     $stmt = $pdo->prepare("DELETE FROM testimonials WHERE id = ?");
     $stmt->execute([$id]);
 
-    $_SESSION['success_message'] = "testimonial deleted successfully.";
+    $_SESSION['success_message'] = "Testimonial deleted successfully.";
 } catch (Exception $e) {
     $_SESSION['error_message'] = $e->getMessage();
 }
