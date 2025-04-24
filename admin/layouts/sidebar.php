@@ -115,6 +115,11 @@ function isDropdownShow($pages)
                     <i class="fas fa-hand-point-right"></i> <span>FAQ Section</span>
                 </a>
             </li>
+            <li class="<?php echo isActive('testimonial.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>testimonial.php">
+                    <i class="fas fa-hand-point-right"></i> <span>TESTIMONIAL Section</span>
+                </a>
+            </li>
             <li class="<?php echo isActive('setting.php'); ?>">
                 <a class="nav-link" href="<?php echo ADMIN_URL; ?>setting.php">
                     <i class="fas fa-hand-point-right"></i> <span>Setting</span>

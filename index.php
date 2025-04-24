@@ -152,52 +152,6 @@ include(__DIR__ . '/includes/header.php');
 </div>
 
 
-<div id="sponsor-section" class="pt_70 pb_70 gray">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-1 col-lg-2"></div>
-      <div class="col-xs-12 col-sm-10 col-lg-8 text-center">
-        <h2 class="title-1 mb_15">
-          <span class="color_green">Our Sponsers</span>
-        </h2>
-        <p class="heading-space">
-          If you want to become a sponsor, please contact us. We offer different sponsorship packages that will help
-          you promote your brand and reach a wider audience.
-        </p>
-      </div>
-      <div class="col-sm-1 col-lg-2"></div>
-    </div>
-    <div class="row pt_40">
-      <div class="col-md-12">
-        <div class="owl-carousel">
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-1.png" class="img-responsive" alt="sponsor logo">
-          </div>
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-2.png" class="img-responsive" alt="sponsor logo">
-          </div>
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-3.png" class="img-responsive" alt="sponsor logo">
-          </div>
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-4.png" class="img-responsive" alt="sponsor logo">
-          </div>
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-5.png" class="img-responsive" alt="sponsor logo">
-          </div>
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-6.png" class="img-responsive" alt="sponsor logo">
-          </div>
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-7.png" class="img-responsive" alt="sponsor logo">
-          </div>
-          <div class="sponsors-logo">
-            <img src="<?php echo BASE_URL; ?>/dist/images/partner-8.png" class="img-responsive" alt="sponsor logo">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<?php include(__DIR__ . '/templates/home-sponsor.php'); ?>
 
 <?php include(__DIR__ . '/includes/footer.php'); ?>
