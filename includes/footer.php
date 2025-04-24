@@ -85,7 +85,8 @@
     </div>
 </footer>
 
-<script src="<?php echo BASE_URL; ?>dist/js/jquery-3.3.1.min.js"></script>
+<!-- <script src="<?php echo BASE_URL; ?>dist/js/jquery-3.3.1.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="<?php echo BASE_URL; ?>dist/js/popper.min.js"></script>
 <script src="<?php echo BASE_URL; ?>dist/js/bootstrap.min.js"></script>
 <script src="<?php echo BASE_URL; ?>dist/js/jquery.easing.min.js"></script>

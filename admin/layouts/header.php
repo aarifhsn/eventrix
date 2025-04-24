@@ -38,7 +38,7 @@ include("../config/config.php");
     <link rel="stylesheet" href="<?php echo ADMIN_URL; ?>/dist/css/spacing.css">
     <link rel="stylesheet" href="<?php echo ADMIN_URL; ?>/dist/css/custom.css">
 
-    <script src="<?php echo ADMIN_URL; ?>/dist/js/jquery-3.7.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="<?php echo ADMIN_URL; ?>/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo ADMIN_URL; ?>/dist/js/popper.min.js"></script>
     <script src="<?php echo ADMIN_URL; ?>/dist/js/tooltip.js"></script>
