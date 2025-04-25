@@ -44,10 +44,8 @@ $features = fetchAll($pdo, 'features');
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            <th>Title</th>
-                                            <th>Price</th>
-                                            <th>Max Price</th>
-                                            <th>Item Order</th>
+                                            <th>Name</th>
+                                            <th>Feature Order</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -59,17 +57,10 @@ $features = fetchAll($pdo, 'features');
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <?php echo $feature['title']; ?>
+                                                    <?php echo $feature['name']; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $feature['price']; ?>
-                                                </td>
-                                                <td>
-                                                    <?php echo $feature['max_price']; ?>
-                                                </td>
-                                                </td>
-                                                <td>
-                                                    <?php echo $feature['item_order']; ?>
+                                                    <?php echo $feature['feature_order']; ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
                                                     <a href="<?php echo ADMIN_URL; ?>feature-edit.php?id=<?php echo $feature['id']; ?>"
