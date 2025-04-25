@@ -18,8 +18,6 @@ $featureData = fetchById($pdo, 'features', $_REQUEST['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['feature_update_form'])) {
     try {
-
-
         if (empty($_POST['name'])) {
             throw new Exception("Name is required");
         }
@@ -48,9 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['feature_update_form'])
         exit;
     }
 }
-
-// unset CSRF token
-unset($_SESSION['csrf_token']);
 ?>
 
 <div class="main-content">

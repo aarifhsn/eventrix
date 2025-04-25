@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_package_form'])) 
             'price' => 'Content',
         ];
 
-
         foreach ($requiredFields as $field => $label) {
             if (empty($_POST[$field])) {
                 throw new Exception("$label is required");
@@ -38,6 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_package_form'])) 
             $_POST['max_price'],
             $_POST['item_order'],
         ]);
+
+        // Get the inserted package ID
+        $packageId = $pdo->lastInsertId();
+
+        // Insert selected features (if any)
+        if (!empty($_POST['features'])) {
+            $featureStatement = $pdo->prepare("INSERT INTO feature_package (package_id, feature_id) VALUES (?, ?)");
+
+            foreach ($_POST['features'] as $featureId) {
+                $featureStatement->execute([$packageId, $featureId]);
+            }
+        }
 
         unset($_SESSION['title']);
         unset($_SESSION['price']);
@@ -62,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_package_form'])) 
 
 // Fetch all schedule days
 $packages = fetchAll($pdo, 'packages', 'id ASC');
+$features = fetchAll($pdo, 'features');
 ?>
 
 <div class="main-content">
@@ -89,31 +101,35 @@ $packages = fetchAll($pdo, 'packages', 'id ASC');
                                         <div class="form-group mb-3">
                                             <label>Title *</label>
                                             <input type="text" name="title" class="form-control"
-                                                value="<?php old('title'); ?>">
+                                                value="<?php echo old('title'); ?>">
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Price *</label>
                                             <input type="text" name="price" class="form-control"
-                                                value="<?php old('price'); ?>">
+                                                value="<?php echo old('price'); ?>">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Max Price</label>
                                             <input type="text" name="max_price" class="form-control"
-                                                value="<?php old('max_price'); ?>">
+                                                value="<?php echo old('max_price'); ?>">
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Item Order</label>
                                             <input type="text" name="item_order" class="form-control"
-                                                value="<?php old('item_order'); ?>">
+                                                value="<?php echo old('item_order'); ?>">
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="my-2 px-4">Features</h4>
+                                        <?php foreach ($features as $feature): ?>
+                                            <div class="form-group mb-3 px-4 fs-4">
+                                                <label>
+                                                    <input type="checkbox" name="features[]"
+                                                        value="<?php echo $feature['id']; ?>">
+                                                    <?php echo $feature['name']; ?>
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
 

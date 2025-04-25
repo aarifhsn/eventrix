@@ -76,7 +76,7 @@ $features = fetchAll($pdo, 'features', 'id ASC');
                                         <div class="form-group mb-3">
                                             <label>Name *</label>
                                             <input type="text" name="name" class="form-control"
-                                                value="<?php old('name'); ?>" required>
+                                                value="<?php echo old('name'); ?>" required>
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@ $features = fetchAll($pdo, 'features', 'id ASC');
                                         <div class="form-group mb-3">
                                             <label>Feature Order</label>
                                             <input type="text" name="feature_order" class="form-control"
-                                                value="<?php old('feature_order'); ?>">
+                                                value="<?php echo old('feature_order'); ?>">
                                         </div>
                                     </div>
                                 </div>
