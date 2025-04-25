@@ -18,30 +18,21 @@ $featureData = fetchById($pdo, 'features', $_REQUEST['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['feature_update_form'])) {
     try {
-        $requiredFields = [
-            'title' => 'Title',
-            'price' => 'Content',
-        ];
 
-        foreach ($requiredFields as $field => $label) {
-            if (empty($_POST[$field])) {
-                throw new Exception("$label is required");
-            }
+
+        if (empty($_POST['name'])) {
+            throw new Exception("Name is required");
         }
 
         $statement = $pdo->prepare("UPDATE features SET 
-            title = ?,
-            price = ?,
-            max_price = ?,
-            item_order = ?
+            name = ?,
+            feature_order = ?
             WHERE id = ?"
         );
 
         $statement->execute([
-            $_POST['title'],
-            $_POST['price'],
-            $_POST['max_price'],
-            $_POST['item_order'],
+            $_POST['name'],
+            $_POST['feature_order'],
             $_REQUEST['id'],
         ]);
 
@@ -84,34 +75,20 @@ unset($_SESSION['csrf_token']);
                             <form action="" method="POST" enctype="multipart/form-data">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group mb-3">
-                                            <label>Title *</label>
-                                            <input type="text" name="title" class="form-control"
-                                                value="<?php echo $featureData['title']; ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label>Price *</label>
-                                            <input type="text" name="price" class="form-control"
-                                                value="<?php echo $featureData['price']; ?>">
+                                            <label>Name *</label>
+                                            <input type="text" name="name" class="form-control"
+                                                value="<?php echo $featureData['name']; ?>" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group mb-3">
-                                            <label>Max Price</label>
-                                            <input type="text" name="max_price" class="form-control"
-                                                value="<?php echo $featureData['max_price']; ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label>Item Order</label>
-                                            <input type="text" name="item_order" class="form-control"
-                                                value="<?php echo $featureData['item_order']; ?>">
+                                            <label>feature Order</label>
+                                            <input type="text" name="feature_order" class="form-control"
+                                                value="<?php echo $featureData['feature_order']; ?>">
                                         </div>
                                     </div>
                                 </div>
