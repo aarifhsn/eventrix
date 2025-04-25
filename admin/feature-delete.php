@@ -23,14 +23,14 @@ try {
     $stmt->execute([$id]);
 
     if ((int) $stmt->fetchColumn() === 0) {
-        throw new Exception("feature not found.");
+        throw new Exception("Feature not found.");
     }
 
     // Delete the record
     $stmt = $pdo->prepare("DELETE FROM features WHERE id = ?");
     $stmt->execute([$id]);
 
-    $_SESSION['success_message'] = "feature deleted successfully.";
+    $_SESSION['success_message'] = "Feature deleted successfully.";
 } catch (Exception $e) {
     $_SESSION['error_message'] = $e->getMessage();
 }

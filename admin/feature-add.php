@@ -18,31 +18,18 @@ checkAdminAuth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_feature_form'])) {
     try {
-
-        $requiredFields = [
-            'title' => 'Title',
-            'price' => 'Content',
-        ];
-
-
-        foreach ($requiredFields as $field => $label) {
-            if (empty($_POST[$field])) {
-                throw new Exception("$label is required");
-            }
+        if (empty($_POST['name'])) {
+            throw new Exception("Name is required");
         }
 
-        $statement = $pdo->prepare("INSERT INTO features (title, price, max_price, item_order) VALUES (?,?,?,?)");
+        $statement = $pdo->prepare("INSERT INTO features (name, feature_order) VALUES (?,?)");
         $statement->execute([
-            $_POST['title'],
-            $_POST['price'],
-            $_POST['max_price'],
-            $_POST['item_order'],
+            $_POST['name'],
+            $_POST['feature_order'],
         ]);
 
-        unset($_SESSION['title']);
-        unset($_SESSION['price']);
-        unset($_SESSION['max_price']);
-        unset($_SESSION['item_order']);
+        unset($_SESSION['name']);
+        unset($_SESSION['feature_order']);
 
 
         $_SESSION['success_message'] = "Data insert is successful";
@@ -50,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_feature_form'])) 
         exit;
 
     } catch (Exception $e) {
-        $_SESSION['title'] = $_POST['title'];
-        $_SESSION['price'] = $_POST['price'];
+        $_SESSION['name'] = $_POST['name'];
+        $_SESSION['feature_order'] = $_POST['feature_order'];
 
         $error_message = $e->getMessage();
         $_SESSION['error_message'] = $error_message;
@@ -79,40 +66,26 @@ $features = fetchAll($pdo, 'features', 'id ASC');
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+
                             <?php echo displaySuccess($success_message); ?>
-
                             <?php echo displayError($error_message); ?>
-                            <form action="" method="post">
 
+                            <form action="" method="POST">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group mb-3">
-                                            <label>Title *</label>
-                                            <input type="text" name="title" class="form-control"
-                                                value="<?php old('title'); ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label>Price *</label>
-                                            <input type="text" name="price" class="form-control"
-                                                value="<?php old('price'); ?>">
+                                            <label>Name *</label>
+                                            <input type="text" name="name" class="form-control"
+                                                value="<?php old('name'); ?>" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label>Max Price</label>
-                                            <input type="text" name="max_price" class="form-control"
-                                                value="<?php old('max_price'); ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label>Item Order</label>
-                                            <input type="text" name="item_order" class="form-control"
-                                                value="<?php old('item_order'); ?>">
+                                            <label>Feature Order</label>
+                                            <input type="text" name="feature_order" class="form-control"
+                                                value="<?php old('feature_order'); ?>">
                                         </div>
                                     </div>
                                 </div>
