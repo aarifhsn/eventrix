@@ -135,29 +135,7 @@ function isDropdownShow($pages)
                     <i class="fas fa-hand-point-right"></i> <span>Feature Section</span>
                 </a>
             </li>
-            <li class="<?php echo isActive('setting.php'); ?>">
-                <a class="nav-link" href="<?php echo ADMIN_URL; ?>setting.php">
-                    <i class="fas fa-hand-point-right"></i> <span>Setting</span>
-                </a>
-            </li>
 
-            <li class="<?php echo isActive('form.php'); ?>">
-                <a class="nav-link" href="<?php echo ADMIN_URL; ?>form.php">
-                    <i class="fas fa-hand-point-right"></i> <span>Form</span>
-                </a>
-            </li>
-
-            <li class="<?php echo isActive('table.php'); ?>">
-                <a class="nav-link" href="<?php echo ADMIN_URL; ?>table.php">
-                    <i class="fas fa-hand-point-right"></i> <span>Table</span>
-                </a>
-            </li>
-
-            <li class="<?php echo isActive('invoice.php'); ?>">
-                <a class="nav-link" href="<?php echo ADMIN_URL; ?>invoice.php">
-                    <i class="fas fa-hand-point-right"></i> <span>Invoice</span>
-                </a>
-            </li>
         </ul>
     </aside>
 </div>
