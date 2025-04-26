@@ -1,7 +1,8 @@
 <?php
-
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
+
+include(__DIR__ . '/../config/helpers.php');
 
 ?>
 <div id="price-section" class="pt_50 pb_70 gray prices">
