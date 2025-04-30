@@ -67,7 +67,7 @@ foreach ($rawResults as $row) {
             </ul>
 
             <div class="global_btn mt_20">
-              <a class="btn_two" href="buy.php">Buy Ticket</a>
+              <a class="btn_two" href="<?php echo BASE_URL; ?>buy">Buy Ticket</a>
             </div>
           </div>
         </div>
