@@ -9,6 +9,11 @@ $stmt = $pdo->prepare("SELECT id, name FROM features ORDER BY id ASC");
 $stmt->execute();
 $allFeatures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Fetch tickets data
+$ticketsData = $pdo->prepare("SELECT * FROM tickets");
+$ticketsData->execute();
+$tickets = $ticketsData->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <div id="price-section" class="pt_50 pb_70 gray prices">
     <div class="container">
