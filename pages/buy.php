@@ -1,8 +1,16 @@
 <?php
+
+ob_start();
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
 
 include(__DIR__ . '/../config/helpers.php');
+
+// check if user is logged in
+if (!isset($_SESSION['user'])) {
+    header('Location: ' . BASE_URL . 'login');
+    exit();
+}
 
 // Fetch all features
 $stmt = $pdo->prepare("SELECT id, name FROM features ORDER BY id ASC");
@@ -108,3 +116,5 @@ $tickets = $ticketsData->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<?php ob_end_flush(); ?>
