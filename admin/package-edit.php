@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['package_update_form'])
             }
         }
 
+        // Update Package
         $statement = $pdo->prepare("UPDATE packages SET 
             title = ?,
             price = ?,
@@ -37,6 +38,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['package_update_form'])
             WHERE id = ?"
         );
 
+        // Update Features
+        $featureStatement = $pdo->prepare("DELETE FROM feature_package WHERE package_id = ?");
+        $featureStatement->execute([$_REQUEST['id']]);
+
+        if (!empty($_POST['features'])) {
+            $featureStatement = $pdo->prepare("INSERT INTO feature_package (package_id, feature_id) VALUES (?, ?)");
+
+            foreach ($_POST['features'] as $featureId) {
+                $featureStatement->execute([
+                    $_REQUEST['id'],
+                    $featureId,
+                ]);
+            }
+        }
         $statement->execute([
             $_POST['title'],
             $_POST['price'],
@@ -60,6 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['package_update_form'])
 
 // unset CSRF token
 unset($_SESSION['csrf_token']);
+
+// Fetch assigned features for this package
+$packageId = $_REQUEST['id'];
+$stmt = $pdo->prepare("SELECT feature_id FROM feature_package WHERE package_id = ?");
+$stmt->execute([$packageId]);
+$assignedFeatures = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'feature_id');
+
+$features = fetchAll($pdo, 'features');
 ?>
 
 <div class="main-content">
@@ -90,28 +113,35 @@ unset($_SESSION['csrf_token']);
                                             <input type="text" name="title" class="form-control"
                                                 value="<?php echo $packageData['title']; ?>" required>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Price *</label>
                                             <input type="text" name="price" class="form-control"
                                                 value="<?php echo $packageData['price']; ?>">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Max Price</label>
                                             <input type="text" name="max_price" class="form-control"
                                                 value="<?php echo $packageData['max_price']; ?>">
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Item Order</label>
                                             <input type="text" name="item_order" class="form-control"
                                                 value="<?php echo $packageData['item_order']; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label>Features</label>
+                                            <?php foreach ($features as $feature): ?>
+                                                <?php $isChecked = in_array($feature['id'], $assignedFeatures); ?>
+                                                <div class="form-group mb-3 px-4 fs-4">
+                                                    <label>
+                                                        <input type="checkbox" name="features[]"
+                                                            value="<?php echo $feature['id']; ?>" <?php echo $isChecked ? 'checked' : ''; ?>>
+                                                        <?php echo htmlspecialchars($feature['name']); ?>
+                                                    </label>
+                                                </div>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                 </div>
