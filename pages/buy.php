@@ -31,6 +31,11 @@ if (!$package) {
     exit();
 }
 
+// Fetch user data
+$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user']['id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+
 
 ?>
 <div id="price-section" class="pt_50 pb_70 gray prices">
@@ -44,28 +49,36 @@ if (!$package) {
                     <h3 class="mb_15 fw600">Billing Information</h3>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Name *">
+                            <input type="text" class="form-control" placeholder="Name *"
+                                value="<?php echo $user['name'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Email *">
+                            <input type="text" class="form-control" placeholder="Email *"
+                                value="<?php echo $user['email'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Phone *">
+                            <input type="text" class="form-control" placeholder="Phone *"
+                                value="<?php echo $user['phone'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Address *">
+                            <input type="text" class="form-control" placeholder="Address *"
+                                value="<?php echo $user['address'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Country *">
+                            <input type="text" class="form-control" placeholder="Country *"
+                                value="<?php echo $user['country'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="State *">
+                            <input type="text" class="form-control" placeholder="State *"
+                                value="<?php echo $user['state'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="City *">
+                            <input type="text" class="form-control" placeholder="City *"
+                                value="<?php echo $user['city'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Zip Code *">
+                            <input type="text" class="form-control" placeholder="Zip Code *"
+                                value="<?php echo $user['zip_code'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-12">
                             <textarea rows="3" name="message" class="form-control"
