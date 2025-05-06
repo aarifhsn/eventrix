@@ -12,17 +12,17 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$packageId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$packageTitle = isset($_GET['package']) ? $_GET['package'] : '';
+$packageId = isset($_GET['id']) ? $_GET['id'] : '';
 
-if (!$packageId) {
-    // redirect or show error
-    header('Location: ' . BASE_URL . 'pricing');
+if (!$packageTitle && !$packageId) {
+    echo "<div class='alert alert-danger'>Invalid package selected.</div>";
     exit();
 }
 
 // Fetch package
-$stmt = $pdo->prepare("SELECT id, title, price FROM packages WHERE id = ?");
-$stmt->execute([$packageId]);
+$stmt = $pdo->prepare("SELECT id, title, price FROM packages WHERE title = ?");
+$stmt->execute([$packageTitle]);
 $package = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$package) {
