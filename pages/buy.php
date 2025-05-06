@@ -12,15 +12,25 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Fetch all features
-$stmt = $pdo->prepare("SELECT id, name FROM features ORDER BY id ASC");
-$stmt->execute();
-$allFeatures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$packageId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-// Fetch tickets data
-$ticketsData = $pdo->prepare("SELECT * FROM tickets");
-$ticketsData->execute();
-$tickets = $ticketsData->fetchAll(PDO::FETCH_ASSOC);
+if (!$packageId) {
+    // redirect or show error
+    header('Location: ' . BASE_URL . 'pricing');
+    exit();
+}
+
+// Fetch package
+$stmt = $pdo->prepare("SELECT id, title, price FROM packages WHERE id = ?");
+$stmt->execute([$packageId]);
+$package = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$package) {
+    // Package not found
+    echo "<div class='alert alert-danger'>Invalid package selected.</div>";
+    exit();
+}
+
 
 ?>
 <div id="price-section" class="pt_50 pb_70 gray prices">
@@ -70,12 +80,13 @@ $tickets = $ticketsData->fetchAll(PDO::FETCH_ASSOC);
                     <table class="table table-bordered cart">
                         <tr>
                             <td class="w_150">Ticket Price</td>
-                            <td>$40</td>
+                            <td>$<?php echo htmlspecialchars($package['price']); ?></td>
                         </tr>
                         <tr>
                             <td>Total Tickets</td>
                             <td>
-                                <input type="hidden" name="ticket_price" id="ticketPrice" value="40">
+                                <input type="hidden" name="ticket_price" id="ticketPrice"
+                                    value="<?php echo $package['price']; ?>">
                                 <input type="number" min="1" max="100" name="total_person" class="form-control"
                                     value="1" id="numPersons" oninput="calculateTotal()">
                             </td>
@@ -83,7 +94,8 @@ $tickets = $ticketsData->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <td>Total Price</td>
                             <td>
-                                <input type="text" name="" class="form-control" id="totalAmount" value="$40" disabled>
+                                <input type="text" name="" class="form-control" id="totalAmount"
+                                    value="$<?php echo $package['price']; ?>" disabled>
                             </td>
                         </tr>
                     </table>
