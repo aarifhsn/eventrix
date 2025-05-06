@@ -36,14 +36,48 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user']['id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
 
+// Generate CSRF token if not exists
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form'])) {
+    try {
+        $token = $_POST['token'];
+        if (!isset($_SESSION['csrf_token']) || $token !== $_SESSION['csrf_token']) {
+            throw new Exception('Invalid token');
+        }
+
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $phone = $_POST['phone'] ?? '';
+        $address = $_POST['address'] ?? '';
+
+        $user['name'] = $name;
+        $user['email'] = $email;
+        $user['phone'] = $phone;
+        $user['address'] = $address;
+
+        $stmt = $pdo->prepare("UPDATE users SET name = ?, email = ?, phone = ?, address = ? WHERE id = ?");
+        $stmt->execute([$name, $email, $phone, $address, $_SESSION['user']['id']]);
+
+        $stmt = $pdo->prepare("INSERT INTO orders (user_id, package_id) VALUES (?, ?)");
+        $stmt->execute([$_SESSION['user']['id'], $package['id']]);
+
+        echo "<div class='alert alert-success'>Order placed successfully.</div>";
+    } catch (Exception $e) {
+        echo "<div class='alert alert-danger'>" . $e->getMessage() . "</div>";
+    }
+}
 
 ?>
 <div id="price-section" class="pt_50 pb_70 gray prices">
     <div class="container">
         <div class="row">
             <form class="form" method="post" action="">
+
         </div>
-        <div class="row">
+        <div class=" row">
             <div class="col-lg-8">
                 <div class="contact">
                     <h3 class="mb_15 fw600">Billing Information</h3>
@@ -88,7 +122,8 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
                 </div>
             </div>
             <div class="col-lg-4">
-                <h3 class="mb_15 fw600">Ticket Information</h3>
+                <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <h3 class=" mb_15 fw600">Ticket Information</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered cart">
                         <tr>
@@ -130,7 +165,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
                     <option value="Cash">Cash</option>
                 </select>
                 <div class="">
-                    <button type="submit" class="btn btn-primary">Buy Ticket</button>
+                    <button type="submit" class="btn btn-primary" name="package_submit_form">Buy Ticket</button>
                 </div>
             </div>
         </div>
