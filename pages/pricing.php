@@ -48,7 +48,7 @@ foreach ($rawResults as $row) {
 <div id="price-section" class="pt_50 pb_70 gray prices">
   <div class="container">
     <div class="row pt_40">
-      <?php foreach ($packages as $package): ?>
+      <?php foreach ($packages as $packageId => $package): ?>
         <div class="col-md-4 col-sm-12 my-4">
           <div class="info">
             <h5 class="event-ti-style"><?php echo htmlspecialchars($package['title']); ?></h5>

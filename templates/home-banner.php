@@ -81,7 +81,7 @@ $background_image = !empty($banner['background']) ?
                             </div>
                         </div>
                     </div>
-                    <a href="buy.html" class="banner_btn video_btn">BUY TICKETS</a>
+                    <a href="<?php echo BASE_URL; ?>buy" class="banner_btn video_btn">BUY TICKETS</a>
                 </div>
             </div>
         </div>
