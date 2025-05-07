@@ -83,27 +83,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                     <h3 class="mb_15 fw600">Billing Information</h3>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Name *"
+                            <input type="text" name="billing_name" class="form-control" placeholder="Name *"
                                 value="<?php echo $user['name'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Email *"
+                            <input type="text" name="billing_email" class="form-control" placeholder="Email *"
                                 value="<?php echo $user['email'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Phone *"
+                            <input type="text" name="billing_phone" class="form-control" placeholder="Phone *"
                                 value="<?php echo $user['phone'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Address *"
+                            <input type="text" name="billing_address" class="form-control" placeholder="Address *"
                                 value="<?php echo $user['address'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Country *"
+                            <input type="text" name="billing_country" class="form-control" placeholder="Country *"
                                 value="<?php echo $user['country'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="State *"
+                            <input type="text" name="billing_state" class="form-control" placeholder="State *"
                                 value="<?php echo $user['state'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
