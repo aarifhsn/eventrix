@@ -107,15 +107,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                                 value="<?php echo $user['state'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="City *"
+                            <input type="text" name="billing_city" class="form-control" placeholder="City *"
                                 value="<?php echo $user['city'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" placeholder="Zip Code *"
+                            <input type="text" name="billing_zip_code" class="form-control" placeholder="Zip Code *"
                                 value="<?php echo $user['zip_code'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-12">
-                            <textarea rows="3" name="message" class="form-control"
+                            <textarea rows="3" name="billing_note" class="form-control"
                                 placeholder="Note (Optional)"></textarea>
                         </div>
                     </div>
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                         <tr>
                             <td>Total Price</td>
                             <td>
-                                <input type="text" name="" class="form-control" id="totalAmount"
+                                <input type="text" name="total_amount" class="form-control" id="totalAmount"
                                     value="$<?php echo $package['price']; ?>" disabled>
                             </td>
                         </tr>
