@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
 
         $stmt = $pdo->prepare("
             INSERT INTO tickets (user_id, package_id, billing_name, billing_email, billing_phone, billing_address, billing_country, billing_state, billing_city, billing_zip, billing_note, per_ticket_price, total_tickets, total_price)
-            VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         $stmt->execute([
             $_SESSION['user']['id'],
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                 ))->send();
                 if ($response->isRedirect()) {
                     $_SESSION['package_id'] = $_REQUEST['id'];
-                    $_SESSION['package_name'] = $package_data['name'];
+                    $_SESSION['package_name'] = $package['name'];
                     $_SESSION['billing_name'] = $_POST['billing_name'];
                     $_SESSION['billing_email'] = $_POST['billing_email'];
                     $_SESSION['billing_phone'] = $_POST['billing_phone'];
@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                         'price_data' => [
                             'currency' => 'usd',
                             'product_data' => [
-                                'name' => $package_data['name']
+                                'name' => $package['name']
                             ],
                             'unit_amount' => $_POST['per_ticket_price'] * 100,
                         ],
@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                 'cancel_url' => STRIPE_CANCEL_URL,
             ]);
             $_SESSION['package_id'] = $_REQUEST['id'];
-            $_SESSION['package_name'] = $package_data['name'];
+            $_SESSION['package_name'] = $package['name'];
             $_SESSION['billing_name'] = $_POST['billing_name'];
             $_SESSION['billing_email'] = $_POST['billing_email'];
             $_SESSION['billing_phone'] = $_POST['billing_phone'];
@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
             header('location: ' . $response->url);
         } elseif ($_POST['payment_method'] == 'Bank') {
             $_SESSION['package_id'] = $_REQUEST['id'];
-            $_SESSION['package_name'] = $package_data['name'];
+            $_SESSION['package_name'] = $package['name'];
             $_SESSION['billing_name'] = $_POST['billing_name'];
             $_SESSION['billing_email'] = $_POST['billing_email'];
             $_SESSION['billing_phone'] = $_POST['billing_phone'];
