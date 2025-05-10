@@ -50,38 +50,140 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
             throw new Exception('Invalid token');
         }
 
-        $billingName = $_POST['billing_name'];
-        $billingEmail = $_POST['billing_email'];
-        $billingPhone = $_POST['billing_phone'];
-        $billingAddress = $_POST['billing_address'];
+        $requiredFields = [
+            'billing_name' => 'Billing Name',
+            'billing_email' => 'Billing Email',
+            'billing_phone' => 'Billing Phone',
+            'billing_address' => 'Billing Address',
+            'billing_country' => 'Billing Country',
+            'billing_state' => 'Billing State',
+            'billing_city' => 'Billing City',
+            'billing_zip' => 'Billing Zip',
+            'total_tickets' => 'Total Tickets',
+        ];
+
+        foreach ($requiredFields as $field => $label) {
+            if (!isset($_POST[$field]) || empty($_POST[$field])) {
+                throw new Exception($label . ' is required');
+            }
+        }
+        $total_price = $_POST['total_price'] * $_POST['total_tickets'];
+
+        if (!is_numeric($_POST['total_tickets'])) {
+            throw new Exception('Total Tickets must be a number');
+        }
+
 
         $stmt = $pdo->prepare("
-            INSERT INTO orders (user_id, package_id, billing_name, billing_email, billing_phone, billing_address)
+            INSERT INTO tickets (user_id, package_id, billing_name, billing_email, billing_phone, billing_address, billing_country, billing_state, billing_city, billing_zip, billing_note, per_ticket_price, total_tickets, total_price)
             VALUES (?, ?, ?, ?, ?, ?)
         ");
         $stmt->execute([
             $_SESSION['user']['id'],
             $package['id'],
-            $billingName,
-            $billingEmail,
-            $billingPhone,
-            $billingAddress
+            $_POST['billing_name'],
+            $_POST['billing_email'],
+            $_POST['billing_phone'],
+            $_POST['billing_address'],
+            $_POST['billing_country'],
+            $_POST['billing_state'],
+            $_POST['billing_city'],
+            $_POST['billing_zip'],
+            $_POST['billing_note'],
+            $_POST['per_ticket_price'],
+            $_POST['total_tickets'],
+            $_POST['total_price'],
         ]);
 
         unset($_SESSION['csrf_token']);
-        unset($_SESSION['title']);
-        unset($_SESSION['description']);
-        unset($_SESSION['address']);
-        unset($_SESSION['email']);
-        unset($_SESSION['phone']);
-        unset($_SESSION['website']);
-        unset($_SESSION['facebook']);
-        unset($_SESSION['twitter']);
-        unset($_SESSION['linkedin']);
-        unset($_SESSION['instagram']);
+        unset($_SESSION['billing_note']);
+        unset($_SESSION['total_tickets']);
 
 
         echo "<div class='alert alert-success'>Order placed successfully.</div>";
+
+        if ($_POST['payment_method'] == 'PayPal') {
+            try {
+                $response = $gateway->purchase(array(
+                    'amount' => $total_price,
+                    'currency' => PAYPAL_CURRENCY,
+                    'returnUrl' => PAYPAL_RETURN_URL,
+                    'cancelUrl' => PAYPAL_CANCEL_URL,
+                ))->send();
+                if ($response->isRedirect()) {
+                    $_SESSION['package_id'] = $_REQUEST['id'];
+                    $_SESSION['package_name'] = $package_data['name'];
+                    $_SESSION['billing_name'] = $_POST['billing_name'];
+                    $_SESSION['billing_email'] = $_POST['billing_email'];
+                    $_SESSION['billing_phone'] = $_POST['billing_phone'];
+                    $_SESSION['billing_address'] = $_POST['billing_address'];
+                    $_SESSION['billing_country'] = $_POST['billing_country'];
+                    $_SESSION['billing_state'] = $_POST['billing_state'];
+                    $_SESSION['billing_city'] = $_POST['billing_city'];
+                    $_SESSION['billing_zip'] = $_POST['billing_zip'];
+                    $_SESSION['billing_note'] = $_POST['billing_note'];
+                    $_SESSION['per_ticket_price'] = $_POST['per_ticket_price'];
+                    $_SESSION['total_tickets'] = $_POST['total_tickets'];
+                    $_SESSION['total_price'] = $total_price;
+
+                    $response->redirect();
+                } else {
+                    echo $response->getMessage();
+                }
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        } elseif ($_POST['payment_method'] == 'Stripe') {
+            \Stripe\Stripe::setApiKey(STRIPE_TEST_SK);
+            $response = \Stripe\Checkout\Session::create([
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => 'usd',
+                            'product_data' => [
+                                'name' => $package_data['name']
+                            ],
+                            'unit_amount' => $_POST['per_ticket_price'] * 100,
+                        ],
+                        'quantity' => $_POST['total_tickets'],
+                    ],
+                ],
+                'mode' => 'payment',
+                'success_url' => STRIPE_SUCCESS_URL . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => STRIPE_CANCEL_URL,
+            ]);
+            $_SESSION['package_id'] = $_REQUEST['id'];
+            $_SESSION['package_name'] = $package_data['name'];
+            $_SESSION['billing_name'] = $_POST['billing_name'];
+            $_SESSION['billing_email'] = $_POST['billing_email'];
+            $_SESSION['billing_phone'] = $_POST['billing_phone'];
+            $_SESSION['billing_address'] = $_POST['billing_address'];
+            $_SESSION['billing_country'] = $_POST['billing_country'];
+            $_SESSION['billing_state'] = $_POST['billing_state'];
+            $_SESSION['billing_city'] = $_POST['billing_city'];
+            $_SESSION['billing_zip'] = $_POST['billing_zip'];
+            $_SESSION['billing_note'] = $_POST['billing_note'];
+            $_SESSION['per_ticket_price'] = $_POST['per_ticket_price'];
+            $_SESSION['total_tickets'] = $_POST['total_tickets'];
+            $_SESSION['total_price'] = $total_price;
+            header('location: ' . $response->url);
+        } elseif ($_POST['payment_method'] == 'Bank') {
+            $_SESSION['package_id'] = $_REQUEST['id'];
+            $_SESSION['package_name'] = $package_data['name'];
+            $_SESSION['billing_name'] = $_POST['billing_name'];
+            $_SESSION['billing_email'] = $_POST['billing_email'];
+            $_SESSION['billing_phone'] = $_POST['billing_phone'];
+            $_SESSION['billing_address'] = $_POST['billing_address'];
+            $_SESSION['billing_country'] = $_POST['billing_country'];
+            $_SESSION['billing_state'] = $_POST['billing_state'];
+            $_SESSION['billing_city'] = $_POST['billing_city'];
+            $_SESSION['billing_zip'] = $_POST['billing_zip'];
+            $_SESSION['billing_note'] = $_POST['billing_note'];
+            $_SESSION['per_ticket_price'] = $_POST['per_ticket_price'];
+            $_SESSION['total_tickets'] = $_POST['total_tickets'];
+            $_SESSION['total_price'] = $total_price;
+            header('location: ' . BASE_URL . 'bank.php');
+        }
     } catch (Exception $e) {
 
         echo "<div class='alert alert-danger'>" . $e->getMessage() . "</div>";
@@ -129,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                                 value="<?php echo $user['city'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="text" name="billing_zip_code" class="form-control" placeholder="Zip Code *"
+                            <input type="text" name="billing_zip" class="form-control" placeholder="Zip Code *"
                                 value="<?php echo $user['zip_code'] ?? ''; ?>">
                         </div>
                         <div class="form-group col-md-12">
@@ -153,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                             <td>
                                 <input type="hidden" name="ticket_price" id="ticketPrice"
                                     value="<?php echo $package['price']; ?>">
-                                <input type="number" min="1" max="100" name="total_person" class="form-control"
+                                <input type="number" min="1" max="100" name="total_tickets" class="form-control"
                                     value="1" id="numPersons" oninput="calculateTotal()">
                             </td>
                         </tr>
