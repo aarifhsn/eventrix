@@ -8,6 +8,8 @@ include(__DIR__ . '/../config/helpers.php');
 
 // check if user is logged in
 if (!isset($_SESSION['user'])) {
+    $error_message = "You need to login to buy ticket";
+    $_SESSION['error_message'] = $error_message;
     header('Location: ' . BASE_URL . 'login');
     exit();
 }
@@ -48,24 +50,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
             throw new Exception('Invalid token');
         }
 
-        $name = $_POST['name'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $phone = $_POST['phone'] ?? '';
-        $address = $_POST['address'] ?? '';
+        $billingName = $_POST['billing_name'];
+        $billingEmail = $_POST['billing_email'];
+        $billingPhone = $_POST['billing_phone'];
+        $billingAddress = $_POST['billing_address'];
 
-        $user['name'] = $name;
-        $user['email'] = $email;
-        $user['phone'] = $phone;
-        $user['address'] = $address;
+        $stmt = $pdo->prepare("
+            INSERT INTO orders (user_id, package_id, billing_name, billing_email, billing_phone, billing_address)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $_SESSION['user']['id'],
+            $package['id'],
+            $billingName,
+            $billingEmail,
+            $billingPhone,
+            $billingAddress
+        ]);
 
-        $stmt = $pdo->prepare("UPDATE users SET name = ?, email = ?, phone = ?, address = ? WHERE id = ?");
-        $stmt->execute([$name, $email, $phone, $address, $_SESSION['user']['id']]);
+        unset($_SESSION['csrf_token']);
+        unset($_SESSION['title']);
+        unset($_SESSION['description']);
+        unset($_SESSION['address']);
+        unset($_SESSION['email']);
+        unset($_SESSION['phone']);
+        unset($_SESSION['website']);
+        unset($_SESSION['facebook']);
+        unset($_SESSION['twitter']);
+        unset($_SESSION['linkedin']);
+        unset($_SESSION['instagram']);
 
-        $stmt = $pdo->prepare("INSERT INTO orders (user_id, package_id) VALUES (?, ?)");
-        $stmt->execute([$_SESSION['user']['id'], $package['id']]);
 
         echo "<div class='alert alert-success'>Order placed successfully.</div>";
     } catch (Exception $e) {
+
         echo "<div class='alert alert-danger'>" . $e->getMessage() . "</div>";
     }
 }
