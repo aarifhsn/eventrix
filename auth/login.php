@@ -66,21 +66,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_login_form'])) {
                 <div class="login-register-bg">
                     <div class="row">
 
-                        <?php if (isset($_SESSION['success_message'])): ?>
-                            <div class="message w-100 text-center">
-                                <div class="alert alert-success">
-                                    <?php echo $_SESSION['success_message']; ?>
-                                </div>
-                                <?php unset($_SESSION['success_message']); ?>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (!empty($error_message)): ?>
-                            <div class="error text-danger m-3">
-                                <?php echo htmlspecialchars($error_message); ?>
-                            </div>
-                        <?php endif; ?>
-
                         <div class="col-lg-12 col-sm-12 col-xs-12">
+
+                            <?php if (isset($_SESSION['success_message'])): ?>
+                                <div class="message w-100 text-center">
+                                    <div class="alert alert-success">
+                                        <?php echo $_SESSION['success_message']; ?>
+                                    </div>
+                                    <?php unset($_SESSION['success_message']); ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (!empty($error_message)): ?>
+                                <div class="alert alert-danger text-center">
+                                    <?php echo htmlspecialchars($error_message); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (isset($_SESSION['error_message'])): ?>
+                                <div class="alert alert-danger text-center">
+                                    <?php
+                                    echo htmlspecialchars($_SESSION['error_message']);
+                                    unset($_SESSION['error_message']);
+                                    ?>
+                                </div>
+                            <?php endif; ?>
+
                             <form action="" class="registerd" method="post">
                                 <div class="form-group">
                                     <input class="form-control" name="email" placeholder="Email Address" type="text"
