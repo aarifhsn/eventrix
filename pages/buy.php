@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
             'billing_city' => 'Billing City',
             'billing_zip' => 'Billing Zip',
             'total_tickets' => 'Total Tickets',
+            'payment_method' => 'Payment Method',
         ];
 
         foreach ($requiredFields as $field => $label) {
@@ -67,40 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                 throw new Exception($label . ' is required');
             }
         }
-        $total_price = $_POST['total_price'] * $_POST['total_tickets'];
+        $total_price = $_POST['per_ticket_price'] * $_POST['total_tickets'];
 
         if (!is_numeric($_POST['total_tickets'])) {
             throw new Exception('Total Tickets must be a number');
         }
-
-
-        $stmt = $pdo->prepare("
-            INSERT INTO tickets (user_id, package_id, billing_name, billing_email, billing_phone, billing_address, billing_country, billing_state, billing_city, billing_zip, billing_note, per_ticket_price, total_tickets, total_price)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-        $stmt->execute([
-            $_SESSION['user']['id'],
-            $package['id'],
-            $_POST['billing_name'],
-            $_POST['billing_email'],
-            $_POST['billing_phone'],
-            $_POST['billing_address'],
-            $_POST['billing_country'],
-            $_POST['billing_state'],
-            $_POST['billing_city'],
-            $_POST['billing_zip'],
-            $_POST['billing_note'],
-            $_POST['per_ticket_price'],
-            $_POST['total_tickets'],
-            $_POST['total_price'],
-        ]);
-
-        unset($_SESSION['csrf_token']);
-        unset($_SESSION['billing_note']);
-        unset($_SESSION['total_tickets']);
-
-
-        echo "<div class='alert alert-success'>Order placed successfully.</div>";
 
         if ($_POST['payment_method'] == 'PayPal') {
             try {
@@ -185,8 +157,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
             header('location: ' . BASE_URL . 'bank.php');
         }
     } catch (Exception $e) {
-
-        echo "<div class='alert alert-danger'>" . $e->getMessage() . "</div>";
+        $error_message = $e->getMessage();
+        $_SESSION['error_message'] = $error_message;
+        header("location: " . BASE_URL . "buy/" . $_REQUEST['id']);
+        exit;
     }
 }
 
@@ -253,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                         <tr>
                             <td>Total Tickets</td>
                             <td>
-                                <input type="hidden" name="ticket_price" id="ticketPrice"
+                                <input type="hidden" name="per_ticket_price" id="ticketPrice"
                                     value="<?php echo $package['price']; ?>">
                                 <input type="number" min="1" max="100" name="total_tickets" class="form-control"
                                     value="1" id="numPersons" oninput="calculateTotal()">
@@ -279,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                 </script>
 
                 <h3 class="mt_25 mb_15 fw600">Payment</h3>
-                <select name="" class="form-control">
+                <select name="payment_method" class="form-control">
                     <option value="PayPal">PayPal</option>
                     <option value="Stripe">Stripe</option>
                     <option value="Cash">Cash</option>
