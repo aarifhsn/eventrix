@@ -31,7 +31,7 @@ function isDropdownShow($pages)
                 </a>
             </li>
 
-            <?php $homePages = ['home-banner-settings.php', 'home-about-settings.php', 'home-counter-settings.php']; ?>
+            <?php $homePages = ['home-banner-settings.php', 'home-about-settings.php', 'home-counter-settings.php', 'home-pricing-settings.php', 'home-blog-settings.php']; ?>
             <li class="nav-item dropdown <?php echo isActive($homePages); ?>">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i> <span>Home
                         Section</span></a>
@@ -49,6 +49,16 @@ function isDropdownShow($pages)
                     <li class="<?php echo isActive('home-counter-settings.php'); ?>">
                         <a class="nav-link" href="<?php echo ADMIN_URL; ?>home-counter-settings.php">
                             <i class="fas fa-hand-point-right"></i> <span>Counter</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('home-pricing-settings.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>home-pricing-settings.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Pricing</span>
+                        </a>
+                    </li>
+                    <li class="<?php echo isActive('home-blog-settings.php'); ?>">
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>home-blog-settings.php">
+                            <i class="fas fa-hand-point-right"></i> <span>Blog</span>
                         </a>
                     </li>
                 </ul>

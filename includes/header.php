@@ -19,7 +19,7 @@ require(__DIR__ . '/../vendor/autoload.php');
 
     <link rel="icon" type="image/png" href="dist/images/favicon.png">
 
-    <title>SingleEvent - Event & Conference Management Website</title>
+    <title>Eventrix - Event & Conference Management</title>
 
     <link href="<?php echo BASE_URL; ?>dist/css/animate.css" type="text/css" rel="stylesheet">
     <link href="<?php echo BASE_URL; ?>dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">

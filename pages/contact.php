@@ -6,9 +6,14 @@ include(__DIR__ . '/../templates/breadcrumb.php');
 include(__DIR__ . '/../config/helpers.php');
 
 // User Data
-$stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
-$stmt->execute(['id' => $_SESSION['user']['id']]);
-$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$userData = null;
+
+if (isset($_SESSION['user']['id'])) {
+  $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+  $stmt->execute(['id' => $_SESSION['user']['id']]);
+  $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
 ?>
 <div id="contacts" class="pt_70 pb_50 white">
@@ -39,46 +44,48 @@ $userData = $stmt->fetch(PDO::FETCH_ASSOC);
           </form>
         </div>
       </div>
-      <div class="col-lg-4 col-sm-12">
-        <div class="contact-info">
-          <div class="contact-inner-box">
-            <div class="icon">
-              <div class="contact-inner-icon">
-                <i class="fa fa-map-marker"></i>
+      <?php if ($userData): ?>
+        <div class="col-lg-4 col-sm-12">
+          <div class="contact-info">
+            <div class="contact-inner-box">
+              <div class="icon">
+                <div class="contact-inner-icon">
+                  <i class="fa fa-map-marker"></i>
+                </div>
+              </div>
+              <div class="text">
+                <div class="contact-inner-text">
+                  Address: <br /><span><?php echo htmlspecialchars($userData['address']) ?? ''; ?></span>
+                </div>
               </div>
             </div>
-            <div class="text">
-              <div class="contact-inner-text">
-                Address: <br /><span><?php echo $userData['address']; ?></span>
+            <div class="contact-inner-box">
+              <div class="icon">
+                <div class="contact-inner-icon">
+                  <i class="fa fa-envelope-o"></i>
+                </div>
+              </div>
+              <div class="text">
+                <div class="contact-inner-text">
+                  Email: <br /><span><?php echo htmlspecialchars($userData['email']); ?></span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="contact-inner-box">
-            <div class="icon">
-              <div class="contact-inner-icon">
-                <i class="fa fa-envelope-o"></i>
+            <div class="contact-inner-box">
+              <div class="icon">
+                <div class="contact-inner-icon">
+                  <i class="fa fa-phone"></i>
+                </div>
               </div>
-            </div>
-            <div class="text">
-              <div class="contact-inner-text">
-                Email: <br /><span><?php echo $userData['email']; ?></span>
-              </div>
-            </div>
-          </div>
-          <div class="contact-inner-box">
-            <div class="icon">
-              <div class="contact-inner-icon">
-                <i class="fa fa-phone"></i>
-              </div>
-            </div>
-            <div class="text">
-              <div class="contact-inner-text">
-                Phone: <br /><span><?php echo $userData['phone']; ?></span>
+              <div class="text">
+                <div class="contact-inner-text">
+                  Phone: <br /><span><?php echo htmlspecialchars($userData['phone']); ?></span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      <?php endif; ?>
     </div>
   </div>
 </div>

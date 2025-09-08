@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_about_settings_f
         // Image upload logic
         try {
             if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-                $newFileName = uploadImage($_FILES['photo'], 'uploads', ['jpg', 'jpeg', 'png', 'webp'], 2 * 1024 * 1024, $aboutData['photo'] ?? '');
+                $newFileName = uploadImage('photo', 'uploads', 2 * 1024 * 1024, ['jpg', 'jpeg', 'png', 'webp']);
 
                 $stmt = $pdo->prepare("UPDATE home_abouts SET photo = :photo WHERE id = :id");
                 $stmt->execute([':photo' => $newFileName, ':id' => $aboutData['id']]);
@@ -145,23 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_about_settings_f
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="mb-4">
-                                            <!-- Background Image -->
-                                            <?php
-                                            $photo = $aboutData['photo'] ?? '';
-                                            $photo_url = ADMIN_URL . "uploads/$photo";
-
-                                            if (!empty($photo)) {
-                                                echo '<img src="' . htmlspecialchars($photo_url) . '" alt="Background Photo" class="profile-photo w_100_p">';
-                                            }
-
-                                            ?>
-
-                                            <input type="file" placeholder="Upload photo" class="mt_10 d-block"
-                                                name="photo" accept="image/*">
-                                            <small class="form-text d-block text-muted">Allowed formats: JPG, PNG. Max
-                                                size: 2MB.</small>
-                                        </div>
 
                                         <div class="mb-4">
                                             <label class="form-label">Heading *</label>
@@ -198,6 +181,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_about_settings_f
                                                 </div>
                                             </div>
 
+                                        </div>
+                                        <div class="mb-4">
+                                            <!-- Background Image -->
+                                            <?php
+                                            $photo = $aboutData['photo'] ?? '';
+                                            $photo_url = ADMIN_URL . "uploads/$photo";
+
+                                            if (!empty($photo)) {
+                                                echo '<img src="' . htmlspecialchars($photo_url) . '" alt="Background Photo" class="profile-photo w_100_p">';
+                                            }
+
+                                            ?>
+
+                                            <input type="file" placeholder="Upload photo" class="mt_10 d-block"
+                                                name="photo" accept="image/*">
+                                            <small class="form-text d-block text-muted">Allowed formats: JPG, PNG. Max
+                                                size: 2MB.</small>
                                         </div>
 
                                         <div class="mb-4">

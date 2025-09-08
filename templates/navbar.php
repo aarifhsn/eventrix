@@ -1,9 +1,9 @@
 <div class="container main-menu" id="navbar">
     <div class="row">
-        <div class="col-lg-2 col-sm-12">
-            <a href="<?php echo BASE_URL; ?>" id="logo" class="grid_2"> <img
-                    src="<?php echo BASE_URL; ?>/dist/images/logo.png">
-            </a>
+        <div class="col-lg-2 col-sm-12 d-flex align-items-center">
+            <div class=" fs-6 text-capitalize navbar-height" style="font-weight: 600; font-size: 24px;">
+                <a href="<?php echo BASE_URL; ?>" id="logo1" class="text-decoration-none"><?php echo SITE_NAME; ?></a>
+            </div>
         </div>
         <div class="col-lg-10 col-sm-12">
             <nav class="navbar navbar-expand-lg navbar-light">
