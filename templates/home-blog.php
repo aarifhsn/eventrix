@@ -90,7 +90,7 @@ try {
                                     <?php if (isset($post['date'])): ?>
                                         <div class="mt-3">
                                             <small class="text-muted">
-                                                <i class="far fa-calendar"></i>
+                                                <i class="fa fa-calendar"></i>
                                                 <?php echo date('F j, Y', strtotime($post['date'])); ?>
                                             </small>
                                         </div>

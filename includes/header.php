@@ -8,6 +8,9 @@ error_reporting(E_ALL);
 include(__DIR__ . '/../config/config.php');
 require(__DIR__ . '/../vendor/autoload.php');
 
+// include messages
+include(__DIR__ . '/../pages/messages.php');
+
 ?>
 
 <!doctype html>
@@ -38,3 +41,6 @@ require(__DIR__ . '/../vendor/autoload.php');
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
     <?php include(__DIR__ . '/../templates/navbar.php'); ?>
+
+    <?php echo displayMessages(); ?>
+    <?php echo getMessageScript(); ?>

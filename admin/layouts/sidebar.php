@@ -145,6 +145,11 @@ function isDropdownShow($pages)
                     <i class="fas fa-hand-point-right"></i> <span>Feature Section</span>
                 </a>
             </li>
+            <li class="<?php echo isActive('ticket.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>/ticket.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Ticket Section</span>
+                </a>
+            </li>
 
         </ul>
     </aside>

@@ -5,6 +5,7 @@ include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../templates/breadcrumb.php');
 
 include(__DIR__ . '/../config/helpers.php');
+include(__DIR__ . '/../config/config-payment.php');
 
 // check if user is logged in
 if (!isset($_SESSION['user'])) {
@@ -83,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                     'cancelUrl' => PAYPAL_CANCEL_URL,
                 ))->send();
                 if ($response->isRedirect()) {
-                    $_SESSION['package_id'] = $_REQUEST['id'];
-                    $_SESSION['package_name'] = $package['name'];
+                    $_SESSION['package_id'] = $package['id'];
+                    $_SESSION['package_name'] = $package['title'];
                     $_SESSION['billing_name'] = $_POST['billing_name'];
                     $_SESSION['billing_email'] = $_POST['billing_email'];
                     $_SESSION['billing_phone'] = $_POST['billing_phone'];
@@ -113,19 +114,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                         'price_data' => [
                             'currency' => 'usd',
                             'product_data' => [
-                                'name' => $package['name']
+                                'name' => $package['title']
                             ],
                             'unit_amount' => $_POST['per_ticket_price'] * 100,
                         ],
-                        'quantity' => $_POST['total_tickets'],
+                        'quantity' => intval($_POST['total_tickets']),
                     ],
                 ],
                 'mode' => 'payment',
                 'success_url' => STRIPE_SUCCESS_URL . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => STRIPE_CANCEL_URL,
             ]);
-            $_SESSION['package_id'] = $_REQUEST['id'];
-            $_SESSION['package_name'] = $package['name'];
+            $_SESSION['package_id'] = $package['id'];
+            $_SESSION['package_name'] = $package['title'];
             $_SESSION['billing_name'] = $_POST['billing_name'];
             $_SESSION['billing_email'] = $_POST['billing_email'];
             $_SESSION['billing_phone'] = $_POST['billing_phone'];
@@ -139,9 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
             $_SESSION['total_tickets'] = $_POST['total_tickets'];
             $_SESSION['total_price'] = $total_price;
             header('location: ' . $response->url);
+
+
         } elseif ($_POST['payment_method'] == 'Bank') {
-            $_SESSION['package_id'] = $_REQUEST['id'];
-            $_SESSION['package_name'] = $package['name'];
+            $_SESSION['package_id'] = $package['id'];
+            $_SESSION['package_name'] = $package['title'];
             $_SESSION['billing_name'] = $_POST['billing_name'];
             $_SESSION['billing_email'] = $_POST['billing_email'];
             $_SESSION['billing_phone'] = $_POST['billing_phone'];
@@ -154,13 +157,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
             $_SESSION['per_ticket_price'] = $_POST['per_ticket_price'];
             $_SESSION['total_tickets'] = $_POST['total_tickets'];
             $_SESSION['total_price'] = $total_price;
-            header('location: ' . BASE_URL . 'bank.php');
+            // Force session write
+            session_write_close();
+
+            header('location: ' . BASE_URL . 'bank');
+            exit();
         }
     } catch (Exception $e) {
-        $error_message = $e->getMessage();
-        $_SESSION['error_message'] = $error_message;
-        header("location: " . BASE_URL . "buy/" . $_REQUEST['id']);
-        exit;
+        error_log("Stripe Error: " . $e->getMessage());
+        throw new Exception('Stripe payment failed: ' . $e->getMessage());
     }
 }
 
@@ -256,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_submit_form']
                 <select name="payment_method" class="form-control">
                     <option value="PayPal">PayPal</option>
                     <option value="Stripe">Stripe</option>
-                    <option value="Cash">Cash</option>
+                    <option value="Bank">Bank</option>
                 </select>
                 <div class="">
                     <button type="submit" class="btn btn-primary" name="package_submit_form">Buy Ticket</button>

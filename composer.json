@@ -2,7 +2,8 @@
     "require": {
         "phpmailer/phpmailer": "^6.9",
         "league/omnipay": "^3.2",
-        "omnipay/paypal": "^3.0"
+        "omnipay/paypal": "^3.0",
+        "stripe/stripe-php": "^17.6"
     },
     "config": {
         "allow-plugins": {
