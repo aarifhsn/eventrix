@@ -11,9 +11,9 @@
                                 <div class="widget-content">
                                     <ul class="list">
                                         <li><a href="<?php echo BASE_URL; ?>index.php">Home</a></li>
-                                        <li><a href="<?php echo BASE_URL; ?>sponsors.php">Sponsors</a></li>
-                                        <li><a href="<?php echo BASE_URL; ?>speakers.php">Speakers</a></li>
-                                        <li><a href="<?php echo BASE_URL; ?>organizers.php">Organizers</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>sponsors">Sponsors</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>speakers">Speakers</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>organizers">Organizers</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -24,10 +24,10 @@
                                 <h2>Pages</h2>
                                 <div class="widget-content">
                                     <ul class="list">
-                                        <li><a href="<?php echo BASE_URL; ?>terms.php">Terms of Use</a></li>
-                                        <li><a href="<?php echo BASE_URL; ?>privacy.php">Privacy Policy</a></li>
-                                        <li><a href="<?php echo BASE_URL; ?>schedule.php">Schedule</a></li>
-                                        <li><a href="<?php echo BASE_URL; ?>contact.php">Contact Us</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>terms">Terms of Use</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>privacy">Privacy Policy</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>schedule">Schedule</a></li>
+                                        <li><a href="<?php echo BASE_URL; ?>contact">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -38,9 +38,9 @@
                                 <h2>Contact</h2>
                                 <div class="widget-content">
                                     <ul class="list">
-                                        <li>Address: 34, Park Street, NYC, USA</li>
-                                        <li>Email: contact@example.com</li>
-                                        <li>Phone: 123-322-1248</li>
+                                        <li>Address: 7/A, Banasree, Dhaka, Bangladesh</li>
+                                        <li>Email: info@mountaviary.com</li>
+                                        <li>Phone: 01750-******</li>
                                     </ul>
                                     <ul class="social-icon mt_15">
                                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>

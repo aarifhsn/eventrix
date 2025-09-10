@@ -4,17 +4,16 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
-include(__DIR__ . '/layouts/navbar.php');
-include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
-
-// Check for messages in session
-initMessages();
 
 // Check if admin is logged in
 checkAdminAuth();
+
+// Include necessary files
+include(__DIR__ . '/layouts/navbar.php');
+include(__DIR__ . '/layouts/sidebar.php');
+
+// Check for messages in session
+initMessages();
 
 // Fetch organizers data
 $organizers = fetchAll($pdo, 'organizers');
@@ -26,7 +25,7 @@ $organizers = fetchAll($pdo, 'organizers');
         <div class="section-header justify-content-between">
             <h1>organizers</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>organizer-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
+                <a href="<?php echo ADMIN_URL; ?>/organizer-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
                     Add New</a>
             </div>
         </div>
@@ -60,7 +59,7 @@ $organizers = fetchAll($pdo, 'organizers');
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $organizer['photo']; ?>"
+                                                    <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $organizer['photo']; ?>"
                                                         alt="" class="w_50">
                                                 </td>
                                                 <td>
@@ -73,9 +72,9 @@ $organizers = fetchAll($pdo, 'organizers');
                                                     <?php echo $organizer['designation']; ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
-                                                    <a href="<?php echo ADMIN_URL; ?>organizer-edit.php?id=<?php echo $organizer['id']; ?>"
+                                                    <a href="<?php echo ADMIN_URL; ?>/organizer-edit.php?id=<?php echo $organizer['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <form method="POST" action="<?= ADMIN_URL ?>organizer-delete.php"
+                                                    <form method="POST" action="<?= ADMIN_URL ?>/organizer-delete.php"
                                                         style="display:inline;"
                                                         onsubmit="return confirm('Are you sure you want to delete this organizer?');">
                                                         <input type="hidden" name="id"

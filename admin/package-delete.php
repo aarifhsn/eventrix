@@ -5,6 +5,10 @@ session_start();
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
 
+// Check if admin is logged in
+checkAdminAuth();
+
+
 try {
     // Ensure this is a package request
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -36,5 +40,5 @@ try {
 }
 
 // Redirect to listing
-header("Location: " . ADMIN_URL . "package.php");
+header("Location: " . ADMIN_URL . "/package.php");
 exit;

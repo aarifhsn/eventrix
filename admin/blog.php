@@ -4,17 +4,16 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
-include(__DIR__ . '/layouts/navbar.php');
-include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
-
-// Check for messages in session
-initMessages();
 
 // Check if admin is logged in
 checkAdminAuth();
+
+// Include necessary files
+include(__DIR__ . '/layouts/navbar.php');
+include(__DIR__ . '/layouts/sidebar.php');
+
+// Check for messages in session
+initMessages();
 
 // Fetch posts data
 $posts = fetchAll($pdo, 'posts');
@@ -26,7 +25,7 @@ $posts = fetchAll($pdo, 'posts');
         <div class="section-header justify-content-between">
             <h1>posts</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>blog-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
+                <a href="<?php echo ADMIN_URL; ?>/blog-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
                     Add New</a>
             </div>
         </div>
@@ -61,7 +60,7 @@ $posts = fetchAll($pdo, 'posts');
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $post['photo']; ?>"
+                                                    <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $post['photo']; ?>"
                                                         alt="" class="w_50">
                                                 </td>
                                                 <td>
@@ -77,9 +76,9 @@ $posts = fetchAll($pdo, 'posts');
                                                     <?php echo date('j/n/Y', strtotime($post['date'])); ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
-                                                    <a href="<?php echo ADMIN_URL; ?>blog-edit.php?id=<?php echo $post['id']; ?>"
+                                                    <a href="<?php echo ADMIN_URL; ?>/blog-edit.php?id=<?php echo $post['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <form method="POST" action="<?= ADMIN_URL ?>post-delete.php"
+                                                    <form method="POST" action="<?= ADMIN_URL ?>/post-delete.php"
                                                         style="display:inline;"
                                                         onsubmit="return confirm('Are you sure you want to delete this post?');">
                                                         <input type="hidden" name="id"

@@ -46,7 +46,7 @@ $sponsorCategories = fetchAll($pdo, 'sponsor_categories');
             <div class="col-md-3">
               <div class="sponsors-logo">
                 <a href="<?php echo BASE_URL; ?>sponsor?id=<?php echo $sponsor['id']; ?>"><img
-                    src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsor['featured_photo']; ?>" class="img-responsive"
+                    src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $sponsor['featured_photo']; ?>" class="img-responsive"
                     alt="" /></a>
               </div>
             </div>

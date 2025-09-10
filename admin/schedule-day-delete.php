@@ -5,6 +5,9 @@ session_start();
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
 
+// Check if admin is logged in
+checkAdminAuth();
+
 try {
     // Ensure this is a POST request
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -30,7 +33,7 @@ try {
     $result = $stmt->rowCount();
     if ($result > 0) {
         $_SESSION['error_message'] = "This Schedule day is already assigned to a schedule. Cannot delete.";
-        header("Location: " . ADMIN_URL . "schedule-day.php");
+        header("Location: " . ADMIN_URL . "/schedule-day.php");
         exit;
     } else {
         // Delete the record
@@ -45,5 +48,5 @@ try {
 }
 
 // Redirect to listing
-header("Location: " . ADMIN_URL . "schedule-day.php");
+header("Location: " . ADMIN_URL . "/schedule-day.php");
 exit;

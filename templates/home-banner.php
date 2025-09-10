@@ -22,8 +22,8 @@ try {
 
 // Get background image URL
 $background_image = !empty($banner['background']) ?
-    ADMIN_URL . "uploads/" . $banner['background'] :
-    ADMIN_URL . "dist/img/banner-home.jpg";
+    ADMIN_URL . "/uploads/" . $banner['background'] :
+    ADMIN_URL . "/dist/img/banner-home.jpg";
 ?>
 
 <div class="container-fluid home-banner"

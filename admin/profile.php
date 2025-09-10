@@ -1,14 +1,13 @@
 <?php
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
-  header('Location: login.php');
-  exit;
-}
-
 // Include necessary files
 include("layouts/header.php");
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include("layouts/navbar.php");
 include("layouts/sidebar.php");
 
@@ -214,7 +213,7 @@ if ($userData) {
                     <!-- Profile Image -->
                     <?php
                     $photo = $_SESSION['admin']['photo'] ?? '';
-                    $photo_url = !empty($photo) ? ADMIN_URL . "uploads/$photo" : ADMIN_URL . "uploads/default.png";
+                    $photo_url = !empty($photo) ? ADMIN_URL . "/uploads/$photo" : ADMIN_URL . "/uploads/default.png";
                     ?>
                     <img src="<?php echo htmlspecialchars($photo_url); ?>" alt="Profile Photo"
                       class="profile-photo w_100_p">

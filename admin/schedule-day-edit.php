@@ -3,17 +3,16 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
 
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
-
 // Check for messages in session
 initMessages();
-
-// Check if user is logged in
-checkAdminAuth();
 
 
 $statement = $pdo->prepare("SELECT * FROM schedule_days WHERE id=?");
@@ -45,12 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['schedule_days_update_f
         ]);
 
         $_SESSION['success_message'] = "Schedule Day updated successfully";
-        header("location: " . ADMIN_URL . "schedule-day.php");
+        header("location: " . ADMIN_URL . "/schedule-day.php");
         exit;
 
     } catch (Exception $e) {
         $_SESSION['error_message'] = "Error updating schedule day: " . $e->getMessage();
-        header("location: " . ADMIN_URL . "schedule-day-edit.php?id=" . $_REQUEST['id']);
+        header("location: " . ADMIN_URL . "/schedule-day-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
 }
@@ -65,7 +64,7 @@ $result = fetchAll($pdo, 'schedule_days', 'id ASC');
         <div class="section-header justify-content-between">
             <h1>Edit Schedule Day</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>schedule-day.php" class="btn btn-primary"><i class="fas fa-eye"></i>
+                <a href="<?php echo ADMIN_URL; ?>/schedule-day.php" class="btn btn-primary"><i class="fas fa-eye"></i>
                     View All</a>
             </div>
         </div>

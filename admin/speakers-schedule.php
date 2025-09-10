@@ -4,14 +4,14 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
-include(__DIR__ . '/layouts/navbar.php');
-include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
 
 // Check if admin is logged in
 checkAdminAuth();
+
+// Include necessary files
+include(__DIR__ . '/layouts/navbar.php');
+include(__DIR__ . '/layouts/sidebar.php');
+
 initMessages();
 
 // Initialize variables
@@ -61,7 +61,7 @@ try {
     $assigned = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     $error_message = "Error fetching assigned schedules: " . $e->getMessage();
-    header("location: " . ADMIN_URL . "speakers-schedule.php");
+    header("location: " . ADMIN_URL . "/speakers-schedule.php");
     exit;
 }
 
@@ -72,7 +72,7 @@ try {
     $scheduleDays = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     $error_message = "Error fetching schedule days: " . $e->getMessage();
-    header("location: " . ADMIN_URL . "speakers-schedule.php");
+    header("location: " . ADMIN_URL . "/speakers-schedule.php");
     exit;
 }
 ?>
@@ -117,7 +117,7 @@ try {
                                                 <td><?= htmlspecialchars($row['schedule_time']) ?></td>
                                                 <td><?= htmlspecialchars($row['schedule_title']) ?></td>
                                                 <td class="pt_10 pb_10">
-                                                    <a href="<?php echo ADMIN_URL; ?>schedule-day-edit.php?id="
+                                                    <a href="<?php echo ADMIN_URL; ?>/schedule-day-edit.php?id="
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
                                                     <form method="POST" action="<?= ADMIN_URL ?>speakers-schedule-delete.php"

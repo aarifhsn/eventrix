@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-include("layouts/header.php");
-include("../config/helpers.php");
+include(__DIR__ . '/layouts/header.php');
 
 // Load PHPMailer classes (assumes Composer autoload or manual includes)
 use PHPMailer\PHPMailer\PHPMailer;
@@ -10,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 
 // Redirect if already logged in
 if (isset($_SESSION['admin'])) {
-    header('Location: ' . ADMIN_URL . 'dashboard.php');
+    header('Location: ' . ADMIN_URL . '/dashboard.php');
     exit;
 }
 
@@ -48,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forget_password_form'
         $updateToken->execute([$token, $email]);
 
         // Prepare the password reset link
-        $resetLink = ADMIN_URL . "reset-password.php?email=" . urlencode($email) . "&token=" . $token;
+        $resetLink = ADMIN_URL . "/reset-password.php?email=" . urlencode($email) . "&token=" . $token;
         $email_message = "
             <p>Hello,</p>
             <p>We received a request to reset the password for your admin account. Click the button below to proceed:</p>
@@ -133,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forget_password_form'
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <a href="<?php echo ADMIN_URL; ?>login.php">
+                                    <a href="<?php echo ADMIN_URL; ?>/login.php">
                                         Back to login page
                                     </a>
                                 </div>

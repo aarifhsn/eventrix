@@ -89,7 +89,7 @@ foreach ($rawScheduleData as $row) {
                 <div class="row speaker-mainbox mb-4">
                   <div class="col-lg-4 col-xs-12">
                     <div class="speaker-img">
-                      <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo htmlspecialchars($schedule['photo']); ?>"
+                      <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo htmlspecialchars($schedule['photo']); ?>"
                         class="img-fluid" />
                     </div>
                   </div>

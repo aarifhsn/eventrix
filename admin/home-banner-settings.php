@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
-    header('Location: login.php');
-    exit;
-}
-
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
 
@@ -168,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_banner_settings_
                                             <!-- Background Image -->
                                             <?php
                                             $background = $bannerData['background'] ?? '';
-                                            $background_url = !empty($background) ? ADMIN_URL . "uploads/$background" : ADMIN_URL . "uploads/banner-home.jpg";
+                                            $background_url = !empty($background) ? ADMIN_URL . "/uploads/$background" : ADMIN_URL . "/uploads/banner-home.jpg";
                                             ?>
                                             <img src="<?php echo htmlspecialchars($background_url); ?>"
                                                 alt="Profile background" class="profile-background w-25">

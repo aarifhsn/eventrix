@@ -1,15 +1,16 @@
 <?php
 
-include('layouts/header.php');
-
 session_start();
 
-if (!isset($_SESSION['admin'])) {
-    header('location: ' . ADMIN_URL . 'login.php');
-    exit;
-}
-include("layouts/navbar.php");
-include("layouts/sidebar.php");
+// Include necessary files
+include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
+include(__DIR__ . '/layouts/navbar.php');
+include(__DIR__ . '/layouts/sidebar.php');
 
 // get total user
 $statement = $pdo->prepare("SELECT * FROM users WHERE role = 'user'");

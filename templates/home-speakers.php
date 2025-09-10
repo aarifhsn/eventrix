@@ -28,9 +28,9 @@ $speakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="team-img mb_20">
                         <a href="<?php echo BASE_URL; ?>speaker?id=<?php echo $speaker['id']; ?>">
                             <?php if ($speaker['photo']): ?>
-                                <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $speaker['photo']; ?>" />
+                                <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $speaker['photo']; ?>" />
                             <?php else: ?>
-                                <img src="<?php echo ADMIN_URL; ?>uploads/default.png" />
+                                <img src="<?php echo ADMIN_URL; ?>/uploads/default.png" />
                             <?php endif; ?>
                         </a>
                     </div>

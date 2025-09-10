@@ -26,7 +26,7 @@ if (!$organizer) {
     <div class="row">
       <div class="col-lg-4 col-sm-12 col-xs-12">
         <div class="speaker-detail-img">
-          <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $organizer['photo']; ?>" />
+          <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $organizer['photo']; ?>" />
         </div>
       </div>
       <div class="col-lg-8 col-sm-12 col-xs-12">

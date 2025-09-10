@@ -4,17 +4,17 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
 
 // Check for messages in session
 initMessages();
 
-// Check if admin is logged in
-checkAdminAuth();
 
 // Fetch faqs data
 $faqs = fetchAll($pdo, 'faqs');
@@ -26,7 +26,7 @@ $faqs = fetchAll($pdo, 'faqs');
         <div class="section-header justify-content-between">
             <h1>FAQs</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>faq-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
+                <a href="<?php echo ADMIN_URL; ?>/faq-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
                     Add New</a>
             </div>
         </div>
@@ -65,9 +65,9 @@ $faqs = fetchAll($pdo, 'faqs');
                                                 </td>
 
                                                 <td class="pt_10 pb_10">
-                                                    <a href="<?php echo ADMIN_URL; ?>faq-edit.php?id=<?php echo $faq['id']; ?>"
+                                                    <a href="<?php echo ADMIN_URL; ?>/faq-edit.php?id=<?php echo $faq['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <form method="POST" action="<?= ADMIN_URL ?>faq-delete.php"
+                                                    <form method="POST" action="<?= ADMIN_URL ?>/faq-delete.php"
                                                         style="display:inline;"
                                                         onsubmit="return confirm('Are you sure you want to delete this faq?');">
                                                         <input type="hidden" name="id"

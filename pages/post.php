@@ -28,7 +28,7 @@ if (!$post) {
     <div class="row">
       <div class="page-contents col-lg-12 col-sm-12 col-xs-12">
         <div class="blogs-featured">
-          <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $post['photo']; ?>" alt="" />
+          <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $post['photo']; ?>" alt="" />
         </div>
         <div class="blog-post-meta">
           <ul class="post-meta">

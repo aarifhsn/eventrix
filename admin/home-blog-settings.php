@@ -3,14 +3,13 @@
 ob_start();
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
-    header('Location: login.php');
-    exit;
-}
-
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
 
@@ -341,7 +340,7 @@ try {
                                         <tr>
                                             <td>
                                                 <?php if ($post['photo']): ?>
-                                                    <img src="<?= ADMIN_URL ?>uploads/<?= htmlspecialchars($post['photo']) ?>" 
+                                                    <img src="<?= ADMIN_URL ?>/uploads/<?= htmlspecialchars($post['photo']) ?>" 
                                                          alt="Post Image" 
                                                          style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
                                                 <?php else: ?>

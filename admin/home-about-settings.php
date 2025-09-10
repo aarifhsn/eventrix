@@ -1,19 +1,14 @@
 <?php
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
-    header('Location: login.php');
-    exit;
-}
-
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
 
 // Initialize
 $success_message = '';
@@ -186,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_about_settings_f
                                             <!-- Background Image -->
                                             <?php
                                             $photo = $aboutData['photo'] ?? '';
-                                            $photo_url = ADMIN_URL . "uploads/$photo";
+                                            $photo_url = ADMIN_URL . "/uploads/$photo";
 
                                             if (!empty($photo)) {
                                                 echo '<img src="' . htmlspecialchars($photo_url) . '" alt="Background Photo" class="profile-photo w_100_p">';

@@ -85,7 +85,7 @@ function isLoggedIn()
 function checkAdminAuth()
 {
     if (!isset($_SESSION['admin']) || !is_array($_SESSION['admin']) || !isset($_SESSION['admin']['id'])) {
-        header('Location: login.php');
+        header('location: ' . ADMIN_URL . '/login.php');
         exit;
     }
 }

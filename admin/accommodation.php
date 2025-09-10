@@ -4,17 +4,17 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
 
 // Check for messages in session
 initMessages();
 
-// Check if admin is logged in
-checkAdminAuth();
 
 // Fetch accommodations data
 $accommodations = fetchAll($pdo, 'accommodations');
@@ -26,7 +26,7 @@ $accommodations = fetchAll($pdo, 'accommodations');
         <div class="section-header justify-content-between">
             <h1>accommodations</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>accommodation-add.php" class="btn btn-primary"><i
+                <a href="<?php echo ADMIN_URL; ?>/accommodation-add.php" class="btn btn-primary"><i
                         class="fas fa-plus"></i>
                     Add New</a>
             </div>
@@ -63,7 +63,7 @@ $accommodations = fetchAll($pdo, 'accommodations');
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $accommodation['photo']; ?>"
+                                                    <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $accommodation['photo']; ?>"
                                                         alt="" class="w_50">
                                                 </td>
                                                 <td>
@@ -82,9 +82,9 @@ $accommodations = fetchAll($pdo, 'accommodations');
                                                     <?php echo $accommodation['phone']; ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
-                                                    <a href="<?php echo ADMIN_URL; ?>accommodation-edit.php?id=<?php echo $accommodation['id']; ?>"
+                                                    <a href="<?php echo ADMIN_URL; ?>/accommodation-edit.php?id=<?php echo $accommodation['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <form method="POST" action="<?= ADMIN_URL ?>accommodation-delete.php"
+                                                    <form method="POST" action="<?= ADMIN_URL ?>/accommodation-delete.php"
                                                         style="display:inline;"
                                                         onsubmit="return confirm('Are you sure you want to delete this accommodation?');">
                                                         <input type="hidden" name="id"

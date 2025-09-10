@@ -4,17 +4,17 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
-include(__DIR__ . '/layouts/navbar.php');
-include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
-
-// Check for messages in session
-initMessages();
 
 // Check if admin is logged in
 checkAdminAuth();
+
+// Include necessary files
+include(__DIR__ . '/layouts/navbar.php');
+include(__DIR__ . '/layouts/sidebar.php');
+
+
+// Check for messages in session
+initMessages();
 
 // Fetch testimonials data
 $testimonials = fetchAll($pdo, 'testimonials');
@@ -26,7 +26,7 @@ $testimonials = fetchAll($pdo, 'testimonials');
         <div class="section-header justify-content-between">
             <h1>testimonials</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>testimonial-add.php" class="btn btn-primary"><i
+                <a href="<?php echo ADMIN_URL; ?>/testimonial-add.php" class="btn btn-primary"><i
                         class="fas fa-plus"></i>
                     Add New</a>
             </div>
@@ -61,7 +61,7 @@ $testimonials = fetchAll($pdo, 'testimonials');
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td>
-                                                    <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $testimonial['photo']; ?>"
+                                                    <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $testimonial['photo']; ?>"
                                                         alt="" class="w_50">
                                                 </td>
                                                 <td>
@@ -75,7 +75,7 @@ $testimonials = fetchAll($pdo, 'testimonials');
                                                 </td>
 
                                                 <td class="pt_10 pb_10">
-                                                    <a href="<?php echo ADMIN_URL; ?>testimonial-edit.php?id=<?php echo $testimonial['id']; ?>"
+                                                    <a href="<?php echo ADMIN_URL; ?>/testimonial-edit.php?id=<?php echo $testimonial['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                     <form method="POST" action="<?= ADMIN_URL ?>testimonial-delete.php"
                                                         style="display:inline;"

@@ -27,7 +27,7 @@ $sponsors = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="owl-carousel">
                     <?php foreach ($sponsors as $sponsor): ?>
                         <div class="sponsors-logo">
-                            <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsor['logo']; ?>"
+                            <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $sponsor['logo']; ?>"
                                 class="img-responsive" alt="sponsor logo">
                         </div>
                     <?php endforeach; ?>

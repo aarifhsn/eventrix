@@ -17,7 +17,7 @@ $accommodations = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="col-lg-4 col-sm-12 col-xs-12">
           <div class="speaker-detail-img">
             <?php if (!empty($accommodation['photo'])): ?>
-              <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $accommodation['photo']; ?>" />
+              <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $accommodation['photo']; ?>" />
             <?php endif; ?>
           </div>
         </div>

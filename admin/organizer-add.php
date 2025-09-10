@@ -3,6 +3,11 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
 
@@ -60,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_organizer_form'])
         unset($_SESSION['instagram']);
 
         $_SESSION['success_message'] = "Data insert is successful";
-        header("location: " . ADMIN_URL . "organizer.php");
+        header("location: " . ADMIN_URL . "/organizer.php");
         exit;
 
     } catch (Exception $e) {
@@ -78,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_organizer_form'])
 
         $error_message = $e->getMessage();
         $_SESSION['error_message'] = $error_message;
-        header("location: " . ADMIN_URL . "organizer-add.php");
+        header("location: " . ADMIN_URL . "/organizer-add.php");
         exit;
     }
 }
@@ -92,7 +97,7 @@ $organizers = fetchAll($pdo, 'organizers', 'id ASC');
         <div class="section-header justify-content-between">
             <h1>Add organizer</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>organizer.php" class="btn btn-primary"><i class="fas fa-eye"></i> View
+                <a href="<?php echo ADMIN_URL; ?>/organizer.php" class="btn btn-primary"><i class="fas fa-eye"></i> View
                     All</a>
             </div>
         </div>

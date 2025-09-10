@@ -22,8 +22,8 @@ try {
 
 // Get the photo
 $photo = !empty($aboutData['photo']) ?
-    ADMIN_URL . "uploads/" . $aboutData['photo'] :
-    ADMIN_URL . "dist/img/about.jpg";
+    ADMIN_URL . "/uploads/" . $aboutData['photo'] :
+    ADMIN_URL . "/dist/img/about.jpg";
 ?>
 
 <?php if (!empty($aboutData['status']) && $aboutData['status'] == 1): ?>

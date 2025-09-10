@@ -3,7 +3,7 @@
 session_start();
 
 if (isset($_SESSION['admin'])) {
-    header('Location: ' . ADMIN_URL . 'dashboard.php');
+    header('Location: ' . ADMIN_URL . '/dashboard.php');
     exit;
 }
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_form'])) {
 
         // Login success
         $_SESSION['admin'] = $admin;
-        header('Location: ' . ADMIN_URL . 'dashboard.php');
+        header('Location: ' . ADMIN_URL . '/dashboard.php');
         exit;
 
     } catch (Exception $e) {
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_form'])) {
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <a href="<?php echo ADMIN_URL; ?>forget-password.php">
+                                    <a href="<?php echo ADMIN_URL; ?>/forget-password.php">
                                         Forget Password?
                                     </a>
                                 </div>

@@ -23,7 +23,7 @@ $sponsors = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="row">
       <div class="col-lg-4 col-sm-12 col-xs-12">
         <div class="speaker-detail-img">
-          <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsors['logo']; ?>" />
+          <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $sponsors['logo']; ?>" />
         </div>
       </div>
       <div class="col-lg-8 col-sm-12 col-xs-12">

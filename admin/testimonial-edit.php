@@ -3,11 +3,13 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
 
 // Initialize
 initMessages();
@@ -55,13 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['testimonial_update_for
 
         $success_message = "Testimonial updated successfully";
         $_SESSION['success_message'] = $success_message;
-        header("location: " . ADMIN_URL . "testimonial.php");
+        header("location: " . ADMIN_URL . "/testimonial.php");
         exit;
 
     } catch (Exception $e) {
         $error_message = $e->getMessage();
         $_SESSION['error_message'] = $error_message;
-        header("location: " . ADMIN_URL . "testimonial-edit.php?id=" . $_REQUEST['id']);
+        header("location: " . ADMIN_URL . "/testimonial-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
 }
@@ -75,7 +77,7 @@ unset($_SESSION['csrf_token']);
         <div class="section-header justify-content-between">
             <h1>Edit Testimonial</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>testimonial.php" class="btn btn-primary"><i class="fas fa-eye"></i>
+                <a href="<?php echo ADMIN_URL; ?>/testimonial.php" class="btn btn-primary"><i class="fas fa-eye"></i>
                     View
                     All</a>
             </div>
@@ -95,7 +97,7 @@ unset($_SESSION['csrf_token']);
                                 <div class="form-group mb-3">
                                     <label>Existing Photo</label>
                                     <div>
-                                        <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $testimonialData['photo']; ?>"
+                                        <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $testimonialData['photo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>

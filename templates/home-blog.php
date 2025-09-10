@@ -63,7 +63,7 @@ try {
                                 <div class="blog-post-images">
                                     <?php if (!empty($post['photo'])): ?>
                                         <a href="<?php echo BASE_URL; ?>post?id=<?php echo $post['id']; ?>">
-                                            <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo htmlspecialchars($post['photo']); ?>"
+                                            <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo htmlspecialchars($post['photo']); ?>"
                                                 alt="<?php echo htmlspecialchars($post['title']); ?>">
                                         </a>
                                     <?php else: ?>

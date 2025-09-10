@@ -3,17 +3,16 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
 
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
-
 // Check for messages in session
 initMessages();
-
-// Check if user is logged in
-checkAdminAuth();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_accommodation_form'])) {
@@ -52,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_accommodation_for
 
 
         $_SESSION['success_message'] = "Data insert is successful";
-        header("location: " . ADMIN_URL . "accommodation.php");
+        header("location: " . ADMIN_URL . "/accommodation.php");
         exit;
 
     } catch (Exception $e) {
@@ -65,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_accommodation_for
 
         $error_message = $e->getMessage();
         $_SESSION['error_message'] = $error_message;
-        header("location: " . ADMIN_URL . "accommodation-add.php");
+        header("location: " . ADMIN_URL . "/accommodation-add.php");
         exit;
     }
 }
@@ -79,7 +78,7 @@ $accommodations = fetchAll($pdo, 'accommodations', 'id ASC');
         <div class="section-header justify-content-between">
             <h1>Add accommodation</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>accommodation.php" class="btn btn-primary"><i class="fas fa-eye"></i>
+                <a href="<?php echo ADMIN_URL; ?>/accommodation.php" class="btn btn-primary"><i class="fas fa-eye"></i>
                     View
                     All</a>
             </div>

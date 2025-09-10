@@ -3,11 +3,13 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
 
 // Initialize
 initMessages();
@@ -36,13 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['feature_update_form'])
 
         $success_message = "feature updated successfully";
         $_SESSION['success_message'] = $success_message;
-        header("location: " . ADMIN_URL . "feature.php");
+        header("location: " . ADMIN_URL . "/feature.php");
         exit;
 
     } catch (Exception $e) {
         $error_message = $e->getMessage();
         $_SESSION['error_message'] = $error_message;
-        header("location: " . ADMIN_URL . "feature-edit.php?id=" . $_REQUEST['id']);
+        header("location: " . ADMIN_URL . "/feature-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
 }
@@ -53,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['feature_update_form'])
         <div class="section-header justify-content-between">
             <h1>Edit feature</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>feature.php" class="btn btn-primary"><i class="fas fa-eye"></i>
+                <a href="<?php echo ADMIN_URL; ?>/feature.php" class="btn btn-primary"><i class="fas fa-eye"></i>
                     View
                     All</a>
             </div>

@@ -26,7 +26,7 @@ $testimonials = fetchAll($pdo, 'testimonials');
                 </p>
               </div>
               <div class="photo">
-                <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $testimonial['photo']; ?>" alt="" />
+                <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $testimonial['photo']; ?>" alt="" />
               </div>
               <h3 class="title"><?php echo $testimonial['name']; ?></h3>
               <span class="post"><?php echo $testimonial['designation']; ?></span>

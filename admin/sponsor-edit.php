@@ -3,11 +3,13 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
+
+// Check if admin is logged in
+checkAdminAuth();
+
+// Include necessary files
 include(__DIR__ . '/layouts/navbar.php');
 include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
 
 // Initialize
 initMessages();
@@ -88,13 +90,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sponsor_update_form'])
 
         $_SESSION['success_message'] = "Sponsor updated successfully!";
         $success_message = "Sponsor updated successfully!";
-        header("location: " . ADMIN_URL . "sponsor.php");
+        header("location: " . ADMIN_URL . "/sponsor.php");
         exit;
 
     } catch (Exception $e) {
         $_SESSION['error_message'] = $e->getMessage();
         $error_message = $e->getMessage();
-        header("location: " . ADMIN_URL . "sponsor-edit.php?id=" . $_REQUEST['id']);
+        header("location: " . ADMIN_URL . "/sponsor-edit.php?id=" . $_REQUEST['id']);
         exit;
     }
 }
@@ -107,7 +109,7 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
         <div class="section-header justify-content-between">
             <h1>Edit Sponsor</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>sponsor.php" class="btn btn-primary"><i class="fas fa-eye"></i> View
+                <a href="<?php echo ADMIN_URL; ?>/sponsor.php" class="btn btn-primary"><i class="fas fa-eye"></i> View
                     All</a>
             </div>
         </div>
@@ -128,7 +130,7 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                                     <div class="form-group mb-6">
                                         <label class="my-2">Existing Logo</label>
                                         <div>
-                                            <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsorData['logo']; ?>"
+                                            <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $sponsorData['logo']; ?>"
                                                 alt="" class="w_150">
                                         </div>
                                     </div>
@@ -145,7 +147,7 @@ $sponsorCategoryData = fetchAll($pdo, 'sponsor_categories', 'id ASC');
                                     <div class="form-group mb-6">
                                     <label class="my-2">Existing Featured Photo</label>
                                     <div>
-                                        <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $sponsorData['featured_photo']; ?>"
+                                        <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $sponsorData['featured_photo']; ?>"
                                             alt="" class="w_150">
                                     </div>
                                 </div>

@@ -17,7 +17,7 @@ $organizersData = fetchAll($pdo, 'organizers');
         <div class="col-lg-3 col-sm-6 col-xs-12">
           <div class="team-img mb_20">
             <a href="<?php echo BASE_URL; ?>organizer?id=<?php echo $organizer['id']; ?>"><img
-                src="<?php echo ADMIN_URL; ?>uploads/<?php echo $organizer['photo']; ?>" /></a>
+                src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $organizer['photo']; ?>" /></a>
           </div>
           <div class="team-info text-center">
             <h6><a

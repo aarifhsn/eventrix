@@ -61,9 +61,9 @@ $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="col-lg-4 col-sm-12 col-xs-12">
         <div class="speaker-detail-img">
           <?php if ($speaker['photo']): ?>
-            <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $speaker['photo']; ?>" />
+            <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $speaker['photo']; ?>" />
           <?php else: ?>
-            <img src="<?php echo ADMIN_URL; ?>uploads/default.png" />
+            <img src="<?php echo ADMIN_URL; ?>/uploads/default.png" />
           <?php endif; ?>
         </div>
       </div>
@@ -119,7 +119,7 @@ $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($sessions as $session): ?>
               <div class="col-md-6">
                 <div class="speaker-img">
-                  <img src="<?php echo ADMIN_URL; ?>uploads/<?php echo $session['photo']; ?>" />
+                  <img src="<?php echo ADMIN_URL; ?>/uploads/<?php echo $session['photo']; ?>" />
                 </div>
                 <div class="speaker-box">
                   <h3><?php echo $session['title']; ?></h3>

@@ -15,7 +15,7 @@ $statement->execute([$_GET['email'] ?? '', $_GET['token'] ?? '']);
 $userExists = $statement->rowCount();
 
 if (!$userExists) {
-    header('Location: ' . ADMIN_URL . 'login.php');
+    header('Location: ' . ADMIN_URL . '/login.php');
     exit;
 }
 
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password_form']
         // Check if the update was successful
         if ($stmt->rowCount() > 0) {
             $_SESSION['success_message'] = "Password reset successfully.";
-            header('Location: ' . ADMIN_URL . 'login.php');
+            header('Location: ' . ADMIN_URL . '/login.php');
             exit;
         } else {
             throw new Exception("Failed to update password. Please try again.");
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password_form']
 
                             <div class="form-group">
                                 <div>
-                                    <a href="<?php echo ADMIN_URL; ?>login.php">
+                                    <a href="<?php echo ADMIN_URL; ?>/login.php">
                                         Back to login page
                                     </a>
                                 </div>

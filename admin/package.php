@@ -4,17 +4,17 @@ session_start();
 
 // Include necessary files
 include(__DIR__ . '/layouts/header.php');
-include(__DIR__ . '/layouts/navbar.php');
-include(__DIR__ . '/layouts/sidebar.php');
-
-// Include helpers functions
-include(__DIR__ . '/../config/helpers.php');
-
-// Check for messages in session
-initMessages();
 
 // Check if admin is logged in
 checkAdminAuth();
+
+// Include necessary files
+include(__DIR__ . '/layouts/navbar.php');
+include(__DIR__ . '/layouts/sidebar.php');
+
+
+// Check for messages in session
+initMessages();
 
 // Fetch packages data
 $packages = fetchAll($pdo, 'packages');
@@ -26,7 +26,7 @@ $packages = fetchAll($pdo, 'packages');
         <div class="section-header justify-content-between">
             <h1>Packages</h1>
             <div class="ml-auto">
-                <a href="<?php echo ADMIN_URL; ?>package-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
+                <a href="<?php echo ADMIN_URL; ?>/package-add.php" class="btn btn-primary"><i class="fas fa-plus"></i>
                     Add New</a>
             </div>
         </div>
@@ -72,7 +72,7 @@ $packages = fetchAll($pdo, 'packages');
                                                     <?php echo $package['item_order']; ?>
                                                 </td>
                                                 <td class="pt_10 pb_10">
-                                                    <a href="<?php echo ADMIN_URL; ?>package-edit.php?id=<?php echo $package['id']; ?>"
+                                                    <a href="<?php echo ADMIN_URL; ?>/package-edit.php?id=<?php echo $package['id']; ?>"
                                                         class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                     <form method="POST" action="<?= ADMIN_URL ?>package-delete.php"
                                                         style="display:inline;"
