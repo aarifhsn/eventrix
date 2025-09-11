@@ -14,7 +14,6 @@ function isDropdownShow($pages)
 }
 ?>
 
-
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
@@ -148,6 +147,12 @@ function isDropdownShow($pages)
             <li class="<?php echo isActive('ticket.php'); ?>">
                 <a class="nav-link" href="<?php echo ADMIN_URL; ?>/ticket.php">
                     <i class="fas fa-hand-point-right"></i> <span>Ticket Section</span>
+                </a>
+            </li>
+            </li>
+            <li class="<?php echo isActive('messages.php'); ?>">
+                <a class="nav-link" href="<?php echo ADMIN_URL; ?>/messages.php">
+                    <i class="fas fa-hand-point-right"></i> <span>Message Section</span>
                 </a>
             </li>
 

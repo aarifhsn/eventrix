@@ -253,3 +253,28 @@ function generateUniqueSlug($title, $pdo)
 
     return $slug;
 }
+
+function getUserInitials($name)
+{
+    $name = trim($name);
+    if (empty($name)) {
+        return 'U'; // Default for empty name
+    }
+
+    $words = explode(' ', $name);
+    $initials = '';
+
+    if (count($words) == 1) {
+        // Single word - take first two characters or just first if only one character
+        $initials = strtoupper(substr($words[0], 0, 1));
+        if (strlen($words[0]) > 1) {
+            $initials .= strtoupper(substr($words[0], 1, 1));
+        }
+    } else {
+        // Multiple words - take first character of first and last word
+        $initials = strtoupper(substr($words[0], 0, 1));
+        $initials .= strtoupper(substr(end($words), 0, 1));
+    }
+
+    return $initials;
+}

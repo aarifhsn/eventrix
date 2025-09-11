@@ -1,5 +1,57 @@
-/config/config.php
-/config/config-payment.php
-
+# Configuration files with sensitive data
 config/config.php
 config/config-payment.php
+
+# Database backups and dumps with real data (exclude these)
+backup_*.sql
+dump_*.sql
+*_backup.sql
+*_production.sql
+*_live.sql
+
+# User uploaded files
+uploads/*
+!uploads/.gitkeep
+!uploads/README.md
+
+# Cache and temporary files
+cache/*
+!cache/.gitkeep
+temp/*
+!temp/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# Vendor dependencies
+vendor/
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# PHP specific
+composer.phar
+.htaccess.backup
+
+# Session files
+sessions/*
+!sessions/.gitkeep

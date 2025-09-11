@@ -57,7 +57,7 @@ function getMessageScript()
     return '
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Auto-dismiss alerts after 5 seconds
+        // Auto-dismiss alerts after 20 seconds
         setTimeout(function() {
             var alerts = document.querySelectorAll(".alert:not(.alert-permanent)");
             alerts.forEach(function(alert) {
@@ -75,7 +75,7 @@ function getMessageScript()
                     }, 500);
                 }
             });
-        }, 5000);
+        }, 20000);
     });
     </script>
     ';
