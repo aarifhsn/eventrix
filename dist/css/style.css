@@ -1699,6 +1699,15 @@ a.event-ti-style {
   .blog-section .blog-box .blogs-post h4 {
     font-size: 18px;
   }
+  .single-count {
+    width: 60px;
+  }
+  .single-count h1 {
+    font-size: 28px;
+  }
+  .single-count p {
+    font-size: 14px;
+  }
 }
 
 .common-banner {
