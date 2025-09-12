@@ -1,6 +1,7 @@
 # Configuration files with sensitive data
 config/config.php
 config/config-payment.php
+.htaccess
 
 # Database backups and dumps with real data (exclude these)
 backup_*.sql

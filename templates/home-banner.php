@@ -53,27 +53,27 @@ $background_image = !empty($banner['background']) ?
                     ?>
                     <div class="counter-area">
                         <div class="countDown clearfix">
-                            <div class="row count-down-bg">
-                                <div class="col-lg-3 col-sm-6 col-xs-12">
-                                    <div class="single-count day">
+                            <div class="row count-down-bg no-gutters">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                                    <div class="single-count day" style="margin: 0 5px; padding: 10px 5px;">
                                         <h1 class="days"><?php echo $days; ?></h1>
                                         <p class="days_ref">days</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-xs-12">
-                                    <div class="single-count hour">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                                    <div class="single-count hour" style="margin: 0 5px; padding: 10px 5px;">
                                         <h1 class="hours"><?php echo $hours; ?></h1>
                                         <p class="hours_ref">hours</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-xs-12">
-                                    <div class="single-count min">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                                    <div class="single-count min" style="margin: 0 5px; padding: 10px 5px;">
                                         <h1 class="minutes"><?php echo $minutes; ?></h1>
                                         <p class="minutes_ref">minutes</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-xs-12">
-                                    <div class="single-count second">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                                    <div class="single-count second" style="margin: 0 5px; padding: 10px 5px;">
                                         <h1 class="seconds"><?php echo $seconds; ?></h1>
                                         <p class="seconds_ref">seconds</p>
                                     </div>
